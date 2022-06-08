@@ -26,8 +26,8 @@
 
     hydra = { url = "github:NixOS/hydra"; };
 
-    ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
-    ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
+    # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
+    # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
@@ -38,9 +38,8 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, nix-ld
-    , ocaml-nix-updater, hydra, darwin, flake-utils-plus, nixos-generators, agenix, ...
-    }:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, nix-ld, hydra, darwin
+    , flake-utils-plus, nixos-generators, agenix, ... }:
     let
       devShell = flake-utils-plus.lib.eachDefaultSystem (system:
         let pkgs = nixpkgs.legacyPackages.${system};
@@ -58,7 +57,7 @@
       nixosConfigurations = {
         servern = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit ocaml-nix-updater system; };
+          specialArgs = { inherit system; };
           modules = [
             ./server/servern/configuration.nix
             agenix.nixosModule
@@ -69,33 +68,27 @@
         servern2 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = { inherit system; };
-          modules = [ ./server/servern2/configuration.nix ];
+          modules = [ ./server/servern2/configuration.nix agenix.nixosModule ];
         };
 
         nuc-01 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit ocaml-nix-updater system; };
-          modules =
-            [ 
-              ./server/nuc-01/configuration.nix 
-              agenix.nixosModule
-            ];
+          specialArgs = { inherit system; };
+          modules = [ ./server/nuc-01/configuration.nix agenix.nixosModule ];
         };
 
         odroid-n2-01 = nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
-          specialArgs = { inherit ocaml-nix-updater system; };
-          modules = [
-            ./server/odroid-n2-01/configuration.nix
-          ];
+          specialArgs = { inherit system; };
+          modules =
+            [ ./server/odroid-n2-01/configuration.nix agenix.nixosModule ];
         };
 
         nixos-laptop = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit ocaml-nix-updater system; };
+          specialArgs = { inherit system; };
           modules = [
             nixpkgs.nixosModules.notDetected
-            # ocaml-nix-updater.nixosModule.${system}
             ./pc/nixos-laptop/configuration.nix
             home-manager.nixosModules.home-manager
             {

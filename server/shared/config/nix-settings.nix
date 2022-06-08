@@ -14,7 +14,7 @@
       ];
       trusted-users =
         [ "root" "ulrik.strid" "hydra_builder" "hydra-queue-runner" ];
-        auto-optimise-store = true;
+      auto-optimise-store = true;
     };
     extraOptions = ''
       experimental-features = nix-command flakes
