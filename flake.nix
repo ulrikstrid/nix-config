@@ -104,5 +104,12 @@
         system = "aarch64-darwin";
         modules = [ ./server/m1-mini/configuration.nix ];
       };
+
+      hydraJobs = {
+        servern = self.nixosConfigurations.servern;
+        servern2 = self.nixosConfigurations.servern2;
+        nuc-01 = self.nixosConfigurations.nuc-01;
+        nixos-laptop = self.nixosConfigurations.servenixos-laptop;
+      };
     } // devShell;
 }
