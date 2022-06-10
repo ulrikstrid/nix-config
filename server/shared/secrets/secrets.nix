@@ -11,7 +11,7 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKppXbN2n/KthgpI/ORl2pTmAZHDGJ5ZJA+hFWC/vsLK";
   # pi4-01 = "";
   servern =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIATnBocc42HR0vu+x3oYZp3Ya2ROL0enkbbsZva7Vkl4";
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIATnBocc42HR0vu+x3oYZp3Ya2ROL0enkbbsZva7Vkl4 root@nixos";
   servern2 =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJoyJaqnaqLQCuzlOBapiR/6umAjZZD5qj87LAXQXk4m";
   systems = [ m1-mini-01 nuc-01 odroid-n2-01 servern servern2 ];

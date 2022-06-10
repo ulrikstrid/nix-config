@@ -54,9 +54,9 @@ case $TARGET in
       --target-host root@192.168.1.101 switch $2
     deploy_success
     ;;
-  "desktop")
+  "servern2")
     target_found
-    nixos-rebuild --flake .\#desktop \
+    nixos-rebuild --flake .\#servern2 \
       --target-host root@192.168.1.25 switch $2
     deploy_success
     ;;
