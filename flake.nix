@@ -18,9 +18,6 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-ld.url = "github:Mic92/nix-ld";
-    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
-
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -38,7 +35,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, nix-ld, hydra, darwin
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, hydra, darwin
     , flake-utils-plus, nixos-generators, agenix, ... }:
     let
       devShell = flake-utils-plus.lib.eachDefaultSystem (system:
