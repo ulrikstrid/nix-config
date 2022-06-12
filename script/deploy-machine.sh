@@ -60,17 +60,12 @@ case $TARGET in
       --target-host root@192.168.1.25 switch $2
     deploy_success
     ;;
-  "laptop-legion")
-    target_found
-    sudo nixos-rebuild --flake .\#LAPTOP-LEGION switch --impure $2
-    deploy_success
-    ;;
   "nixos-laptop")
     target_found
     echo "Syncing vscode extensions..."
-    # "./scripts/sync-extensions.sh" > "./home/vscode/extensions.nix"
+    # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
     echo "Syncing done."
-    sudo nixos-rebuild --flake .\#nixos-laptop boot $2
+    sudo nixos-rebuild --flake .\#nixos-laptop switch $2
     deploy_success
     ;;
   *)

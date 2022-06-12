@@ -35,22 +35,35 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, hydra, darwin
-    , flake-utils-plus, nixos-generators, agenix, ... }:
+  outputs =
+    { self
+    , nixpkgs
+    , home-manager
+    , nixos-hardware
+    , hydra
+    , darwin
+    , flake-utils-plus
+    , nixos-generators
+    , agenix
+    , ...
+    }:
     let
       devShell = flake-utils-plus.lib.eachDefaultSystem (system:
         let pkgs = nixpkgs.legacyPackages.${system};
-        in {
+        in
+        {
           devShell =
             pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp ]; };
         });
-    in {
+    in
+    {
       packages.aarch64-linux = {
         odroid-n2-installer = (import ./server/odroid-n2-01 {
           inherit nixos-generators nixpkgs;
           pkgs = (import nixpkgs { system = "aarch64-linux"; });
         }).installer;
       };
+
       nixosConfigurations = {
         servern = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
@@ -86,12 +99,12 @@
           specialArgs = { inherit system; };
           modules = [
             nixpkgs.nixosModules.notDetected
-            ./pc/nixos-laptop/configuration.nix
+            ./pc/laptop-legion/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.ulrik = import ./home/default.nix;
+              home-manager.users.ulrik = import ./pc/home/default.nix;
             }
           ];
         };
@@ -106,6 +119,7 @@
         servern = self.nixosConfigurations.servern.config.system.build.toplevel;
         servern2 = self.nixosConfigurations.servern2.config.system.build.toplevel;
         nuc-01 = self.nixosConfigurations.nuc-01.config.system.build.toplevel;
+        nixos-laptop = self.nixosConfigurations.nixos-laptop.config.system.build.toplevel;
       };
     } // devShell;
 }
