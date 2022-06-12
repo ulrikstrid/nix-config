@@ -106,7 +106,6 @@
         servern = self.nixosConfigurations.servern;
         servern2 = self.nixosConfigurations.servern2;
         nuc-01 = self.nixosConfigurations.nuc-01;
-        nixos-laptop = self.nixosConfigurations.servenixos-laptop;
       };
     } // devShell;
 }
