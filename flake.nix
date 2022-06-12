@@ -103,9 +103,9 @@
       };
 
       hydraJobs = {
-        servern = self.nixosConfigurations.servern;
-        servern2 = self.nixosConfigurations.servern2;
-        nuc-01 = self.nixosConfigurations.nuc-01;
+        servern = self.nixosConfigurations.servern.config.system.build.toplevel;
+        servern2 = self.nixosConfigurations.servern2.config.system.build.toplevel;
+        nuc-01 = self.nixosConfigurations.nuc-01.config.system.build.toplevel;
       };
     } // devShell;
 }
