@@ -22,9 +22,9 @@ in {
   # Home assistant
   "home_assistant_google_assistant.json.age".publicKeys = users ++ [ servern ];
   "home_assistant_home_connect.yml.age".publicKeys = users ++ [ servern ];
-  "home_assistant_nest.ymlage".publicKeys = users ++ [ servern ];
+  "home_assistant_nest.yml.age".publicKeys = users ++ [ servern ];
   "home_assistant_spotify.yml.age".publicKeys = users ++ [ servern ];
-  "home_assistant_vaccuum.yml.age".publicKeys = users ++ [ servern ];
+  "home_assistant_vacuum.yml.age".publicKeys = users ++ [ servern ];
   # Mosquitto
   "mosquitto-home-assistant.age".publicKeys = users ++ [ servern ];
   "mosquitto-zigbee2mqtt.age".publicKeys = users ++ [ servern nuc-01 ];
