@@ -22,10 +22,17 @@
     fsType = "vfat";
   };
 
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/NIX_STORE";
+    fsType = "btrfs";
+  };
+
+/*
   fileSystems."/mnt/diskendisken" = {
     device = "/dev/disk/by-uuid/0206D77806D76AE5";
     fsType = "ntfs";
   };
+*/
 
   fileSystems."/nas" = {
     device = "/dev/disk/by-uuid/a2e55957-f53d-40f4-bef5-c6dedeb187cd";
