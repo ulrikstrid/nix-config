@@ -1,11 +1,5 @@
 { extensions = [
   {
-    name = "terraform";
-    publisher = "4ops";
-    version = "0.2.5";
-    sha256 = "0ciagyhxcxikfcvwi55bhj0gkg9p7p41na6imxid2mxw2a7yb4nb";
-  }
-  {
     name = "vscode-direnv";
     publisher = "cab404";
     version = "1.0.0";
@@ -66,10 +60,10 @@
     sha256 = "0lyaijsvi1gqidpn8mnnfc0qsnd7an8qg5p2m7l24c767gllkbsq";
   }
   {
-    name = "terraform";
+    name = "terraform-preview";
     publisher = "hashicorp";
-    version = "2.23.0";
-    sha256 = "1mip3rv416asgcn6x2vdmyyhi0ciz1h722s3hr8zlgrskv0pzq97";
+    version = "2022.4.1920";
+    sha256 = "sha256-r0PiN1YIl5dEHBsnG7eiaMFK61yic0GgIyj8IFSbmmg=";
   }
   {
     name = "nix-develop";
