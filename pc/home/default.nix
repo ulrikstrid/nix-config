@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.packages = with pkgs; [
@@ -28,7 +28,6 @@
     xboxdrv
     hub
     license-generator
-    nixfmt
 
     # cloud
     kubectl
@@ -45,11 +44,11 @@
 
     # nix
     nix-zsh-completions
-    nixpkgs-fmt
     rnix-lsp
     cachix
     nix-prefetch-git
     nix-prefetch-github
+    nixfmt
 
     # encryption
     sops
@@ -70,35 +69,30 @@
 
     # gnome
     /* gtk-engine-murrine
-       gnome.gnome-tweaks
-       gnome.gnome-themes-extra
-       gnome.gnome-control-center
-       gnomeExtensions.arcmenu
-       gnomeExtensions.autohide-battery
-       gnomeExtensions.bluetooth-quick-connect
-       gnomeExtensions.blur-my-shell
-       gnomeExtensions.dash-to-dock
-       gnomeExtensions.espresso
-       gnomeExtensions.gsconnect
-       gnomeExtensions.krypto
-       gnomeExtensions.sermon
-       gnomeExtensions.taskwhisperer
-       gnomeExtensions.tiling-assistant
-       gnomeExtensions.timezone
-       gnomeExtensions.user-themes
-       gnomeExtensions.vitals
+      gnome.gnome-tweaks
+      gnome.gnome-themes-extra
+      gnome.gnome-control-center
+      gnomeExtensions.arcmenu
+      gnomeExtensions.autohide-battery
+      gnomeExtensions.bluetooth-quick-connect
+      gnomeExtensions.blur-my-shell
+      gnomeExtensions.dash-to-dock
+      gnomeExtensions.espresso
+      gnomeExtensions.gsconnect
+      gnomeExtensions.krypto
+      gnomeExtensions.sermon
+      gnomeExtensions.taskwhisperer
+      gnomeExtensions.tiling-assistant
+      gnomeExtensions.timezone
+      gnomeExtensions.user-themes
+      gnomeExtensions.vitals
 
-       # gnome themes
-       nordzy-cursor-theme
-       papirus-icon-theme
-       nordic
+      # gnome themes
+      nordzy-cursor-theme
+      papirus-icon-theme
+      nordic
     */
   ];
-
-  home.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
-    MOZ_USE_XINPUT2 = "1";
-  };
 
   programs.git = {
     enable = true;
@@ -182,26 +176,29 @@
   services.flameshot.enable = true;
 
   /* gtk = {
-       enable = true;
-       theme = {
-         package = pkgs.nordic;
-         name = "Nordic-darker";
-       };
+    enable = true;
+    theme = {
+    package = pkgs.nordic;
+    name = "Nordic-darker";
+    };
 
-       iconTheme = {
-         package = pkgs.papirus-icon-theme;
-         name = "Papirus-Dark";
-       };
+    iconTheme = {
+    package = pkgs.papirus-icon-theme;
+    name = "Papirus-Dark";
+    };
 
-       gtk3.extraConfig = {
-         "gtk-application-prefer-dark-theme" = 0;
-       };
+    gtk3.extraConfig = {
+    "gtk-application-prefer-dark-theme" = 0;
+    };
 
-       gtk4.extraConfig = {
-         "gtk-application-prefer-dark-theme" = 0;
-       };
-     };
+    gtk4.extraConfig = {
+    "gtk-application-prefer-dark-theme" = 0;
+    };
+    };
   */
 
   imports = [ ./vscode ];
+
+  # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
+  home.stateVersion = "22.11";
 }

@@ -8,15 +8,9 @@ let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-laptop";
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
   ocaml-nix-updater-app = ocaml-nix-updater.defaultPackage.${system};
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -69,13 +63,6 @@ in {
     modesetting.enable = true;
     powerManagement.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
-    prime = {
-      offload.enable = true;
-
-      intelBusId = "PCI:00:02:0";
-
-      nvidiaBusId = "PCI:01:00:0";
-    };
   };
 
   specialisation = {
@@ -103,8 +90,6 @@ in {
     # Enable touchpad support (enabled default in most desktopManager).
     # libinput.enable = true;
 
-    videoDrivers = [ "nvidia" ];
-
     displayManager = {
       # defaultSession = "plasma";
       autoLogin = {
@@ -126,15 +111,15 @@ in {
   };
 
   /* services.gnome = {
-       gnome-settings-daemon.enable = true;
-       gnome-online-accounts.enable = true;
-       experimental-features.realtime-scheduling = true;
+    gnome-settings-daemon.enable = true;
+    gnome-online-accounts.enable = true;
+    experimental-features.realtime-scheduling = true;
 
-       games.enable = true;
-     };
+    games.enable = true;
+    };
 
-     # Might be needed for gnome theming
-     # services.dbus.packages = with pkgs; [ gnome3.dconf ];
+    # Might be needed for gnome theming
+    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
   # Enable CUPS to print documents.
@@ -205,7 +190,6 @@ in {
     curl
     vim
     mkpasswd
-    nvidia-offload
     i2c-tools
     brightnessctl
   ];
@@ -254,13 +238,6 @@ in {
         flags = [ "--all" ];
       };
     };
-
-    #lxd = {
-    #  enable = true;
-    #  recommendedSysctlSettings = true;
-    #};
-
-    virtualbox.host.enable = true;
   };
 
   # Open ports in the firewall.

@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:/nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -98,6 +98,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit system; };
           modules = [
+            nixos-hardware.nixosModules.lenovo-legion-16ithg6
             nixpkgs.nixosModules.notDetected
             ./pc/laptop-legion/configuration.nix
             home-manager.nixosModules.home-manager
