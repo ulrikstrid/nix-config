@@ -55,16 +55,10 @@
     age
 
     # KDE
-    kmymoney
-    skrooge
-    aqbanking # used by skrooge
-    libsForQt5.bismuth
-    libsForQt5.kbreakout
     libsForQt5.kcalc
     libsForQt5.kmail
     libsForQt5.kalendar
     libsForQt5.kontact
-    libsForQt5.kmines
     libsForQt5.kolourpaint
 
     # gnome

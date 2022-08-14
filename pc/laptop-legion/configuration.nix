@@ -125,7 +125,7 @@ in
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    # drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
+    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
