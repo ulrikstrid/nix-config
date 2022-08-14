@@ -44,6 +44,7 @@
         py.python-openzwave-mqtt
         py.pyxiaomigateway
         py.scapy
+        py.securetar
         py.smhi-pkg
         py.spotipy
         py.sqlalchemy
@@ -84,7 +85,7 @@
       scene = "!include scenes.yaml";
 
       home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
-      spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
+      # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
       nest = "!include ${config.age.secrets.home-assistant-nest.path}";
 
       vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";

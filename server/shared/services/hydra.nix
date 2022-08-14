@@ -14,6 +14,13 @@
       base_uri hydra.strid.tech
       allowed-uris = http:// https:// https://github.com
 
+      <hydra_notify>
+        <prometheus>
+          listen_address = 0.0.0.0
+          port = 9199
+        </prometheus>
+      </hydra_notify>
+
       Include ${config.age.secrets.github_authorizations.path}
       Include ${config.age.secrets.githubstatus.path}
     '';

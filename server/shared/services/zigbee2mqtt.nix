@@ -30,4 +30,13 @@
   networking.firewall.allowedTCPPorts = [ 4080 1883 ];
 
   networking.firewall.allowedUDPPorts = [ 1883 ];
+
+  # TODO: Use this
+  age.secrets = with config; {
+    mosquitto-zigbee2mqtt = {
+      file = ../secrets/mosquitto-zigbee2mqtt.age;
+      owner = systemd.services.zigbee2mqtt.serviceConfig.User;
+      mode = "0440";
+    };
+  };
 }

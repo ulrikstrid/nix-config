@@ -15,21 +15,13 @@
         static_configs = [{ targets = [ "192.168.1.101:9002" ]; }];
       }
       {
-        job_name = "pi4-01";
-        static_configs = [{ targets = [ "192.168.1.110:9002" ]; }];
+        job_name = "servern2";
+        static_configs = [{ targets = [ "192.168.1.25:9002" ]; }];
       }
-      # {
-      #   job_name = "nixos-desktop";
-      #   static_configs = [{
-      #     targets = [ "192.168.1.11:9002" ];
-      #   }];
-      # }
-      # {
-      #   job_name = "macbook-pro-private";
-      #   static_configs = [{
-      #     targets = [ "192.168.1.36:9100" ];
-      #   }];
-      # }
+      {
+        job_name = "hydra";
+        static_configs = [{ targets = [ "192.168.1.100:4000" "192.168.1.100:9199" ]; }];
+      }
       {
         job_name = "unifi";
         static_configs = [{ targets = [ "192.168.1.100:9130" ]; }];
@@ -49,13 +41,6 @@
       {
         job_name = "postgresql";
         static_configs = [{ targets = [ "192.168.1.101:9187" ]; }];
-      }
-      {
-        job_name = "vikunja";
-        static_configs = [{
-          targets =
-            [ "192.168.1.101:3556" "192.168.1.101:9456" "192.168.1.101:9556" ];
-        }];
       }
     ];
   };

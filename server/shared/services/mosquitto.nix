@@ -11,7 +11,9 @@
           acl = [ "readwrite #" ];
         };
         zigbee2mqtt = {
-          passwordFile = config.age.secrets.mosquitto-zigbee2mqtt.path;
+          # TODO: Use this
+          # passwordFile = config.age.secrets.mosquitto-zigbee2mqtt.path;
+          password = "insecure-password";
           acl = [ "readwrite #" ];
         };
       };
