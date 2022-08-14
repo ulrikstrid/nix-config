@@ -2,7 +2,6 @@
 
 {
   nix = {
-    package = pkgs.nix;
     settings = {
       allowed-users = [
         "@wheel"
