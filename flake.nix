@@ -21,18 +21,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
-    hydra = { url = "github:NixOS/hydra"; };
+    hydra = { url = "github:NixOS/hydra?rev=f2f82b3eeed652e7fc076adf6dcd5a72baaaed18"; };
 
     # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
     # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
-
-    flake-utils-plus = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus";
-      inputs = {
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
   };
 
   outputs =
@@ -42,13 +34,13 @@
     , nixos-hardware
     , hydra
     , darwin
-    , flake-utils-plus
+    , flake-utils
     , nixos-generators
     , agenix
     , ...
     }:
     let
-      devShell = flake-utils-plus.lib.eachDefaultSystem (system:
+      devShell = flake-utils.lib.eachDefaultSystem (system:
         let pkgs = nixpkgs.legacyPackages.${system};
         in
         {
