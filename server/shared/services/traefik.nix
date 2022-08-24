@@ -49,26 +49,26 @@
               "Host(`192.168.1.101`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
             service = "api@internal";
           };
-          matrix = {
-            rule = "Host(`matrix.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "matrix";
-          };
-          minio = {
-            rule = "Host(`minio.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "minio";
-          };
-          minio-ui = {
-            rule = "Host(`minio-ui.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "minio-ui";
-          };
-          resilio = {
-            rule = "Host(`resilio.strid.ninja`)";
-            tls = { certResolver = "cloudflare_staging"; };
-            service = "resilio";
-          };
+          # matrix = {
+          #   rule = "Host(`matrix.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "matrix";
+          # };
+          # minio = {
+          #   rule = "Host(`minio.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "minio";
+          # };
+          # minio-ui = {
+          #   rule = "Host(`minio-ui.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "minio-ui";
+          # };
+          # resilio = {
+          #   rule = "Host(`resilio.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_staging"; };
+          #   service = "resilio";
+          # };
           unifi = {
             rule = "Host(`unifi.strid.ninja`)";
             tls = { certResolver = "cloudflare_prod"; };
@@ -84,31 +84,31 @@
             tls = { certResolver = "cloudflare_prod"; };
             service = "nextcloud";
           };
-          hedgedoc = {
-            rule = "Host(`hedgedoc.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "hedgedoc";
-          };
-          vikunja = {
-            rule = "Host(`todo.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "vikunja";
-          };
-          tandoor = {
-            rule = "Host(`tandoor.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "tandoor";
-          };
+          # hedgedoc = {
+          #   rule = "Host(`hedgedoc.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "hedgedoc";
+          # };
+          # vikunja = {
+          #   rule = "Host(`todo.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "vikunja";
+          # };
+          # tandoor = {
+          #   rule = "Host(`tandoor.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "tandoor";
+          # };
           n8n = {
             rule = "Host(`n8n.strid.ninja`)";
             tls = { certResolver = "cloudflare_prod"; };
             service = "n8n";
           };
-          ocaml-nix-updater = {
-            rule = "Host(`ocaml-nix-updater.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "ocaml-nix-updater";
-          };
+          # ocaml-nix-updater = {
+          #   rule = "Host(`ocaml-nix-updater.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "ocaml-nix-updater";
+          # };
           hydra = {
             rule = "Host(`hydra.strid.tech`) || Host(`hydra.strid.ninja`)";
             tls = { certResolver = "cloudflare_prod"; };
@@ -116,26 +116,26 @@
           };
         };
         services = {
-          matrix = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:8008"; }];
-            };
-          };
-          minio = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:9000"; }];
-            };
-          };
-          minio-ui = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:9001"; }];
-            };
-          };
-          resilio = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:9080"; }];
-            };
-          };
+          # matrix = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:8008"; }];
+          #   };
+          # };
+          # minio = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:9000"; }];
+          #   };
+          # };
+          # minio-ui = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:9001"; }];
+          #   };
+          # };
+          # resilio = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:9080"; }];
+          #   };
+          # };
           unifi = {
             loadBalancer = {
               serversTransport = "unsafe_tls";
@@ -152,31 +152,31 @@
               servers = [{ url = "http://192.168.1.101:80"; }];
             };
           };
-          hedgedoc = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.100:3030"; }];
-            };
-          };
-          vikunja = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:3556"; }];
-            };
-          };
-          tandoor = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:5080"; }];
-            };
-          };
+          # hedgedoc = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.100:3030"; }];
+          #   };
+          # };
+          # vikunja = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:3556"; }];
+          #   };
+          # };
+          # tandoor = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:5080"; }];
+          #   };
+          # };
           n8n = {
             loadBalancer = {
               servers = [{ url = "http://192.168.1.100:5678"; }];
             };
           };
-          ocaml-nix-updater = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:6666"; }];
-            };
-          };
+          # ocaml-nix-updater = {
+          #   loadBalancer = {
+          #     servers = [{ url = "http://192.168.1.101:6666"; }];
+          #   };
+          # };
           hydra = {
             loadBalancer = {
               servers = [{ url = "http://192.168.1.101:4000"; }];
