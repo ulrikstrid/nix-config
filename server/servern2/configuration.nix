@@ -8,7 +8,8 @@ let
   user = "ulrik.strid";
   userHome = "/home/${user}";
   hostName = "servern2";
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -82,7 +83,7 @@ in {
 
   networking.firewall.allowedTCPPorts = [ 9002 ];
 
-  virtualisation.libvirtd = { enable = true; };
+  # virtualisation.libvirtd = { enable = true; };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
