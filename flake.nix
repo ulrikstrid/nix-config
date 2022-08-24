@@ -21,7 +21,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
-    hydra = { url = "github:NixOS/hydra?rev=f2f82b3eeed652e7fc076adf6dcd5a72baaaed18"; };
+    hydra = { url = "github:NixOS/hydra"; };
 
     # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
     # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
