@@ -15,7 +15,7 @@
     zoom-us
     lutris
     postman
-    ferdi
+    ferdium
     element-desktop
     chromium
 
@@ -97,6 +97,9 @@
       pull = {
         default = "current";
         rebase = "true";
+      };
+      push = {
+        autoSetupRemote = "true";
       };
       rebase = { autosquash = "true"; };
       init.defaultBranch = "main";
