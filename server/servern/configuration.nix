@@ -6,7 +6,8 @@
 let
   nodeIP = "192.168.1.101";
   nodeHostname = "servern";
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -15,14 +16,14 @@ in {
     ../shared/config
 
     # Services
-    ../shared/services/minio.nix
+    # ../shared/services/minio.nix
     ../shared/services/home-assistant.nix
     ../shared/services/traefik.nix
     ../shared/services/mosquitto.nix
     ../shared/services/node-exporter.nix
     ../shared/services/promtail.nix
     ../shared/services/postgres.nix
-    ../shared/services/tandoor.nix
+    # ../shared/services/tandoor.nix
     ../shared/services/adguard.nix
     # ../shared/services/ocaml-nix-updater.nix
     ../shared/services/hydra.nix
