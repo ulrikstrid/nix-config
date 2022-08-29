@@ -1,6 +1,7 @@
 let
   ulrikstrid =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk";
+  anmonteiro = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKhezaZPIx4/UkbTm27qaTqOwlfmVNovc33p6L1p+dHG";
   users = [ ulrikstrid ];
 
   m1-mini-01 =
@@ -15,10 +16,13 @@ let
   servern2 =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJoyJaqnaqLQCuzlOBapiR/6umAjZZD5qj87LAXQXk4m";
   systems = [ m1-mini-01 nuc-01 odroid-n2-01 servern servern2 ];
-in {
+in
+{
   # Hydra
   "github_authorizations.conf.age".publicKeys = users ++ [ servern ];
   "githubstatus.conf.age".publicKeys = users ++ [ servern ];
+  "hydra-signing-key.age".publicKeys = users ++ [ servern anmonteiro ];
+  "hydra_aws_credentials.age".publicKeys = users ++ [ servern ];
   # Home assistant
   "home_assistant_google_assistant.json.age".publicKeys = users ++ [ servern ];
   "home_assistant_home_connect.yml.age".publicKeys = users ++ [ servern ];

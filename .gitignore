@@ -1,4 +1,8 @@
+server/shared/services/unused
+
 # Ignore secrets but add files with .nix and .age since they are safe
 server/shared/secrets/*
 !server/shared/secrets/*.nix
 !server/shared/secrets/*.age
+
+result

@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ... }: {
-  services.hydra-dev = {
+{ config, pkgs, lib, ... }:
+let
+  narCache = "/var/cache/hydra/nar-cache";
+in
+{
+  services.hydra = {
     enable = true;
     debugServer = true;
 
@@ -14,6 +18,10 @@
       base_uri hydra.strid.tech
       allowed-uris = http:// https:// https://github.com
 
+      store_uri = s3://overlays?endpoint=https://7a53c28e9b7a91239f9ed42da04276bc.r2.cloudflarestorage.com&secret-key=${config.age.secrets.signing_key.path}&write-nar-listing=1&ls-compression=br&log-compression=br
+      server_store_uri = https://anmonteiro.nix-cache.workers.dev?local-nar-cache=${narCache}
+      binary_cache_public_uri = https://anmonteiro.nix-cache.workers.dev
+
       <hydra_notify>
         <prometheus>
           listen_address = 0.0.0.0
@@ -25,6 +33,12 @@
       Include ${config.age.secrets.githubstatus.path}
     '';
   };
+
+  systemd.tmpfiles.rules =
+    [
+      "d /var/cache/hydra 0755 hydra hydra -  -"
+      "d ${narCache}      0775 hydra hydra 1d -"
+    ];
 
   nix = {
     distributedBuilds = true;
@@ -71,6 +85,19 @@
     };
     githubstatus = {
       file = ../secrets/githubstatus.conf.age;
+      owner = config.users.users.hydra.name;
+      group = config.users.users.hydra.group;
+      mode = "0440";
+    };
+    signing_key = {
+      file = ../secrets/hydra-signing-key.age;
+      owner = config.users.users.hydra.name;
+      group = config.users.users.hydra.group;
+      mode = "0440";
+    };
+    aws_credentials = {
+      file = ../secrets/hydra_aws_credentials.age;
+      path = "${config.users.users.hydra.home}/.aws/credentials";
       owner = config.users.users.hydra.name;
       group = config.users.users.hydra.group;
       mode = "0440";

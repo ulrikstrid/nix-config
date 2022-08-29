@@ -21,8 +21,6 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
-    hydra = { url = "github:NixOS/hydra"; };
-
     # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
     # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -32,7 +30,6 @@
     , nixpkgs
     , home-manager
     , nixos-hardware
-    , hydra
     , darwin
     , flake-utils
     , nixos-generators
@@ -63,7 +60,6 @@
           modules = [
             ./server/servern/configuration.nix
             agenix.nixosModule
-            hydra.nixosModules.hydra
           ];
         };
 
