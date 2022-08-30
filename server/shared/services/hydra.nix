@@ -13,6 +13,9 @@ in
     notificationSender = "hydra@localhost";
     hydraURL = "https://hydra.strid.ninja";
     listenHost = "0.0.0.0";
+    extraEnv = {
+      AWS_SHARED_CREDENTIALS_FILE = aws_credentials.path;
+    };
     extraConfig = ''
       using_frontend_proxy 1
       base_uri hydra.strid.tech
@@ -97,9 +100,9 @@ in
     };
     aws_credentials = {
       file = ../secrets/hydra_aws_credentials.age;
-      path = "${config.users.users.hydra.home}/.aws/credentials";
-      owner = config.users.users.hydra.name;
-      group = config.users.users.hydra.group;
+      path = "${config.users.users.hydra-queue-runner.home}/.aws/credentials";
+      owner = config.users.users.hydra-queue-runner.name;
+      group = config.users.users.hydra-queue-runner.group;
       mode = "0440";
     };
   };
