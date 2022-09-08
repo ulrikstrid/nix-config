@@ -1,0 +1,28 @@
+From a1b37896b5f286cfd5abf5083a6b1fa5559e49b8 Mon Sep 17 00:00:00 2001
+From: Marek Generowicz <generowicz@gmail.com>
+Date: Mon, 5 Sep 2022 14:36:14 +0300
+Subject: [PATCH]  ledger-live-desktop: 2.46.0 -> 2.46.2
+
+ ledger-live-desktop: 2.46.0 -> 2.46.2
+---
+ pkgs/applications/blockchains/ledger-live-desktop/default.nix | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pkgs/applications/blockchains/ledger-live-desktop/default.nix b/pkgs/applications/blockchains/ledger-live-desktop/default.nix
+index 7e84dd43893f2..10c95a91eda2d 100644
+--- a/pkgs/applications/blockchains/ledger-live-desktop/default.nix
++++ b/pkgs/applications/blockchains/ledger-live-desktop/default.nix
+@@ -2,11 +2,11 @@
+ 
+ let
+   pname = "ledger-live-desktop";
+-  version = "2.46.0";
++  version = "2.46.2";
+ 
+   src = fetchurl {
+     url = "https://download.live.ledger.com/${pname}-${version}-linux-x86_64.AppImage";
+-    hash = "sha256-QbCiOzASqicd0Tns1sV9ZVoc/GmuoohB9wB/g0Z6uFA=";
++    hash = "sha256-fSfES+6+LCRTLdOy3RJaHzv0zRXkqT+0Rsdt2kSeU18=";
+   };
+ 
+   appimageContents = appimageTools.extractType2 {

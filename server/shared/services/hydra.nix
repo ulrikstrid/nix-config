@@ -5,7 +5,7 @@ in
 {
   services.hydra = {
     enable = true;
-    debugServer = true;
+    debugServer = false;
 
     useSubstitutes = true;
 
@@ -14,16 +14,16 @@ in
     hydraURL = "https://hydra.strid.ninja";
     listenHost = "0.0.0.0";
     extraEnv = {
-      AWS_SHARED_CREDENTIALS_FILE = aws_credentials.path;
+      AWS_SHARED_CREDENTIALS_FILE = config.age.secrets.aws_credentials.path;
     };
     extraConfig = ''
       using_frontend_proxy 1
-      base_uri hydra.strid.tech
       allowed-uris = http:// https:// https://github.com
 
       store_uri = s3://overlays?endpoint=https://7a53c28e9b7a91239f9ed42da04276bc.r2.cloudflarestorage.com&secret-key=${config.age.secrets.signing_key.path}&write-nar-listing=1&ls-compression=br&log-compression=br
       server_store_uri = https://anmonteiro.nix-cache.workers.dev?local-nar-cache=${narCache}
       binary_cache_public_uri = https://anmonteiro.nix-cache.workers.dev
+      queue_runner_metrics_address = 0.0.0.0:9198
 
       <hydra_notify>
         <prometheus>
@@ -33,9 +33,9 @@ in
       </hydra_notify>
 
       Include ${config.age.secrets.github_authorizations.path}
-      Include ${config.age.secrets.githubstatus.path}
     '';
   };
+  # Include ${config.age.secrets.githubstatus.path}
 
   systemd.tmpfiles.rules =
     [

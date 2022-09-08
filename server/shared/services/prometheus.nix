@@ -20,7 +20,20 @@
       }
       {
         job_name = "hydra";
-        static_configs = [{ targets = [ "192.168.1.100:4000" "192.168.1.100:9199" ]; }];
+        scheme = "https";
+        static_configs = [{ targets = [ "hydra.strid.ninja" ]; }];
+      }
+      {
+        job_name = "hydra_notify";
+        static_configs = [{ targets = [ "192.168.1.101:9199" ]; }];
+      }
+      {
+        job_name = "hydra_queue_runner";
+        scheme = "https";
+        tls_config = {
+          insecure_skip_verify = true;
+        };
+        static_configs = [{ targets = [ "192.168.1.101:9198" ]; }];
       }
       {
         job_name = "unifi";

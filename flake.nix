@@ -19,7 +19,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-    flake-utils.inputs.nixpkgs.follows = "nixpkgs";
 
     # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
     # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
@@ -43,6 +42,10 @@
         {
           devShell =
             pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp ]; };
+
+          packages = {
+            legion-kb-rgb = pkgs.callPackage ./derivations/legion-kb-rgb.nix { };
+          };
         });
     in
     {
@@ -79,12 +82,19 @@
           system = "aarch64-linux";
           specialArgs = { inherit system; };
           modules =
-            [ ./server/odroid-n2-01/configuration.nix agenix.nixosModule ];
+            [ ./pc/odroid-n2-01/configuration.nix agenix.nixosModule ];
         };
 
         nixos-laptop = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = { inherit system; };
+          pkgs = import nixpkgs {
+            config.allowUnfree = true;
+            inherit system;
+            patches = [
+              ./ledger.patch
+            ];
+          };
           modules = [
             nixos-hardware.nixosModules.lenovo-legion-16ithg6
             nixpkgs.nixosModules.notDetected

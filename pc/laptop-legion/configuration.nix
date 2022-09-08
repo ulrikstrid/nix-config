@@ -18,16 +18,19 @@ in
   ];
 
   hardware.brillo.enable = true;
+  hardware.ledger.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
+  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.grub.extraConfig = ''
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.blacklistedKernelModules = [ "xpad" ];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -110,6 +113,18 @@ in
     };
   };
 
+  systemd.services.xboxdrv = {
+    wantedBy = [ "multi-user.target" ]; 
+    after = [ "network.target" ];
+    serviceConfig = {   
+      Type = "forking";
+      User = "root";
+      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --daemon --detach --pid-file /var/run/xboxdrv.pid --dbus disabled --silent --detach-kernel-driver --deadzone 4000 --deadzone-trigger 10% --mimic-xpad-wireless";
+    };
+  };
+
+  services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
+
   /* services.gnome = {
     gnome-settings-daemon.enable = true;
     gnome-online-accounts.enable = true;
@@ -158,7 +173,7 @@ in
       substituters = [
         "https://cache.nixos.org/"
         "https://deku.cachix.org/"
-        "https://anmonteiro.cachix.org/"
+        "https://anmonteiro.nix-cache.workers.dev/"
         "https://nixpkgs-update.cachix.org/"
       ];
       trusted-public-keys = [
@@ -180,6 +195,7 @@ in
         "mongodb"
         "teams"
         "zoom-us"
+        "nvidia-x11"
       ];
   };
 

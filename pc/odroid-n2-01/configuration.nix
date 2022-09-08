@@ -8,10 +8,13 @@ let
   nodeHostname = "odroid-n2-01";
 in {
   imports = [
-    ../shared/config
+    ../../server/shared/config
 
-    ../shared/services/node-exporter.nix
-    ../shared/services/promtail.nix
+    ../../server/shared/services/node-exporter.nix
+    ../../server/shared/services/promtail.nix
+
+    ../shared/retro_arch.nix
+    ../shared/xbox.nix
   ];
 
   boot = {

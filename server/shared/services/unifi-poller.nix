@@ -12,12 +12,18 @@
 
     influxdb.disable = true;
 
+    loki = {
+      verify_ssl = false;
+      url = "http://192.168.1.100:3100";
+    };
+
     unifi = {
       controllers = [{
-        url = "http://192.168.1.1";
+        url = "https://192.168.1.1";
 
         user = "unifi-poller";
         pass = config.age.secrets.unifi-poller.path;
+        verify_ssl = false;
 
         sites = "all";
         save_ids = true;

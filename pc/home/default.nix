@@ -8,7 +8,6 @@
     gimp
     joplin-desktop
     libreoffice-fresh
-    openrgb
     pavucontrol
     signal-desktop
     slack
@@ -18,6 +17,12 @@
     ferdium
     element-desktop
     chromium
+    ledger-live-desktop
+    # (pkgs.callPackage ../../derivations/legion-kb-rgb.nix { })
+
+    # laptop rgb
+    openrgb
+    i2c-tools
 
     # utils
     tree
@@ -36,7 +41,6 @@
     fluxcd
     terraform
     terraform-ls
-    infracost # estimated cost for terraform
     google-cloud-sdk
 
     # dev
@@ -44,15 +48,12 @@
 
     # nix
     nix-zsh-completions
-    rnix-lsp
-    cachix
     nix-prefetch-git
     nix-prefetch-github
-    nixfmt
 
     # encryption
     sops
-    age
+    rage
 
     # KDE
     libsForQt5.kcalc
@@ -60,6 +61,7 @@
     libsForQt5.kalendar
     libsForQt5.kontact
     libsForQt5.kolourpaint
+    libsForQt5.plasma-browser-integration
 
     # gnome
     /* gtk-engine-murrine

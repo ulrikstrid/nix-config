@@ -62,13 +62,21 @@ case $TARGET in
     ;;
   "nixos-laptop")
     target_found
-    echo "Syncing vscode extensions..."
+    # echo "Syncing vscode extensions..."
     # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
-    echo "Syncing done."
-    sudo nixos-rebuild --flake .\#nixos-laptop switch $2
+    # echo "Syncing done."
+    export NIXPKGS_ALLOW_UNFREE=1
+    nixos-rebuild --flake .\#nixos-laptop switch --use-remote-sudo $2
+    deploy_success
+    ;;
+  "odroid-n2-01")
+    target_found
+    nixos-rebuild switch \
+      --target-host root@192.168.1.111 \
+      --flake .\#odroid-n2-01 $2
     deploy_success
     ;;
   *)
-    printf "${RED}Target not found${NC}\n"
+    printf "${RED}Target (%s) not found${NC}\n" "$TARGET"
     ;;
 esac
