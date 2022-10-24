@@ -5,7 +5,7 @@
 
   virtualisation.oci-containers.containers = {
     zwave2mqtt = {
-      image = "zwavejs/zwavejs2mqtt:6.15.2";
+      image = "zwavejs/zwavejs2mqtt:8.2.1";
       user = "root";
       environment = { TZ = "Europe/Stockholm"; };
       ports = [ "8091:8091" "3300:3000" ];

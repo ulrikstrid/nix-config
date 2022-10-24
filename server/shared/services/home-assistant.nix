@@ -86,9 +86,8 @@
 
       home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
       # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
-      nest = "!include ${config.age.secrets.home-assistant-nest.path}";
-
-      vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
+      # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
+      #vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
 
       google_assistant = {
         project_id = "home-assistant-d8169";
