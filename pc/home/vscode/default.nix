@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.vscode;
     extensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace
-      (import ./extensions.nix).extensions;
+      (import ./extensions.nix).extensions ++ [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare ];
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
       "editor.fontLigatures" = true;

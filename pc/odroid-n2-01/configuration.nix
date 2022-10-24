@@ -20,8 +20,7 @@ in {
   boot = {
     loader.grub.enable = false;
     loader.generic-extlinux-compatible.enable = true;
-
-    supportedFilesystems = [ "btrfs" "vfat" "cifs" "ext4" ];
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   fileSystems = {
@@ -30,7 +29,9 @@ in {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
       options = [ "noatime" ];
+      neededForBoot = true;
     };
+    /*
     "/nix/store" = {
       # "/dev/disk/by-label/NIX_STORE" should have worked
       label = "NIX_STORE";
@@ -40,6 +41,7 @@ in {
       fsType = "btrfs";
       options = [ "noatime" "bind" ];
     };
+    */
   };
 
   networking = {
@@ -47,10 +49,6 @@ in {
     extraHosts = "${nodeIP} ${nodeHostname}";
     interfaces.eth0.useDHCP = true;
   };
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   nixpkgs.config.allowUnfree = true;
 

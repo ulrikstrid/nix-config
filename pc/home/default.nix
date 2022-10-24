@@ -18,7 +18,6 @@
     element-desktop
     chromium
     ledger-live-desktop
-    # (pkgs.callPackage ../../derivations/legion-kb-rgb.nix { })
 
     # laptop rgb
     openrgb
@@ -33,6 +32,8 @@
     xboxdrv
     hub
     license-generator
+    gnumake
+    git-crypt
 
     # cloud
     kubectl
@@ -62,6 +63,7 @@
     libsForQt5.kontact
     libsForQt5.kolourpaint
     libsForQt5.plasma-browser-integration
+    libsForQt5.ark
 
     # gnome
     /* gtk-engine-murrine
@@ -89,6 +91,11 @@
       nordic
     */
   ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    SHELL = "zsh";
+  };
 
   programs.git = {
     enable = true;
@@ -196,7 +203,7 @@
     };
   */
 
-  imports = [ ./vscode ];
+  imports = [ ./vscode ./nvim ];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";

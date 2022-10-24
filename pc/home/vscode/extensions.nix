@@ -90,12 +90,6 @@
     sha256 = "0zgrd2909xpr3416cji0ha3yl6gl2ry2f38bvx4lsjfmgik0ic6s";
   }
   {
-    name = "vsliveshare";
-    publisher = "ms-vsliveshare";
-    version = "1.0.5683";
-    sha256 = "0m6idwbynfvqilvhnkdyiyi207vq50m6cbfi7pfwqb0b5c64771x";
-  }
-  {
     name = "vsliveshare-pack";
     publisher = "ms-vsliveshare";
     version = "0.4.0";

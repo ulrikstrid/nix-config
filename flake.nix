@@ -3,7 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
-      url = "github:/nix-community/nixos-generators";
+      url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -26,7 +26,7 @@
 
   outputs =
     { self
-    , nixpkgs
+    , nixpkgs                   
     , home-manager
     , nixos-hardware
     , darwin
@@ -42,18 +42,22 @@
         {
           devShell =
             pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp ]; };
-
-          packages = {
-            legion-kb-rgb = pkgs.callPackage ./derivations/legion-kb-rgb.nix { };
-          };
         });
     in
     {
       packages.aarch64-linux = {
-        odroid-n2-installer = (import ./server/odroid-n2-01 {
+        odroid-n2-installer = (import ./pc/odroid-n2-01 {
           inherit nixos-generators nixpkgs;
+          system = "aarch64-linux";
           pkgs = (import nixpkgs { system = "aarch64-linux"; });
         }).installer;
+      };
+
+      packages.x86_64-linux = {
+        write-odroid-n2-installer = with nixpkgs.legacyPackages.x86_64-linux; writeScriptBin "write-odroid-n2-installer" ''
+          path_to_image=$(cat ${self.packages.aarch64-linux.odroid-n2-installer}/nix-support/hydra-build-products | cut -d ' ' -f 3)
+          ${zstd}/bin/zstd -d --stdout $path_to_image | ${coreutils}/bin/dd of=$1 bs=4096 conv=fsync status=progress
+        '';
       };
 
       nixosConfigurations = {

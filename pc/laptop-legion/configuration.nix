@@ -15,6 +15,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
+    ../shared/xbox.nix
   ];
 
   hardware.brillo.enable = true;
@@ -30,7 +31,6 @@ in
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-  boot.blacklistedKernelModules = [ "xpad" ];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -110,16 +110,6 @@ in
     desktopManager.plasma5 = {
       enable = true;
       useQtScaling = true;
-    };
-  };
-
-  systemd.services.xboxdrv = {
-    wantedBy = [ "multi-user.target" ]; 
-    after = [ "network.target" ];
-    serviceConfig = {   
-      Type = "forking";
-      User = "root";
-      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --daemon --detach --pid-file /var/run/xboxdrv.pid --dbus disabled --silent --detach-kernel-driver --deadzone 4000 --deadzone-trigger 10% --mimic-xpad-wireless";
     };
   };
 

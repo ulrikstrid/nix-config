@@ -6,6 +6,7 @@ let retroarch' =
       libretro.genesis-plus-gx
       libretro.snes9x
       libretro.beetle-psx-hw
+      libretro.picodrive
     ];
   });
 in
@@ -19,6 +20,7 @@ in
     };
 
     displayManager.defaultSession = "RetroArch";
+    displayManager.sddm.enable = true;
     displayManager.autoLogin = {
       user = "ulrik.strid";
       enable = true;
@@ -30,5 +32,6 @@ in
     libretro.genesis-plus-gx
     libretro.snes9x
     libretro.beetle-psx-hw
-];
+    libretro.picodrive
+  ];
 } 
