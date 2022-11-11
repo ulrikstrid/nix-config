@@ -39,7 +39,7 @@
     name = "terraform-preview";
     publisher = "hashicorp";
     version = "2022.11.110";
-    sha256 = "0yxv85fhdvrn044vllp32n6f2fld3wl9gazd2nhwqhd6js3bb7cj";
+    sha256 = "sha256-p2mHcpIAA1Uz/YsA2HUOGip42cFKFWpEtwFxuobDuqo=";
   }
   {
     name = "nix-develop";
