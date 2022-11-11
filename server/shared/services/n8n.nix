@@ -1,10 +1,15 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.n8n = {
     enable = true;
     openFirewall = true;
     settings = {
       port = 5678;
-      generic = { timezone = "Europe/Stockholm"; };
+      generic = {timezone = "Europe/Stockholm";};
     };
   };
 

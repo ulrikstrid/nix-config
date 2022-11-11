@@ -1,5 +1,3 @@
-{ ... }:
-
-{
-  imports = [ ./nix-settings.nix ./users.nix ];
+{...}: {
+  imports = [./nix-settings.nix ./users.nix];
 }

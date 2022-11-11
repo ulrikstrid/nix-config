@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.unifi-poller = {
     enable = true;
 
@@ -18,24 +21,26 @@
     };
 
     unifi = {
-      controllers = [{
-        url = "https://192.168.1.1";
+      controllers = [
+        {
+          url = "https://192.168.1.1";
 
-        user = "unifi-poller";
-        pass = config.age.secrets.unifi-poller.path;
-        verify_ssl = false;
+          user = "unifi-poller";
+          pass = config.age.secrets.unifi-poller.path;
+          verify_ssl = false;
 
-        sites = "all";
-        save_ids = true;
-        save_dpi = true;
-        save_sites = true;
-        # hash_pii = true;
-      }];
+          sites = "all";
+          save_ids = true;
+          save_dpi = true;
+          save_sites = true;
+          # hash_pii = true;
+        }
+      ];
     };
   };
 
   systemd.services.unifi-poller = {
-    serviceConfig.SupplementaryGroups = [ config.users.groups.keys.name ];
+    serviceConfig.SupplementaryGroups = [config.users.groups.keys.name];
   };
 
   age.secrets = with config; {

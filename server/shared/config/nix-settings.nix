@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   nix = {
     settings = {
       allowed-users = [
@@ -11,8 +9,7 @@
         "hydra_builder"
         "hydra-queue-runner"
       ];
-      trusted-users =
-        [ "root" "ulrik.strid" "hydra_builder" "hydra-queue-runner" ];
+      trusted-users = ["root" "ulrik.strid" "hydra_builder" "hydra-queue-runner"];
       auto-optimise-store = true;
     };
     extraOptions = ''

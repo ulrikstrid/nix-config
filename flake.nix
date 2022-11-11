@@ -24,46 +24,49 @@
     # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    { self
-    , nixpkgs                   
-    , home-manager
-    , nixos-hardware
-    , darwin
-    , flake-utils
-    , nixos-generators
-    , agenix
-    , ...
-    }:
-    let
-      devShell = flake-utils.lib.eachDefaultSystem (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          devShell =
-            pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp ]; };
-        });
-    in
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixos-hardware,
+    darwin,
+    flake-utils,
+    nixos-generators,
+    agenix,
+    ...
+  }: let
+    perSystem = flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      devShell =
+        pkgs.mkShell {buildInputs = [pkgs.nixpkgs-fmt pkgs.rnix-lsp];};
+
+      formatter = pkgs.alejandra;
+    });
+  in
     {
       packages.aarch64-linux = {
-        odroid-n2-installer = (import ./pc/odroid-n2-01 {
-          inherit nixos-generators nixpkgs;
-          system = "aarch64-linux";
-          pkgs = (import nixpkgs { system = "aarch64-linux"; });
-        }).installer;
+        odroid-n2-installer =
+          (import ./pc/odroid-n2-01 {
+            inherit nixos-generators nixpkgs;
+            system = "aarch64-linux";
+            pkgs = import nixpkgs {system = "aarch64-linux";};
+          })
+          .installer;
       };
 
       packages.x86_64-linux = {
-        write-odroid-n2-installer = with nixpkgs.legacyPackages.x86_64-linux; writeScriptBin "write-odroid-n2-installer" ''
-          path_to_image=$(cat ${self.packages.aarch64-linux.odroid-n2-installer}/nix-support/hydra-build-products | cut -d ' ' -f 3)
-          ${zstd}/bin/zstd -d --stdout $path_to_image | ${coreutils}/bin/dd of=$1 bs=4096 conv=fsync status=progress
-        '';
+        write-odroid-n2-installer = with nixpkgs.legacyPackages.x86_64-linux;
+          writeScriptBin "write-odroid-n2-installer" ''
+            path_to_image=$(cat ${self.packages.aarch64-linux.odroid-n2-installer}/nix-support/hydra-build-products | cut -d ' ' -f 3)
+            ${zstd}/bin/zstd -d --stdout $path_to_image | ${coreutils}/bin/dd of=$1 bs=4096 conv=fsync status=progress
+          '';
       };
 
       nixosConfigurations = {
         servern = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
+          specialArgs = {inherit system;};
           modules = [
             ./server/servern/configuration.nix
             agenix.nixosModule
@@ -72,26 +75,25 @@
 
         servern2 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          modules = [ ./server/servern2/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [./server/servern2/configuration.nix agenix.nixosModule];
         };
 
         nuc-01 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          modules = [ ./server/nuc-01/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [./server/nuc-01/configuration.nix agenix.nixosModule];
         };
 
         odroid-n2-01 = nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
-          specialArgs = { inherit system; };
-          modules =
-            [ ./pc/odroid-n2-01/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [./pc/odroid-n2-01/configuration.nix agenix.nixosModule];
         };
 
         nixos-laptop = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
+          specialArgs = {inherit system;};
           pkgs = import nixpkgs {
             config.allowUnfree = true;
             inherit system;
@@ -115,7 +117,7 @@
 
       darwinConfigurations."m1-mini" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        modules = [ ./server/m1-mini/configuration.nix ];
+        modules = [./server/m1-mini/configuration.nix];
       };
 
       hydraJobs = {
@@ -124,5 +126,6 @@
         nuc-01 = self.nixosConfigurations.nuc-01.config.system.build.toplevel;
         nixos-laptop = self.nixosConfigurations.nixos-laptop.config.system.build.toplevel;
       };
-    } // devShell;
+    }
+    // perSystem;
 }

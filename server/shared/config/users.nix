@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     mutableUsers = false;
@@ -7,7 +11,7 @@
         home = "/home/hydra_builder";
         description = "Hydra builder";
         isNormalUser = true;
-        extraGroups = [ "@builders" ];
+        extraGroups = ["@builders"];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJk/2qQAHpePeQ99d+QnhygiETRUn/yydEgLoJPZLSy servern@strid.tech" # servern for hydra
         ];
@@ -16,9 +20,8 @@
         home = "/home/ulrik.strid";
         description = "Ulrik Strid";
         isNormalUser = true;
-        hashedPassword =
-          "$6$hrCi58/8o9qSOeKK$yMjO7P29U5Un2.31O0lGtlitrWl8LHT6tsjMawMWC9A3wNg2nsODeOmkleOrcaA8Vy93p63D0MD.KlAmHlXIM0";
-        extraGroups = [ "wheel" "nas" "wheel" "rslsync" "docker" "audio" ];
+        hashedPassword = "$6$hrCi58/8o9qSOeKK$yMjO7P29U5Un2.31O0lGtlitrWl8LHT6tsjMawMWC9A3wNg2nsODeOmkleOrcaA8Vy93p63D0MD.KlAmHlXIM0";
+        extraGroups = ["wheel" "nas" "wheel" "rslsync" "docker" "audio"];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk ulrik.strid@outlook.com" # which computer is this?
         ];
@@ -28,9 +31,8 @@
         description = "Sissel Strid";
         isNormalUser = true;
         group = "sissel";
-        extraGroups = [ "nas" ];
-        hashedPassword =
-          "$6$hrCi58/8o9qSOeKK$yMjO7P29U5Un2.31O0lGtlitrWl8LHT6tsjMawMWC9A3wNg2nsODeOmkleOrcaA8Vy93p63D0MD.KlAmHlXIM0";
+        extraGroups = ["nas"];
+        hashedPassword = "$6$hrCi58/8o9qSOeKK$yMjO7P29U5Un2.31O0lGtlitrWl8LHT6tsjMawMWC9A3wNg2nsODeOmkleOrcaA8Vy93p63D0MD.KlAmHlXIM0";
       };
 
       root.openssh.authorizedKeys.keys = [
@@ -41,8 +43,8 @@
     };
 
     groups = {
-      sissel = { };
-      nas = { name = "nas"; };
+      sissel = {};
+      nas = {name = "nas";};
     };
   };
 }

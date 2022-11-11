@@ -1,11 +1,11 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    extensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace
-      (import ./extensions.nix).extensions ++ [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare ];
+    extensions =
+      pkgs.vscode-utils.extensionsFromVscodeMarketplace
+      (import ./extensions.nix).extensions
+      ++ [pkgs.vscode-extensions.ms-vsliveshare.vsliveshare];
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
       "editor.fontLigatures" = true;
@@ -27,9 +27,9 @@
       "[javascript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
-      "[json]" = { "editor.defaultFormatter" = "esbenp.prettier-vscode"; };
-      "[nix]" = { "editor.defaultFormatter" = "jnoortheen.nix-ide"; };
-      "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
+      "[json]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
+      "[nix]" = {"editor.defaultFormatter" = "jnoortheen.nix-ide";};
+      "todo-tree.general.tags" = ["BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]"];
       "window.titleBarStyle" = "custom";
       "nix.formatterPath" = "nixfmt";
     };

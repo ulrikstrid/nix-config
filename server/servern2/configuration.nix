@@ -1,15 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   user = "ulrik.strid";
   userHome = "/home/${user}";
   hostName = "servern2";
-in
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -32,7 +33,7 @@ in
   # boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
   # Enable cross-compiling
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -53,7 +54,7 @@ in
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
+    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -81,7 +82,7 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 9002 ];
+  networking.firewall.allowedTCPPorts = [9002];
 
   # virtualisation.libvirtd = { enable = true; };
 
@@ -100,4 +101,3 @@ in
   system.stateVersion = "20.09"; # Did you read the comment?
   # system.autoUpgrade.channel = "https://nixos.org/channels/nixos-unstable";
 }
-

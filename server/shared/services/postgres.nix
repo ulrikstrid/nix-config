@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_13;
@@ -8,7 +11,7 @@
     enableTCPIP = true;
 
     # Ensure the database, user, and permissions always exist
-    ensureDatabases = [ "nextcloud" "hedgedoc" "vikunja" "tandoor" ];
+    ensureDatabases = ["nextcloud" "hedgedoc" "vikunja" "tandoor"];
     ensureUsers = [
       {
         name = "nextcloud";
@@ -45,5 +48,5 @@
     openFirewall = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 5432 ];
+  networking.firewall.allowedTCPPorts = [5432];
 }

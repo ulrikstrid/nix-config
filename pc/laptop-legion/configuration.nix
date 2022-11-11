@@ -1,21 +1,25 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, lib, system, ocaml-nix-updater, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  system,
+  ocaml-nix-updater,
+  ...
+}: let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-laptop";
   ocaml-nix-updater-app = ocaml-nix-updater.defaultPackage.${system};
-in
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
     ../shared/xbox.nix
+    ../shared/kvm.nix
   ];
 
   hardware.brillo.enable = true;
@@ -24,13 +28,13 @@ in
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
+  boot.kernelParams = ["amdgpu.backlight=0" "acpi_backlight=native"];
+  boot.kernelModules = ["i2c-dev" "i2c-i801"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.grub.extraConfig = ''
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -60,7 +64,7 @@ in
     useXkbConfig = true;
   };
 
-  fonts.fonts = with pkgs; [ fira-mono fira-code roboto roboto-mono ];
+  fonts.fonts = with pkgs; [fira-mono fira-code roboto roboto-mono];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -70,7 +74,7 @@ in
 
   specialisation = {
     external-display.configuration = {
-      system.nixos.tags = [ "external-display" ];
+      system.nixos.tags = ["external-display"];
       hardware.nvidia.prime.offload.enable = lib.mkForce false;
       hardware.nvidia.prime.sync.enable = true;
       hardware.nvidia.powerManagement.enable = lib.mkForce false;
@@ -115,37 +119,36 @@ in
 
   services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
 
-  /* services.gnome = {
-    gnome-settings-daemon.enable = true;
-    gnome-online-accounts.enable = true;
-    experimental-features.realtime-scheduling = true;
+  /*
+   services.gnome = {
+  gnome-settings-daemon.enable = true;
+  gnome-online-accounts.enable = true;
+  experimental-features.realtime-scheduling = true;
 
-    games.enable = true;
-    };
+  games.enable = true;
+  };
 
-    # Might be needed for gnome theming
-    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  # Might be needed for gnome theming
+  # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
+    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     home = userHome;
-    hashedPassword =
-      "$6$S2p7S1Qlv0Bcx2VD$XNBU0YVajPfGHR1hNncowbIoNOJSMNSkSWaltYbx4wKnWEMra5FaieKVgEw.tbMJllpp6L8hzFvK30I3wOkmL0";
+    hashedPassword = "$6$S2p7S1Qlv0Bcx2VD$XNBU0YVajPfGHR1hNncowbIoNOJSMNSkSWaltYbx4wKnWEMra5FaieKVgEw.tbMJllpp6L8hzFvK30I3wOkmL0";
     isNormalUser = true;
     description = "Ulrik Strid";
     shell = pkgs.zsh;
-    extraGroups =
-      [ "wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" ];
+    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd"];
   };
 
-  users.extraGroups.vboxusers.members = [ "@wheel" user ];
+  users.extraGroups.vboxusers.members = ["@wheel" user];
 
   users.mutableUsers = false;
 
@@ -158,8 +161,8 @@ in
     '';
 
     settings = {
-      allowed-users = [ "@wheel" "@builders" user ];
-      trusted-users = [ "root" user ];
+      allowed-users = ["@wheel" "@builders" user];
+      trusted-users = ["root" user];
       substituters = [
         "https://cache.nixos.org/"
         "https://deku.cachix.org/"
@@ -217,7 +220,7 @@ in
 
   programs.evolution = {
     enable = true;
-    plugins = [ pkgs.evolution-ews ];
+    plugins = [pkgs.evolution-ews];
   };
 
   programs.steam.enable = true;
@@ -234,14 +237,12 @@ in
   # services.openssh.enable = true;
 
   virtualisation = {
-    libvirtd = { enable = true; };
-
     docker = {
       enable = true;
       enableOnBoot = true;
       autoPrune = {
         enable = true;
-        flags = [ "--all" ];
+        flags = ["--all"];
       };
     };
   };
@@ -261,4 +262,3 @@ in
   system.stateVersion = "20.09"; # Did you read the comment?
   system.autoUpgrade.channel = "https://nixos.org/channels/nixos-unstable";
 }
-

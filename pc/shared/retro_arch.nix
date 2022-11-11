@@ -1,17 +1,17 @@
-{ config, pkgs, ... }:
-
-let retroarch' =
-  (pkgs.retroarch.override {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  retroarch' = pkgs.retroarch.override {
     cores = with pkgs; [
       libretro.genesis-plus-gx
       libretro.snes9x
       libretro.beetle-psx-hw
       libretro.picodrive
     ];
-  });
-in
-
-{
+  };
+in {
   services.xserver = {
     enable = true;
     desktopManager.retroarch = {
@@ -34,4 +34,4 @@ in
     libretro.beetle-psx-hw
     libretro.picodrive
   ];
-} 
+}

@@ -1,15 +1,18 @@
-{ config, pkgs, ... }:
-
 {
-  boot.blacklistedKernelModules = [ "xpad" ];
+  config,
+  pkgs,
+  ...
+}: {
+  boot.blacklistedKernelModules = ["xpad"];
 
   systemd.services.xboxdrv = {
-    wantedBy = [ "multi-user.target" ]; 
-    after = [ "network.target" ];
-    serviceConfig = {   
-      Type = "forking";
+    wantedBy = ["multi-user.target"];
+    after = ["network.target"];
+    serviceConfig = {
+      Type = "simple";
       User = "root";
-      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --daemon --detach --pid-file /var/run/xboxdrv.pid --dbus disabled --silent --detach-kernel-driver --deadzone 4000 --deadzone-trigger 10% --mimic-xpad-wireless";
+      PIDFile = "/var/run/xboxdrv.pid";
+      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --daemon --dbus disabled --verbose --pid-file /var/run/xboxdrv.pid --detach-kernel-driver --mimic-xpad-wireless --next-controller --next-controller";
     };
   };
 

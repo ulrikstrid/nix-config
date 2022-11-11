@@ -1,16 +1,21 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.traefik = {
     enable = true;
     staticConfigOptions = {
-      api = { dashboard = true; };
+      api = {dashboard = true;};
       entryPoints = {
-        http = { address = ":80"; };
+        http = {address = ":80";};
 
-        https = { address = ":443"; };
+        https = {address = ":443";};
 
-        traefik = { address = ":9090"; };
+        traefik = {address = ":9090";};
 
-        metrics = { address = ":8082"; };
+        metrics = {address = ":8082";};
       };
       certificatesResolvers.cloudflare_staging.acme = {
         caServer = "https://acme-staging-v02.api.letsencrypt.org/directory";
@@ -30,7 +35,7 @@
           delayBeforeCheck = 0;
         };
       };
-      accessLog = { };
+      accessLog = {};
 
       metrics = {
         prometheus = {
@@ -41,12 +46,11 @@
     };
     dynamicConfigOptions = {
       http = {
-        serversTransports = { unsafe_tls = { insecureSkipVerify = true; }; };
+        serversTransports = {unsafe_tls = {insecureSkipVerify = true;};};
         routers = {
           traefik = {
-            entryPoints = [ "traefik" ];
-            rule =
-              "Host(`192.168.1.101`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
+            entryPoints = ["traefik"];
+            rule = "Host(`192.168.1.101`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
             service = "api@internal";
           };
           # matrix = {
@@ -71,17 +75,17 @@
           # };
           unifi = {
             rule = "Host(`unifi.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
+            tls = {certResolver = "cloudflare_prod";};
             service = "unifi";
           };
           home-assistant = {
             rule = "Host(`homeass.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
+            tls = {certResolver = "cloudflare_prod";};
             service = "home-assistant";
           };
           nextcloud = {
             rule = "Host(`nextcloud.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
+            tls = {certResolver = "cloudflare_prod";};
             service = "nextcloud";
           };
           # hedgedoc = {
@@ -101,7 +105,7 @@
           # };
           n8n = {
             rule = "Host(`n8n.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
+            tls = {certResolver = "cloudflare_prod";};
             service = "n8n";
           };
           # ocaml-nix-updater = {
@@ -111,7 +115,7 @@
           # };
           hydra = {
             rule = "Host(`hydra.strid.tech`) || Host(`hydra.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
+            tls = {certResolver = "cloudflare_prod";};
             service = "hydra";
           };
         };
@@ -139,17 +143,17 @@
           unifi = {
             loadBalancer = {
               serversTransport = "unsafe_tls";
-              servers = [{ url = "https://192.168.1.1:443"; }];
+              servers = [{url = "https://192.168.1.1:443";}];
             };
           };
           home-assistant = {
             loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:8123"; }];
+              servers = [{url = "http://192.168.1.101:8123";}];
             };
           };
           nextcloud = {
             loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:80"; }];
+              servers = [{url = "http://192.168.1.101:80";}];
             };
           };
           # hedgedoc = {
@@ -169,7 +173,7 @@
           # };
           n8n = {
             loadBalancer = {
-              servers = [{ url = "http://192.168.1.100:5678"; }];
+              servers = [{url = "http://192.168.1.100:5678";}];
             };
           };
           # ocaml-nix-updater = {
@@ -179,7 +183,7 @@
           # };
           hydra = {
             loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:4000"; }];
+              servers = [{url = "http://192.168.1.101:4000";}];
             };
           };
         };
@@ -187,7 +191,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 9090 8082 443 80 ];
+  networking.firewall.allowedTCPPorts = [9090 8082 443 80];
 
   systemd.services.traefik.serviceConfig.EnvironmentFile =
     config.age.secrets.traefik-env.path;

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   services.zigbee2mqtt = {
     enable = true;
     settings = {
@@ -23,13 +28,13 @@
         host = "0.0.0.0";
       };
 
-      advanced = { log_level = "debug"; };
+      advanced = {log_level = "debug";};
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 4080 1883 ];
+  networking.firewall.allowedTCPPorts = [4080 1883];
 
-  networking.firewall.allowedUDPPorts = [ 1883 ];
+  networking.firewall.allowedUDPPorts = [1883];
 
   # TODO: Use this
   age.secrets = with config; {
