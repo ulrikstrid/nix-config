@@ -20,7 +20,17 @@ in {
     ./sound.nix
     ../shared/xbox.nix
     ../shared/kvm.nix
+    ../shared/pgadmin.nix
   ];
+
+  # High quality BT calls
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+    hsphfpd.enable = true;
+  };
+
+  age.identityPaths = ["/home/${user}/.ssh/id_ed25519"];
 
   hardware.brillo.enable = true;
   hardware.ledger.enable = true;
@@ -117,10 +127,33 @@ in {
     };
   };
 
-  services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
+  # services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
+
+  # Taken from https://github.com/Julusian/node-elgato-stream-deck
+  # 0084 is the Stream Deck +
+  services.udev.extraRules = ''
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0fd9", GROUP="users", TAG+="uaccess"
+    SUBSYSTEM=="input", GROUP="input", MODE="0666"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0060", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0063", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006c", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006d", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0080", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0086", MODE:="666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0060", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0063", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006c", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006d", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0080", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0086", MODE:="666", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", MODE:="666", GROUP="plugdev"
+  '';
 
   /*
-   services.gnome = {
+  services.gnome = {
   gnome-settings-daemon.enable = true;
   gnome-online-accounts.enable = true;
   experimental-features.realtime-scheduling = true;
@@ -145,7 +178,7 @@ in {
     isNormalUser = true;
     description = "Ulrik Strid";
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd"];
+    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd" "plugdev"];
   };
 
   users.extraGroups.vboxusers.members = ["@wheel" user];

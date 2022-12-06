@@ -1,0 +1,13 @@
+diff --git a/src/StreamDeck/Transport/LibUSBHIDAPI.py b/src/StreamDeck/Transport/LibUSBHIDAPI.py
+index e76c64f..f43f3d4 100644
+--- a/src/StreamDeck/Transport/LibUSBHIDAPI.py
++++ b/src/StreamDeck/Transport/LibUSBHIDAPI.py
+@@ -110,7 +110,7 @@ class LibUSBHIDAPI(Transport):
+ 
+             search_library_names = {
+                 "Windows": ["hidapi.dll", "libhidapi-0.dll"],
+-                "Linux": ["libhidapi-libusb.so", "libhidapi-libusb.so.0"],
++                "Linux": ["@hidapi@"],
+                 "Darwin": ["libhidapi.dylib"],
+             }
+ 

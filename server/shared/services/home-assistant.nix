@@ -48,12 +48,14 @@
           py.python_openzwave
           py.python-miio
           py.python-openzwave-mqtt
+          py.pyunifiprotect
           py.pyxiaomigateway
           py.scapy
           py.securetar
           py.smhi-pkg
           py.spotipy
           py.sqlalchemy
+          py.unifi-discovery
           py.zeroconf
           py.zha-quirks
           py.zigpy
@@ -91,7 +93,7 @@
       script = "!include scripts.yaml";
       scene = "!include scenes.yaml";
 
-      home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
+      # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
       # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
       # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
       #vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";

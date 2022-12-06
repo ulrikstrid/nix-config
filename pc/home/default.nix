@@ -21,6 +21,7 @@
     element-desktop
     chromium
     ledger-live-desktop
+    freerdp
 
     # laptop rgb
     openrgb
@@ -162,6 +163,7 @@
       obs-pipewire-audio-capture
       obs-backgroundremoval
       obs-multi-rtmp
+      (pkgs.callPackage ../../derivations/droidcam-obs.nix {})
     ];
   };
 

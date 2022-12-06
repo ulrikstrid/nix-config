@@ -17,7 +17,7 @@
       };
 
       serial = {
-        port = "/dev/ttyACM0";
+        port = "/dev/ttyACM1";
         adapter = "deconz";
       };
 

@@ -29,4 +29,6 @@ in {
   "traefik-env.age".publicKeys = users ++ [servern];
   # Unifi poller credentials
   "unifi-poller.age".publicKeys = users ++ [nuc-01];
+  # pgadmin password
+  "pgadmin_password.age".publicKeys = users;
 }
