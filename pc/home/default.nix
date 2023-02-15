@@ -1,8 +1,7 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }: {
   home.packages = with pkgs; [
     # gui
@@ -21,11 +20,10 @@
     element-desktop
     chromium
     ledger-live-desktop
-    freerdp
 
     # laptop rgb
-    openrgb
-    i2c-tools
+    # openrgb
+    # i2c-tools
 
     # utils
     tree
@@ -55,6 +53,12 @@
     nix-zsh-completions
     nix-prefetch-git
     nix-prefetch-github
+    rnix-lsp
+    alejandra
+
+    # Lua (neovim)
+    sumneko-lua-language-server
+    stylua
 
     # encryption
     sops
@@ -71,29 +75,29 @@
 
     # gnome
     /*
-     gtk-engine-murrine
-    gnome.gnome-tweaks
-    gnome.gnome-themes-extra
-    gnome.gnome-control-center
-    gnomeExtensions.arcmenu
-    gnomeExtensions.autohide-battery
-    gnomeExtensions.bluetooth-quick-connect
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.espresso
-    gnomeExtensions.gsconnect
-    gnomeExtensions.krypto
-    gnomeExtensions.sermon
-    gnomeExtensions.taskwhisperer
-    gnomeExtensions.tiling-assistant
-    gnomeExtensions.timezone
-    gnomeExtensions.user-themes
-    gnomeExtensions.vitals
+      gtk-engine-murrine
+      gnome.gnome-tweaks
+      gnome.gnome-themes-extra
+      gnome.gnome-control-center
+      gnomeExtensions.arcmenu
+      gnomeExtensions.autohide-battery
+      gnomeExtensions.bluetooth-quick-connect
+      gnomeExtensions.blur-my-shell
+      gnomeExtensions.dash-to-dock
+      gnomeExtensions.espresso
+      gnomeExtensions.gsconnect
+      gnomeExtensions.krypto
+      gnomeExtensions.sermon
+      gnomeExtensions.taskwhisperer
+      gnomeExtensions.tiling-assistant
+      gnomeExtensions.timezone
+      gnomeExtensions.user-themes
+      gnomeExtensions.vitals
 
-    # gnome themes
-    nordzy-cursor-theme
-    papirus-icon-theme
-    nordic
+      # gnome themes
+      nordzy-cursor-theme
+      papirus-icon-theme
+      nordic
     */
   ];
 
@@ -115,11 +119,11 @@
       push = {
         autoSetupRemote = "true";
       };
-      rebase = {autosquash = "true";};
+      rebase = { autosquash = "true"; };
       init.defaultBranch = "main";
     };
 
-    ignores = ["_build" "_esy" ".env"];
+    ignores = [ "_build" "_esy" ".env" ];
   };
 
   programs.gh = {
@@ -137,7 +141,7 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     enableSyntaxHighlighting = true;
-    cdpath = ["~/dev"];
+    cdpath = [ "~/dev" ];
     initExtra = ''export XDG_DATA_HOME="$HOME/.local/share"'';
     dirHashes = {
       dev = "$HOME/dev";
@@ -147,7 +151,7 @@
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = ["git" "sudo" "kubectl" "gcloud" "terraform"];
+      plugins = [ "git" "sudo" "kubectl" "gcloud" "terraform" ];
     };
     shellAliases = {
       npf = "nix-prefetch-url --type sha256";
@@ -159,11 +163,11 @@
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-pipewire-audio-capture
-      obs-backgroundremoval
-      obs-multi-rtmp
-      (pkgs.callPackage ../../derivations/droidcam-obs.nix {})
+      # wlrobs
+      # obs-pipewire-audio-capture
+      # obs-backgroundremoval
+      # obs-multi-rtmp
+      droidcam-obs
     ];
   };
 
@@ -172,8 +176,8 @@
     config = {
       confirmation = false;
       report.minimal.filter = "status:pending";
-      report.active.columns = ["id" "start" "entry.age" "priority" "project" "due" "description"];
-      report.active.labels = ["ID" "Started" "Age" "Priority" "Project" "Due" "Description"];
+      report.active.columns = [ "id" "start" "entry.age" "priority" "project" "due" "description" ];
+      report.active.labels = [ "ID" "Started" "Age" "Priority" "Project" "Due" "Description" ];
     };
   };
 
@@ -188,32 +192,30 @@
     nix-direnv.enable = true;
   };
 
-  services.flameshot.enable = true;
-
   /*
-   gtk = {
-  enable = true;
-  theme = {
-  package = pkgs.nordic;
-  name = "Nordic-darker";
-  };
+    gtk = {
+    enable = true;
+    theme = {
+    package = pkgs.nordic;
+    name = "Nordic-darker";
+    };
 
-  iconTheme = {
-  package = pkgs.papirus-icon-theme;
-  name = "Papirus-Dark";
-  };
+    iconTheme = {
+    package = pkgs.papirus-icon-theme;
+    name = "Papirus-Dark";
+    };
 
-  gtk3.extraConfig = {
-  "gtk-application-prefer-dark-theme" = 0;
-  };
+    gtk3.extraConfig = {
+    "gtk-application-prefer-dark-theme" = 0;
+    };
 
-  gtk4.extraConfig = {
-  "gtk-application-prefer-dark-theme" = 0;
-  };
-  };
+    gtk4.extraConfig = {
+    "gtk-application-prefer-dark-theme" = 0;
+    };
+    };
   */
 
-  imports = [./vscode ./nvim];
+  imports = [ ./vscode ./nvim ];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";

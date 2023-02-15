@@ -30,8 +30,8 @@
       "[json]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
       "[nix]" = {"editor.defaultFormatter" = "jnoortheen.nix-ide";};
       "todo-tree.general.tags" = ["BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]"];
-      "window.titleBarStyle" = "custom";
-      "nix.formatterPath" = "nixfmt";
+      "window.titleBarStyle" = "native";
+      "nix.formatterPath" = "alejandra";
     };
   };
 }

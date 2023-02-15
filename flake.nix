@@ -1,13 +1,13 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix.url = "github:ryantm/agenix";
+    agenix.url = "github:ryantm/agenix/0.13.0";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     darwin = {
@@ -19,9 +19,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-
-    # ocaml-nix-updater.url = "github:ulrikstrid/ocaml-nix-updater";
-    # ocaml-nix-updater.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -44,6 +41,10 @@
           devShell =
             pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp agenix.packages.${system}.agenix ]; };
 
+          packages = {
+            obs-streamfx = pkgs.qt6Packages.callPackage ./derivations/obs-streamfx.nix { };
+          };
+
           formatter = pkgs.alejandra;
         });
     in
@@ -63,7 +64,6 @@
             path_to_image=$(cat ${self.packages.aarch64-linux.odroid-n2-installer}/nix-support/hydra-build-products | cut -d ' ' -f 3)
             ${zstd}/bin/zstd -d --stdout $path_to_image | ${coreutils}/bin/dd of=$1 bs=4096 conv=fsync status=progress
           '';
-
       };
 
       nixosConfigurations = {

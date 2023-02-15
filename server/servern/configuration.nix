@@ -1,14 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config
+, pkgs
+, ...
+}:
+let
   nodeIP = "192.168.1.101";
   nodeHostname = "servern";
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -26,7 +27,6 @@ in {
     ../shared/services/postgres.nix
     # ../shared/services/tandoor.nix
     ../shared/services/adguard.nix
-    # ../shared/services/ocaml-nix-updater.nix
     ../shared/services/hydra.nix
     ../shared/services/samba.nix
   ];
@@ -39,20 +39,20 @@ in {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelParams = ["cgroup_memory=1" "cgroup_enable=memory"];
-    binfmt.emulatedSystems = ["aarch64-linux"];
+    kernelParams = [ "cgroup_memory=1" "cgroup_enable=memory" ];
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   networking = {
     hostName = nodeHostname;
     extraHosts = "${nodeIP} ${nodeHostname}";
 
-    nameservers = ["192.168.1.1" "1.1.1.1" "1.0.0.1"];
+    nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
     # Open ports in the firewall
-    firewall = {enable = true;};
+    firewall = { enable = true; };
 
-    networkmanager = {enable = true;};
+    networkmanager = { enable = true; };
   };
 
   # Set your time zone.
@@ -66,7 +66,7 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [git wget vim bind nfs-utils];
+  environment.systemPackages = with pkgs; [ git wget vim bind nfs-utils ];
 
   # List services that you want to enable:
 

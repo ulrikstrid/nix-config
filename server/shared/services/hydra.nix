@@ -1,11 +1,12 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   narCache = "/var/cache/hydra/nar-cache";
-in {
+in
+{
   services.hydra = {
     enable = true;
     debugServer = false;
@@ -58,7 +59,7 @@ in {
         hostName = "192.168.1.25";
         maxJobs = 4;
         speedFactor = 4;
-        systems = ["x86_64-linux" "aarch64-linux"];
+        systems = [ "x86_64-linux" "aarch64-linux" ];
         sshUser = "hydra_builder";
         sshKey = "/var/lib/hydra/.ssh/id_servern2_hydra";
       }
@@ -66,7 +67,7 @@ in {
         hostName = "192.168.1.254";
         maxJobs = 4;
         speedFactor = 4;
-        systems = ["aarch64-darwin"];
+        systems = [ "aarch64-darwin" ];
         sshUser = "hydra";
         sshKey = "/var/lib/hydra/.ssh/id_m1mini_hydra";
       }
@@ -74,7 +75,7 @@ in {
         hostName = "192.168.1.111";
         maxJobs = 4;
         speedFactor = 1;
-        systems = ["aarch64-linux"];
+        systems = [ "aarch64-linux" ];
         sshUser = "hydra";
         sshKey = "/var/lib/hydra/.ssh/id_odroid_n2_01";
       }
@@ -85,26 +86,26 @@ in {
     github_authorizations = {
       file = ../secrets/github_authorizations.conf.age;
       owner = config.users.users.hydra.name;
-      group = config.users.users.hydra.group;
+      inherit (config.users.users.hydra) group;
       mode = "0440";
     };
     githubstatus = {
       file = ../secrets/githubstatus.conf.age;
       owner = config.users.users.hydra.name;
-      group = config.users.users.hydra.group;
+      inherit (config.users.users.hydra) group;
       mode = "0440";
     };
     signing_key = {
       file = ../secrets/hydra-signing-key.age;
       owner = config.users.users.hydra.name;
-      group = config.users.users.hydra.group;
+      inherit (config.users.users.hydra) group;
       mode = "0440";
     };
     aws_credentials = {
       file = ../secrets/hydra_aws_credentials.age;
       path = "${config.users.users.hydra-queue-runner.home}/.aws/credentials";
       owner = config.users.users.hydra-queue-runner.name;
-      group = config.users.users.hydra-queue-runner.group;
+      inherit (config.users.users.hydra-queue-runner) group;
       mode = "0440";
     };
   };

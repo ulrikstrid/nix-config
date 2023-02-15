@@ -1,26 +1,33 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  lib,
-  system,
-  ocaml-nix-updater,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, system
+, ...
+}:
+let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-laptop";
-  ocaml-nix-updater-app = ocaml-nix-updater.defaultPackage.${system};
-in {
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
+in
+
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
-    ../shared/xbox.nix
-    ../shared/kvm.nix
-    ../shared/pgadmin.nix
+    # ../shared/xbox.nix
+    # ../shared/kvm.nix
+    # ../shared/pgadmin.nix
   ];
 
   # High quality BT calls
@@ -30,7 +37,7 @@ in {
     hsphfpd.enable = true;
   };
 
-  age.identityPaths = ["/home/${user}/.ssh/id_ed25519"];
+  age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];
 
   hardware.brillo.enable = true;
   hardware.ledger.enable = true;
@@ -38,13 +45,13 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = ["amdgpu.backlight=0" "acpi_backlight=native"];
-  boot.kernelModules = ["i2c-dev" "i2c-i801"];
+  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
+  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.grub.extraConfig = ''
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -74,20 +81,28 @@ in {
     useXkbConfig = true;
   };
 
-  fonts.fonts = with pkgs; [fira-mono fira-code roboto roboto-mono];
+  fonts.fonts = with pkgs; [ fira-mono fira-code roboto roboto-mono ];
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+  services.thermald.enable = true;
+
+  # Disable the nvidia card to 
+  hardware.nvidiaOptimus.disable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   specialisation = {
     external-display.configuration = {
-      system.nixos.tags = ["external-display"];
+      system.nixos.tags = [ "external-display" ];
+      hardware.nvidia.modesetting.enable = lib.mkForce true;
+      hardware.nvidia.prime.sync.enable = lib.mkForce true;
       hardware.nvidia.prime.offload.enable = lib.mkForce false;
-      hardware.nvidia.prime.sync.enable = true;
-      hardware.nvidia.powerManagement.enable = lib.mkForce false;
+      hardware.nvidia.powerManagement.enable = lib.mkForce true;
+      # Enable the nvidia card
+      hardware.nvidiaOptimus.disable = lib.mkForce false;
+      services.thermald.enable = lib.mkForce false;
+
+      services.xserver.videoDrivers = lib.mkForce [
+        "nvidia"
+      ];
     };
   };
 
@@ -152,24 +167,29 @@ in {
     KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", MODE:="666", GROUP="plugdev"
   '';
 
+  services.fwupd.enable = true;
+
   /*
-  services.gnome = {
-  gnome-settings-daemon.enable = true;
-  gnome-online-accounts.enable = true;
-  experimental-features.realtime-scheduling = true;
+    services.gnome = {
+    gnome-settings-daemon.enable = true;
+    gnome-online-accounts.enable = true;
+    experimental-features.realtime-scheduling = true;
 
-  games.enable = true;
-  };
+    games.enable = true;
+    };
 
-  # Might be needed for gnome theming
-  # services.dbus.packages = with pkgs; [ gnome3.dconf ];
+    # Might be needed for gnome theming
+    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
+    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
   };
+
+  # Enable scanning documents
+  hardware.sane.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
@@ -178,10 +198,10 @@ in {
     isNormalUser = true;
     description = "Ulrik Strid";
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd" "plugdev"];
+    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd" "plugdev" "scanner" "lp" ];
   };
 
-  users.extraGroups.vboxusers.members = ["@wheel" user];
+  # users.extraGroups.vboxusers.members = [ "@wheel" user ];
 
   users.mutableUsers = false;
 
@@ -194,8 +214,10 @@ in {
     '';
 
     settings = {
-      allowed-users = ["@wheel" "@builders" user];
-      trusted-users = ["root" user];
+      max-jobs = 4;
+      cores = 2;
+      allowed-users = [ "@wheel" "@builders" user ];
+      trusted-users = [ "root" user ];
       substituters = [
         "https://cache.nixos.org/"
         "https://deku.cachix.org/"
@@ -211,19 +233,7 @@ in {
     };
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "vscode"
-        "slack"
-        "slack-dark"
-        "mongodb"
-        "teams"
-        "zoom-us"
-        "nvidia-x11"
-      ];
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -244,6 +254,7 @@ in {
   #   enableSSHSupport = true;
   # };
 
+  programs.dconf.enable = true;
   programs.droidcam.enable = true;
 
   programs.kdeconnect = {
@@ -251,20 +262,23 @@ in {
     # package = pkgs.gnomeExtensions.gsconnect;
   };
 
-  programs.evolution = {
+  programs.steam = {
     enable = true;
-    plugins = [pkgs.evolution-ews];
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   };
-
-  programs.steam.enable = true;
 
   # List services that you want to enable:
   services.onedrive.enable = true;
   services.acpid.enable = true;
   hardware.acpilight.enable = true;
-  services.power-profiles-daemon.enable = true;
   services.hardware.bolt.enable = true;
-  powerManagement.enable = true;
+
+  # Better battery life in theory
+  services.power-profiles-daemon.enable = true;
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+  };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -275,7 +289,7 @@ in {
       enableOnBoot = true;
       autoPrune = {
         enable = true;
-        flags = ["--all"];
+        flags = [ "--all" ];
       };
     };
   };
