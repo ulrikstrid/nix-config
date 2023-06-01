@@ -1,18 +1,18 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, git
-, obs-studio
-, ffmpeg
-, qtbase
-, curl
-, libaom
-, ninja
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  git,
+  obs-studio,
+  ffmpeg,
+  qtbase,
+  curl,
+  libaom,
+  ninja,
   # , nvidia-video-sdk
 }:
-
 stdenv.mkDerivation rec {
   pname = "obs-streamfx";
   version = "0.12.0b164";
@@ -24,8 +24,8 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ cmake pkg-config git curl ninja ];
-  buildInputs = [ obs-studio ffmpeg qtbase libaom ];
+  nativeBuildInputs = [cmake pkg-config git curl ninja];
+  buildInputs = [obs-studio ffmpeg qtbase libaom];
 
   postInstall = ''
     mkdir $out/lib $out/share

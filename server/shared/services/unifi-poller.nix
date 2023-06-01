@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }: {
   services.unpoller = {
     enable = true;
@@ -39,7 +40,7 @@
   };
 
   systemd.services.unifi-poller = {
-    serviceConfig.SupplementaryGroups = [ config.users.groups.keys.name ];
+    serviceConfig.SupplementaryGroups = [config.users.groups.keys.name];
   };
 
   age.secrets = with config; {

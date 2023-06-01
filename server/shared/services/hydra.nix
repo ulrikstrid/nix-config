@@ -1,12 +1,11 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
-let
-  narCache = "/var/cache/hydra/nar-cache";
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  narCache = "/var/cache/hydra/nar-cache";
+in {
   services.hydra = {
     enable = true;
     debugServer = false;
@@ -59,7 +58,7 @@ in
         hostName = "192.168.1.25";
         maxJobs = 4;
         speedFactor = 4;
-        systems = [ "x86_64-linux" "aarch64-linux" ];
+        systems = ["x86_64-linux" "aarch64-linux"];
         sshUser = "hydra_builder";
         sshKey = "/var/lib/hydra/.ssh/id_servern2_hydra";
       }
@@ -67,7 +66,7 @@ in
         hostName = "192.168.1.254";
         maxJobs = 4;
         speedFactor = 4;
-        systems = [ "aarch64-darwin" ];
+        systems = ["aarch64-darwin"];
         sshUser = "hydra";
         sshKey = "/var/lib/hydra/.ssh/id_m1mini_hydra";
       }
@@ -75,7 +74,7 @@ in
         hostName = "192.168.1.111";
         maxJobs = 4;
         speedFactor = 1;
-        systems = [ "aarch64-linux" ];
+        systems = ["aarch64-linux"];
         sshUser = "hydra";
         sshKey = "/var/lib/hydra/.ssh/id_odroid_n2_01";
       }

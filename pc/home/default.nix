@@ -1,8 +1,14 @@
-{ config
-, pkgs
-, lib
-, ...
-}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  google-cloud-sdk-c = pkgs.google-cloud-sdk.withExtraComponents (with pkgs.google-cloud-sdk.components; [
+    cloud-build-local
+    gke-gcloud-auth-plugin
+  ]);
+in {
   home.packages = with pkgs; [
     # gui
     bitwarden
@@ -13,12 +19,14 @@
     pavucontrol
     signal-desktop
     slack
-    zoom-us
+    psensor
+    # zoom-us
     lutris
     postman
     ferdium
     element-desktop
     chromium
+    microsoft-edge
     ledger-live-desktop
 
     # laptop rgb
@@ -31,11 +39,11 @@
     jq
     neofetch
     scrcpy
-    xboxdrv
+    # xboxdrv
     hub
-    license-generator
+    # license-generator
     gnumake
-    git-crypt
+    # git-crypt
 
     # cloud
     kubectl
@@ -44,7 +52,7 @@
     fluxcd
     terraform
     terraform-ls
-    google-cloud-sdk
+    google-cloud-sdk-c
 
     # dev
     shellcheck
@@ -57,8 +65,8 @@
     alejandra
 
     # Lua (neovim)
-    sumneko-lua-language-server
-    stylua
+    # sumneko-lua-language-server
+    # stylua
 
     # encryption
     sops
@@ -66,44 +74,17 @@
 
     # KDE
     libsForQt5.kcalc
-    libsForQt5.kmail
-    libsForQt5.kalendar
-    libsForQt5.kontact
     libsForQt5.kolourpaint
     libsForQt5.plasma-browser-integration
     libsForQt5.ark
-
-    # gnome
-    /*
-      gtk-engine-murrine
-      gnome.gnome-tweaks
-      gnome.gnome-themes-extra
-      gnome.gnome-control-center
-      gnomeExtensions.arcmenu
-      gnomeExtensions.autohide-battery
-      gnomeExtensions.bluetooth-quick-connect
-      gnomeExtensions.blur-my-shell
-      gnomeExtensions.dash-to-dock
-      gnomeExtensions.espresso
-      gnomeExtensions.gsconnect
-      gnomeExtensions.krypto
-      gnomeExtensions.sermon
-      gnomeExtensions.taskwhisperer
-      gnomeExtensions.tiling-assistant
-      gnomeExtensions.timezone
-      gnomeExtensions.user-themes
-      gnomeExtensions.vitals
-
-      # gnome themes
-      nordzy-cursor-theme
-      papirus-icon-theme
-      nordic
-    */
+    libsForQt5.skanpage
+    libsForQt5.powerdevil
   ];
 
   home.sessionVariables = {
     EDITOR = "nvim";
     SHELL = "zsh";
+    USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
   };
 
   programs.git = {
@@ -119,11 +100,11 @@
       push = {
         autoSetupRemote = "true";
       };
-      rebase = { autosquash = "true"; };
+      rebase = {autosquash = "true";};
       init.defaultBranch = "main";
     };
 
-    ignores = [ "_build" "_esy" ".env" ];
+    ignores = ["_build" "_esy" ".env"];
   };
 
   programs.gh = {
@@ -141,7 +122,7 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     enableSyntaxHighlighting = true;
-    cdpath = [ "~/dev" ];
+    cdpath = ["~/dev"];
     initExtra = ''export XDG_DATA_HOME="$HOME/.local/share"'';
     dirHashes = {
       dev = "$HOME/dev";
@@ -151,7 +132,7 @@
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = [ "git" "sudo" "kubectl" "gcloud" "terraform" ];
+      plugins = ["direnv" "kubectl" "gcloud"];
     };
     shellAliases = {
       npf = "nix-prefetch-url --type sha256";
@@ -176,8 +157,8 @@
     config = {
       confirmation = false;
       report.minimal.filter = "status:pending";
-      report.active.columns = [ "id" "start" "entry.age" "priority" "project" "due" "description" ];
-      report.active.labels = [ "ID" "Started" "Age" "Priority" "Project" "Due" "Description" ];
+      report.active.columns = ["id" "start" "entry.age" "priority" "project" "due" "description"];
+      report.active.labels = ["ID" "Started" "Age" "Priority" "Project" "Due" "Description"];
     };
   };
 
@@ -192,30 +173,37 @@
     nix-direnv.enable = true;
   };
 
-  /*
-    gtk = {
+  programs.kitty = {
     enable = true;
-    theme = {
-    package = pkgs.nordic;
-    name = "Nordic-darker";
-    };
+    theme = "Night Owl";
+    font.name = "Fira Code";
+    font.package = pkgs.fira-code;
+  };
 
-    iconTheme = {
-    package = pkgs.papirus-icon-theme;
-    name = "Papirus-Dark";
-    };
+  /*
+  gtk = {
+  enable = true;
+  theme = {
+  package = pkgs.nordic;
+  name = "Nordic-darker";
+  };
 
-    gtk3.extraConfig = {
-    "gtk-application-prefer-dark-theme" = 0;
-    };
+  iconTheme = {
+  package = pkgs.papirus-icon-theme;
+  name = "Papirus-Dark";
+  };
 
-    gtk4.extraConfig = {
-    "gtk-application-prefer-dark-theme" = 0;
-    };
-    };
+  gtk3.extraConfig = {
+  "gtk-application-prefer-dark-theme" = 0;
+  };
+
+  gtk4.extraConfig = {
+  "gtk-application-prefer-dark-theme" = 0;
+  };
+  };
   */
 
-  imports = [ ./vscode ./nvim ];
+  imports = [./vscode ./nvim];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";

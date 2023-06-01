@@ -1,11 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
     extensions =
-      pkgs.vscode-utils.extensionsFromVscodeMarketplace
-      (import ./extensions.nix).extensions
-      ++ [pkgs.vscode-extensions.ms-vsliveshare.vsliveshare];
+      [pkgs.vscode-extensions.ms-vsliveshare.vsliveshare]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
       "editor.fontLigatures" = true;
@@ -18,7 +21,7 @@
       "telemetry.enableTelemetry" = false;
       "terminal.integrated.shell.linux" = "zsh";
       "terminal.integrated.shell.osx" = "zsh";
-      "workbench.colorTheme" = "Nord Deep";
+      "workbench.colorTheme" = "Night Owl";
       "workbench.iconTheme" = "material-icon-theme";
       "nix.enableLanguageServer" = true;
       "[typescript]" = {

@@ -1,26 +1,17 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, lib
-, system
-, ...
-}:
-let
+{
+  config,
+  pkgs,
+  lib,
+  system,
+  ...
+}: let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-laptop";
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
-in
-
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -37,7 +28,7 @@ in
     hsphfpd.enable = true;
   };
 
-  age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];
+  age.identityPaths = ["/home/${user}/.ssh/id_ed25519"];
 
   hardware.brillo.enable = true;
   hardware.ledger.enable = true;
@@ -45,13 +36,14 @@ in
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
+  boot.kernelParams = ["amdgpu.backlight=0" "acpi_backlight=native"];
+  boot.kernelModules = ["i2c-dev" "i2c-i801"];
+  boot.extraModulePackages = [config.boot.kernelPackages.lenovo-legion-module];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.grub.extraConfig = ''
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -81,27 +73,41 @@ in
     useXkbConfig = true;
   };
 
-  fonts.fonts = with pkgs; [ fira-mono fira-code roboto roboto-mono ];
+  fonts.fonts = with pkgs; [fira-mono fira-code roboto roboto-mono];
 
   services.thermald.enable = true;
 
-  # Disable the nvidia card to 
-  hardware.nvidiaOptimus.disable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.prime.sync.enable = true;
+  hardware.nvidia.prime.offload.enable = false;
+  # Enable the nvidia card
+  hardware.nvidiaOptimus.disable = false;
+
+  services.xserver.videoDrivers = [
+    "nvidia"
+  ];
+
+  systemd.services.nvidia-control-devices = {
+    wantedBy = ["multi-user.target"];
+    serviceConfig.ExecStart = "${pkgs.linuxPackages.nvidia_x11.bin}/bin/nvidia-smi";
+  };
 
   specialisation = {
-    external-display.configuration = {
-      system.nixos.tags = [ "external-display" ];
-      hardware.nvidia.modesetting.enable = lib.mkForce true;
-      hardware.nvidia.prime.sync.enable = lib.mkForce true;
-      hardware.nvidia.prime.offload.enable = lib.mkForce false;
+    no-gpu.configuration = {
+      system.nixos.tags = ["no-gpu"];
+      hardware.nvidia.modesetting.enable = lib.mkForce false;
+      hardware.nvidia.prime.offload.enable = lib.mkForce true;
+      hardware.nvidia.prime.sync.enable = lib.mkForce false;
       hardware.nvidia.powerManagement.enable = lib.mkForce true;
-      # Enable the nvidia card
-      hardware.nvidiaOptimus.disable = lib.mkForce false;
-      services.thermald.enable = lib.mkForce false;
+      # Disable the nvidia card
+      # hardware.nvidiaOptimus.disable = lib.mkForce true;
 
       services.xserver.videoDrivers = lib.mkForce [
-        "nvidia"
+        "nouveau"
+        "modesetting"
+        "fbdev"
       ];
     };
   };
@@ -133,6 +139,7 @@ in
     # Enable the KDE Desktop Environment.
     displayManager.sddm = {
       enable = true;
+      enableHidpi = true;
       # wayland = true;
     };
 
@@ -170,22 +177,22 @@ in
   services.fwupd.enable = true;
 
   /*
-    services.gnome = {
-    gnome-settings-daemon.enable = true;
-    gnome-online-accounts.enable = true;
-    experimental-features.realtime-scheduling = true;
+  services.gnome = {
+  gnome-settings-daemon.enable = true;
+  gnome-online-accounts.enable = true;
+  experimental-features.realtime-scheduling = true;
 
-    games.enable = true;
-    };
+  games.enable = true;
+  };
 
-    # Might be needed for gnome theming
-    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  # Might be needed for gnome theming
+  # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
+    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
   };
 
   # Enable scanning documents
@@ -198,7 +205,12 @@ in
     isNormalUser = true;
     description = "Ulrik Strid";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "i2c" "vboxusers" "libvirtd" "plugdev" "scanner" "lp" ];
+    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "vboxusers" "libvirtd" "scanner" "lp"];
+  };
+
+  users.groups.plugdev = {
+    name = "plugdev";
+    members = [user];
   };
 
   # users.extraGroups.vboxusers.members = [ "@wheel" user ];
@@ -216,24 +228,23 @@ in
     settings = {
       max-jobs = 4;
       cores = 2;
-      allowed-users = [ "@wheel" "@builders" user ];
-      trusted-users = [ "root" user ];
+      allowed-users = ["@wheel" "@builders" user];
+      trusted-users = ["root" user];
       substituters = [
         "https://cache.nixos.org/"
-        "https://deku.cachix.org/"
-        "https://anmonteiro.nix-cache.workers.dev/"
         "https://nixpkgs-update.cachix.org/"
+        "https://cuda-maintainers.cachix.org/"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "deku.cachix.org-1:wvaU5hkNzFLc8euHNB7BAvfr1jWvTPC3t4CnbRV5DxM="
-        "anmonteiro.cachix.org-1:KF3QRoMrdmPVIol+I2FGDcv7M7yUajp4F2lt0567VA4="
         "nixpkgs-update.cachix.org-1:6y6Z2JdoL3APdu6/+Iy8eZX2ajf09e4EE9SnxSML1W8="
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
     };
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -244,7 +255,26 @@ in
     mkpasswd
     i2c-tools
     brightnessctl
+    pciutils
+    cudatoolkit
+    lenovo-legion
   ];
+
+  security.polkit.enable = true;
+  /*
+  Good snippet for debugging polkit
+  security.polkit.debug = true;
+  security.polkit.extraConfig = ''
+  polkit.addRule(function(action, subject) {
+  // Make sure to set { security.polkit.debug = true; } in configuration.nix
+  polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
+  });
+
+  polkit.addRule(function (action, subject) {
+  if (subject.local) return polkit.Result.YES;
+  });
+  '';
+  */
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -253,6 +283,8 @@ in
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.zsh.enable = true;
 
   programs.dconf.enable = true;
   programs.droidcam.enable = true;
@@ -289,7 +321,7 @@ in
       enableOnBoot = true;
       autoPrune = {
         enable = true;
-        flags = [ "--all" ];
+        flags = ["--all"];
       };
     };
   };

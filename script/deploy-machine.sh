@@ -41,9 +41,6 @@ case $TARGET in
     ;;
   "nuc-01")
     target_found
-    # nix-build ./krops.nix -A nuc-01 --show-trace
-    # sync_success
-    # ./result 
     nixos-rebuild --flake .\#nuc-01 \
       --target-host root@192.168.1.100 switch $2
     deploy_success
@@ -62,9 +59,9 @@ case $TARGET in
     ;;
   "nixos-laptop")
     target_found
-    # echo "Syncing vscode extensions..."
+    echo "Syncing vscode extensions..."
     # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
-    # echo "Syncing done."
+    echo "Syncing done."
     export NIXPKGS_ALLOW_UNFREE=1
     nixos-rebuild --flake .\#nixos-laptop switch --use-remote-sudo $2
     deploy_success

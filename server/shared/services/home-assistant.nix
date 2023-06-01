@@ -1,12 +1,13 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }: {
   services.home-assistant = {
     package =
       (pkgs.home-assistant.override {
-        extraComponents = [ "default_config" "esphome" ];
+        extraComponents = ["default_config" "esphome"];
 
         extraPackages = py: [
           pkgs.openzwave
@@ -66,15 +67,16 @@
           py.zigpy-znp
           py.zwave-js-server-python
         ];
-      }).overrideAttrs (_: {
-        tests = [ ];
+      })
+      .overrideAttrs (_: {
+        tests = [];
         doInstallCheck = false;
       });
 
     enable = true;
 
     config = {
-      tts = [{ platform = "google_translate"; }];
+      tts = [{platform = "google_translate";}];
 
       homeassistant = {
         name = "Home";
@@ -102,16 +104,16 @@
         project_id = "home-assistant-d8169";
         service_account = "!include ${config.age.secrets.home-assistant-google_assistant.path}";
         report_state = true;
-        exposed_domains = [ "light" "climate" "vacuum" ];
+        exposed_domains = ["light" "climate" "vacuum"];
         entity_config = {
-          "switch.lampor_baksida" = { };
-          "switch.lampor_framsida" = { name = "Lampor framsida hus"; };
-          "switch.lampor_framsida_2" = { name = "Lampa framsida stolpe"; };
-          "switch.window_lamp" = { name = "Fönsterlampa"; };
+          "switch.lampor_baksida" = {};
+          "switch.lampor_framsida" = {name = "Lampor framsida hus";};
+          "switch.lampor_framsida_2" = {name = "Lampa framsida stolpe";};
+          "switch.window_lamp" = {name = "Fönsterlampa";};
         };
       };
 
-      frontend = { themes = "!include_dir_merge_named themes"; };
+      frontend = {themes = "!include_dir_merge_named themes";};
 
       http = {
         server_port = 8123;
@@ -119,13 +121,13 @@
         trusted_proxies = "192.168.1.101";
       };
 
-      default_config = { };
+      default_config = {};
     };
 
     configDir = "/mnt/homeassistant";
   };
 
-  environment.systemPackages = with pkgs; [ home-assistant-cli ];
+  environment.systemPackages = with pkgs; [home-assistant-cli];
 
   networking.firewall.allowedTCPPorts = [
     8123 # http

@@ -26,7 +26,6 @@ in {
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiInstallAsRemovable = true;
@@ -46,6 +45,7 @@ in {
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.enp38s0.useDHCP = true;
+  networking.nameservers = ["192.168.1.101"];
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -68,6 +68,20 @@ in {
     mkpasswd
     # home-manager
   ];
+
+  # Tezos test
+  services.tezos-node = {
+    enable = true;
+    tezosNetwork = "https://teztnets.xyz/ghostnet";
+    snapshotUrl = "https://snapshots.tezos.marigold.dev/api/ghostnet/rolling";
+    historyMode = "rolling";
+  };
+
+  services.tezos-baking = {
+    enable = true;
+    tezosNetwork = "https://teztnets.xyz/ghostnet";
+    keyAlias = "ledger_root";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

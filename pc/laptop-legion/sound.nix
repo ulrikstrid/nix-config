@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, options
-, ...
+{
+  config,
+  pkgs,
+  options,
+  ...
 }: {
   sound.enable = true;
 

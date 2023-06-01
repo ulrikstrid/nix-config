@@ -19,43 +19,45 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
+
+    tezos.url = "github:marigold-dev/tezos-nix/main";
+    tezos.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , nixos-hardware
-    , darwin
-    , flake-utils
-    , nixos-generators
-    , agenix
-    , ...
-    }:
-    let
-      perSystem = flake-utils.lib.eachDefaultSystem (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          devShell =
-            pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp agenix.packages.${system}.agenix ]; };
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixos-hardware,
+    darwin,
+    flake-utils,
+    nixos-generators,
+    agenix,
+    tezos,
+    ...
+  }: let
+    perSystem = flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      devShell =
+        pkgs.mkShell {buildInputs = [pkgs.nixpkgs-fmt pkgs.rnix-lsp agenix.packages.${system}.agenix];};
 
-          packages = {
-            obs-streamfx = pkgs.qt6Packages.callPackage ./derivations/obs-streamfx.nix { };
-          };
+      packages = {
+        obs-streamfx = pkgs.qt6Packages.callPackage ./derivations/obs-streamfx.nix {};
+      };
 
-          formatter = pkgs.alejandra;
-        });
-    in
+      formatter = pkgs.alejandra;
+    });
+  in
     {
       packages.aarch64-linux = {
         odroid-n2-installer =
           (import ./pc/odroid-n2-01 {
             inherit nixos-generators nixpkgs;
             system = "aarch64-linux";
-            pkgs = import nixpkgs { system = "aarch64-linux"; };
-          }).installer;
+            pkgs = import nixpkgs {system = "aarch64-linux";};
+          })
+          .installer;
       };
 
       packages.x86_64-linux = {
@@ -69,7 +71,7 @@
       nixosConfigurations = {
         servern = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
+          specialArgs = {inherit system;};
           modules = [
             ./server/servern/configuration.nix
             agenix.nixosModule
@@ -78,59 +80,74 @@
 
         servern2 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          modules = [ ./server/servern2/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [
+            tezos.nixosModules.x86_64-linux_tezos-node
+            tezos.nixosModules.x86_64-linux_tezos-baking
+            ./server/servern2/configuration.nix
+            agenix.nixosModule
+          ];
         };
 
         nuc-01 = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          modules = [ ./server/nuc-01/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [./server/nuc-01/configuration.nix agenix.nixosModule];
         };
 
         odroid-n2-01 = nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
-          specialArgs = { inherit system; };
-          modules = [ ./pc/odroid-n2-01/configuration.nix agenix.nixosModule ];
+          specialArgs = {inherit system;};
+          modules = [
+            ./pc/odroid-n2-01/configuration.nix
+            agenix.nixosModule
+          ];
         };
 
         nixos-laptop = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          pkgs = import nixpkgs {
-            config.allowUnfree = true;
-            inherit system;
-            overlays = [
-              (self: super: {
-                python310 = super.python310.override {
-                  packageOverrides = python-self: python-super: {
-                    streamdeck = python-super.streamdeck.overrideAttrs (oldAttrs: {
-                      src = super.fetchFromGitHub {
-                        owner = "ulrikstrid";
-                        repo = "python-elgato-streamdeck";
-                        rev = "ulrikstrid--streamdeck-plus";
-                        sha256 = "sha256-aTxfNPYC7GEd7CrH2NBbAFe5DpswzrE0n0VIlozo2J0=";
-                      };
+          specialArgs = {inherit system;};
+          pkgs =
+            import nixpkgs
+            {
+              config.allowUnfree = true;
+              inherit system;
+              overlays = [
+                (self: super: {
+                  python310 = super.python310.override {
+                    packageOverrides = python-self: python-super: {
+                      streamdeck = python-super.streamdeck.overrideAttrs (oldAttrs: {
+                        src = super.fetchFromGitHub {
+                          owner = "ulrikstrid";
+                          repo = "python-elgato-streamdeck";
+                          rev = "ulrikstrid--streamdeck-plus";
+                          sha256 = "sha256-aTxfNPYC7GEd7CrH2NBbAFe5DpswzrE0n0VIlozo2J0=";
+                        };
 
-                      propagatedBuildInputs = with super;
+                        propagatedBuildInputs = with super;
                         with python-self; [
                           wheel
                           pillow
                         ];
 
-                      patches = [
-                        # substitute libusb path
-                        (super.substituteAll {
-                          src = ./derivations/streamdeck-hardcode-libusb.patch;
-                          hidapi = "${pkgs.hidapi}/lib/libhidapi-libusb${super.stdenv.hostPlatform.extensions.sharedLibrary}";
-                        })
-                      ];
-                    });
+                        patches = [
+                          # substitute libusb path
+                          (super.substituteAll {
+                            src = ./derivations/streamdeck-hardcode-libusb.patch;
+                            hidapi = "${pkgs.hidapi}/lib/libhidapi-libusb${super.stdenv.hostPlatform.extensions.sharedLibrary}";
+                          })
+                        ];
+                      });
+                    };
                   };
-                };
-              })
-            ];
-          };
+                })
+              ];
+            }
+            // {
+              octez-node = tezos.packages.${system}.octez-node;
+              octez-baker = tezos.packages.${system}.octez-baker-PtMumbai;
+              octez-accuser = tezos.packages.${system}.octez-accuser-PtMumbai;
+            };
           modules = [
             nixos-hardware.nixosModules.lenovo-legion-16ithg6
             nixpkgs.nixosModules.notDetected
@@ -148,7 +165,7 @@
 
       darwinConfigurations."m1-mini" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        modules = [ ./server/m1-mini/configuration.nix ];
+        modules = [./server/m1-mini/configuration.nix];
       };
 
       hydraJobs = {

@@ -1,6 +1,4 @@
-{ pkgs }:
-
-let
+{pkgs}: let
   pname = "nvchad";
   version = "1.0";
 
@@ -12,7 +10,7 @@ let
   };
 
   launcher = pkgs.writeScript "nvchad" ''
-    export PATH="${pkgs.lib.makeBinPath [ pkgs.coreutils pkgs.neovim pkgs.ripgrep pkgs.fd pkgs.ueberzug ]}"
+    export PATH="${pkgs.lib.makeBinPath [pkgs.coreutils pkgs.neovim pkgs.ripgrep pkgs.fd pkgs.ueberzug]}"
     export XDG_CONFIG_HOME=$(mktemp -d)
 
     # FIXME: Use the real XDG_CONFIG_HOME or fallback to $HOME/.config
@@ -33,11 +31,11 @@ let
     exec nvim "$@"
   '';
 in
-pkgs.stdenv.mkDerivation rec {
-  inherit src version pname;
+  pkgs.stdenv.mkDerivation rec {
+    inherit src version pname;
 
-  installPhase = ''
-    mkdir -p $out/bin
-    ln -s ${launcher} $out/bin/nvchad
-  '';
-}
+    installPhase = ''
+      mkdir -p $out/bin
+      ln -s ${launcher} $out/bin/nvchad
+    '';
+  }
