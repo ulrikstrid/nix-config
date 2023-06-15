@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
   google-cloud-sdk-c = pkgs.google-cloud-sdk.withExtraComponents (with pkgs.google-cloud-sdk.components; [
     cloud-build-local
     gke-gcloud-auth-plugin
   ]);
-in {
+in
+{
   home.packages = with pkgs; [
     # gui
     bitwarden
@@ -100,11 +101,11 @@ in {
       push = {
         autoSetupRemote = "true";
       };
-      rebase = {autosquash = "true";};
+      rebase = { autosquash = "true"; };
       init.defaultBranch = "main";
     };
 
-    ignores = ["_build" "_esy" ".env"];
+    ignores = [ "_build" "_esy" ".env" ];
   };
 
   programs.gh = {
@@ -122,7 +123,7 @@ in {
     enableAutosuggestions = true;
     enableCompletion = true;
     enableSyntaxHighlighting = true;
-    cdpath = ["~/dev"];
+    cdpath = [ "~/dev" ];
     initExtra = ''export XDG_DATA_HOME="$HOME/.local/share"'';
     dirHashes = {
       dev = "$HOME/dev";
@@ -132,7 +133,7 @@ in {
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = ["direnv" "kubectl" "gcloud"];
+      plugins = [ "direnv" "kubectl" "gcloud" ];
     };
     shellAliases = {
       npf = "nix-prefetch-url --type sha256";
@@ -157,8 +158,8 @@ in {
     config = {
       confirmation = false;
       report.minimal.filter = "status:pending";
-      report.active.columns = ["id" "start" "entry.age" "priority" "project" "due" "description"];
-      report.active.labels = ["ID" "Started" "Age" "Priority" "Project" "Due" "Description"];
+      report.active.columns = [ "id" "start" "entry.age" "priority" "project" "due" "description" ];
+      report.active.labels = [ "ID" "Started" "Age" "Priority" "Project" "Due" "Description" ];
     };
   };
 
@@ -180,30 +181,7 @@ in {
     font.package = pkgs.fira-code;
   };
 
-  /*
-  gtk = {
-  enable = true;
-  theme = {
-  package = pkgs.nordic;
-  name = "Nordic-darker";
-  };
-
-  iconTheme = {
-  package = pkgs.papirus-icon-theme;
-  name = "Papirus-Dark";
-  };
-
-  gtk3.extraConfig = {
-  "gtk-application-prefer-dark-theme" = 0;
-  };
-
-  gtk4.extraConfig = {
-  "gtk-application-prefer-dark-theme" = 0;
-  };
-  };
-  */
-
-  imports = [./vscode ./nvim];
+  imports = [ ./vscode ./nvim ./i3.nix ];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";
