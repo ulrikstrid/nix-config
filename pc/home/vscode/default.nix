@@ -1,13 +1,12 @@
-{
-  pkgs,
-  lib,
-  ...
+{ pkgs
+, lib
+, ...
 }: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
     extensions =
-      [pkgs.vscode-extensions.ms-vsliveshare.vsliveshare]
+      [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
@@ -27,13 +26,17 @@
       "[typescript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
+      "[TypeScript JSX]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
       "[javascript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
-      "[json]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
-      "[nix]" = {"editor.defaultFormatter" = "jnoortheen.nix-ide";};
-      "todo-tree.general.tags" = ["BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]"];
+      "[json]" = { "editor.defaultFormatter" = "esbenp.prettier-vscode"; };
+      "[nix]" = { "editor.defaultFormatter" = "jnoortheen.nix-ide"; };
+      "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
       "window.titleBarStyle" = "native";
+      "window.zoomLevel" = "0";
       "nix.formatterPath" = "alejandra";
     };
   };

@@ -1,17 +1,18 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  lib,
-  system,
-  ...
-}: let
+{ config
+, pkgs
+, lib
+, system
+, ...
+}:
+let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-laptop";
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -19,6 +20,7 @@ in {
     # ../shared/xbox.nix
     # ../shared/kvm.nix
     # ../shared/pgadmin.nix
+    ./nvidia.nix
   ];
 
   # High quality BT calls
@@ -28,7 +30,7 @@ in {
     hsphfpd.enable = true;
   };
 
-  age.identityPaths = ["/home/${user}/.ssh/id_ed25519"];
+  age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];
 
   hardware.brillo.enable = true;
   hardware.ledger.enable = true;
@@ -36,14 +38,14 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = ["amdgpu.backlight=0" "acpi_backlight=native"];
-  boot.kernelModules = ["i2c-dev" "i2c-i801"];
-  boot.extraModulePackages = [config.boot.kernelPackages.lenovo-legion-module];
+  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
+  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.lenovo-legion-module ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.grub.extraConfig = ''
     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
   '';
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -73,43 +75,27 @@ in {
     useXkbConfig = true;
   };
 
-  fonts.fonts = with pkgs; [fira-mono fira-code roboto roboto-mono];
+  fonts.packages = with pkgs; [ fira-mono fira-code roboto roboto-mono ];
 
   services.thermald.enable = true;
 
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.prime.sync.enable = true;
-  hardware.nvidia.prime.offload.enable = false;
-  # Enable the nvidia card
-  hardware.nvidiaOptimus.disable = false;
-
-  services.xserver.videoDrivers = [
-    "nvidia"
-  ];
-
-  systemd.services.nvidia-control-devices = {
-    wantedBy = ["multi-user.target"];
-    serviceConfig.ExecStart = "${pkgs.linuxPackages.nvidia_x11.bin}/bin/nvidia-smi";
-  };
-
   specialisation = {
     no-gpu.configuration = {
-      system.nixos.tags = ["no-gpu"];
-      hardware.nvidia.modesetting.enable = lib.mkForce false;
+      system.nixos.tags = [ "no-gpu" ];
       hardware.nvidia.prime.offload.enable = lib.mkForce true;
       hardware.nvidia.prime.sync.enable = lib.mkForce false;
-      hardware.nvidia.powerManagement.enable = lib.mkForce true;
       # Disable the nvidia card
-      # hardware.nvidiaOptimus.disable = lib.mkForce true;
-
-      services.xserver.videoDrivers = lib.mkForce [
-        "nouveau"
-        "modesetting"
-        "fbdev"
-      ];
+      hardware.nvidiaOptimus.disable = lib.mkForce false;
+      hardware.nvidia.powerManagement.finegrained = lib.mkForce true;
     };
+    # This doesn't seem to work correctly, remove for now
+    # no-gpu-ext-d.configuration = {
+    #   system.nixos.tags = [ "no-gpu-ext-d" ];
+    #   hardware.nvidia.prime.offload.enable = lib.mkForce false;
+    # Disable the nvidia card
+    #   hardware.nvidiaOptimus.disable = lib.mkForce true;
+    #   hardware.nvidia.powerManagement.finegrained = lib.mkForce false;
+    # };
   };
 
   hardware.logitech = {
@@ -177,22 +163,22 @@ in {
   services.fwupd.enable = true;
 
   /*
-  services.gnome = {
-  gnome-settings-daemon.enable = true;
-  gnome-online-accounts.enable = true;
-  experimental-features.realtime-scheduling = true;
+    services.gnome = {
+    gnome-settings-daemon.enable = true;
+    gnome-online-accounts.enable = true;
+    experimental-features.realtime-scheduling = true;
 
-  games.enable = true;
-  };
+    games.enable = true;
+    };
 
-  # Might be needed for gnome theming
-  # services.dbus.packages = with pkgs; [ gnome3.dconf ];
+    # Might be needed for gnome theming
+    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
+    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
   };
 
   # Enable scanning documents
@@ -205,12 +191,12 @@ in {
     isNormalUser = true;
     description = "Ulrik Strid";
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "vboxusers" "libvirtd" "scanner" "lp"];
+    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "vboxusers" "libvirtd" "scanner" "lp" ];
   };
 
   users.groups.plugdev = {
     name = "plugdev";
-    members = [user];
+    members = [ user ];
   };
 
   # users.extraGroups.vboxusers.members = [ "@wheel" user ];
@@ -228,8 +214,8 @@ in {
     settings = {
       max-jobs = 4;
       cores = 2;
-      allowed-users = ["@wheel" "@builders" user];
-      trusted-users = ["root" user];
+      allowed-users = [ "@wheel" "@builders" user ];
+      trusted-users = [ "root" user ];
       substituters = [
         "https://cache.nixos.org/"
         "https://nixpkgs-update.cachix.org/"
@@ -262,18 +248,18 @@ in {
 
   security.polkit.enable = true;
   /*
-  Good snippet for debugging polkit
-  security.polkit.debug = true;
-  security.polkit.extraConfig = ''
-  polkit.addRule(function(action, subject) {
-  // Make sure to set { security.polkit.debug = true; } in configuration.nix
-  polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
-  });
+    Good snippet for debugging polkit
+    security.polkit.debug = true;
+    security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+    // Make sure to set { security.polkit.debug = true; } in configuration.nix
+    polkit.log("user " +  subject.user + " is attempting action " + action.id + " from PID " + subject.pid);
+    });
 
-  polkit.addRule(function (action, subject) {
-  if (subject.local) return polkit.Result.YES;
-  });
-  '';
+    polkit.addRule(function (action, subject) {
+    if (subject.local) return polkit.Result.YES;
+    });
+    '';
   */
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -321,7 +307,7 @@ in {
       enableOnBoot = true;
       autoPrune = {
         enable = true;
-        flags = ["--all"];
+        flags = [ "--all" ];
       };
     };
   };
