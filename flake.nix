@@ -97,9 +97,9 @@
 
         odroid-n2-01 = nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
-          specialArgs = {inherit system;};
+          specialArgs = { inherit system; };
           modules = [
-            ./pc/odroid-n2-01/configuration.nix
+            ./server/odroid-n2-01/configuration.nix
             agenix.nixosModule
           ];
         };
