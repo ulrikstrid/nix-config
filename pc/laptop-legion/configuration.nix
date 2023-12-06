@@ -72,7 +72,21 @@ in
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "sv_SE.UTF-8";
+  i18n.supportedLocales = [
+    (config.i18n.defaultLocale + "/UTF-8")
+    "en_US.UTF-8/UTF-8"
+  ];
+  i18n.extraLocaleSettings = {
+    LANG = "sv_SE.UTF-8";
+    LC_ADDRESS = "sv_SE.UTF-8";
+    LC_NAME = "sv_SE.UTF-8";
+    LC_TELEPHONE = "sv_SE.UTF-8";
+    LC_TIME = "sv_SE.UTF-8";
+    LC_CTYPE = "sv_SE.UTF-8";
+    LC_MESSAGES = "sv_SE.UTF-8";
+    LC_COLLATE = "sv_SE.UTF-8";
+  };
   console = {
     font = "Lat2-Terminus16";
     useXkbConfig = true;
