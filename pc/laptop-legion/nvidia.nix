@@ -27,10 +27,10 @@ in
   hardware.nvidiaOptimus.disable = false;
 
   # NVIDIA drivers are unfree.
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
-    ];
+  # nixpkgs.config.allowUnfreePredicate = pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "nvidia-x11"
+  #   ];
 
   # Tell Xorg to use the nvidia driver
   services.xserver.videoDrivers = [ "nvidia" ];

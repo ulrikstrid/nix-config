@@ -20,13 +20,28 @@ in
     # ../shared/xbox.nix
     # ../shared/kvm.nix
     # ../shared/pgadmin.nix
+    ./printer.nix
     ./nvidia.nix
   ];
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.extraConfig = ''
+    GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
+  '';
+  boot.loader.grub.useOSProber = true;
+
+  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
+  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.lenovo-legion-module ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # High quality BT calls
   hardware.bluetooth = {
     enable = true;
-    package = pkgs.bluezFull;
+    package = pkgs.bluez;
     hsphfpd.enable = true;
   };
 
@@ -34,18 +49,6 @@ in
 
   hardware.brillo.enable = true;
   hardware.ledger.enable = true;
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.lenovo-legion-module ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.grub.extraConfig = ''
-    GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amdgpu.backlight=0"
-  '';
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking.hostName = "${hostName}"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -175,11 +178,6 @@ in
     # services.dbus.packages = with pkgs; [ gnome3.dconf ];
   */
 
-  # Enable CUPS to print documents.
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
-  };
 
   # Enable scanning documents
   hardware.sane.enable = true;
@@ -219,18 +217,13 @@ in
       substituters = [
         "https://cache.nixos.org/"
         "https://nixpkgs-update.cachix.org/"
-        "https://cuda-maintainers.cachix.org/"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nixpkgs-update.cachix.org-1:6y6Z2JdoL3APdu6/+Iy8eZX2ajf09e4EE9SnxSML1W8="
-        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
     };
   };
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -242,8 +235,8 @@ in
     i2c-tools
     brightnessctl
     pciutils
-    cudatoolkit
     lenovo-legion
+    ntfs3g
   ];
 
   security.polkit.enable = true;
@@ -286,6 +279,7 @@ in
   };
 
   # List services that you want to enable:
+  services.flatpak.enable = true;
   services.onedrive.enable = true;
   services.acpid.enable = true;
   hardware.acpilight.enable = true;

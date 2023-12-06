@@ -5,6 +5,7 @@
 }: {
   services.traefik = {
     enable = true;
+    environmentFiles = [ config.age.secrets.traefik-env.path ];
     staticConfigOptions = {
       api = { dashboard = true; };
       entryPoints = {
@@ -52,21 +53,6 @@
             rule = "Host(`192.168.1.101`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
             service = "api@internal";
           };
-          # minio = {
-          #   rule = "Host(`minio.strid.ninja`)";
-          #   tls = { certResolver = "cloudflare_prod"; };
-          #   service = "minio";
-          # };
-          # minio-ui = {
-          #   rule = "Host(`minio-ui.strid.ninja`)";
-          #   tls = { certResolver = "cloudflare_prod"; };
-          #   service = "minio-ui";
-          # };
-          # resilio = {
-          #   rule = "Host(`resilio.strid.ninja`)";
-          #   tls = { certResolver = "cloudflare_staging"; };
-          #   service = "resilio";
-          # };
           unifi = {
             rule = "Host(`unifi.strid.ninja`)";
             tls = { certResolver = "cloudflare_prod"; };
@@ -82,6 +68,41 @@
             tls = { certResolver = "cloudflare_prod"; };
             service = "nextcloud";
           };
+          n8n = {
+            rule = "Host(`n8n.strid.ninja`)";
+            tls = { certResolver = "cloudflare_prod"; };
+            service = "n8n";
+          };
+          hydra = {
+            rule = "Host(`hydra.strid.tech`) || Host(`hydra.strid.ninja`)";
+            tls = { certResolver = "cloudflare_prod"; };
+            service = "hydra";
+          };
+          matrix = {
+            rule = "Host(`m.strid.ninja`) && PathPrefix(`/_matrix/`)";
+            tls = { certResolver = "cloudflare_prod"; };
+            service = "matrix";
+          };
+          matrix_well-known = {
+            rule = "Host(`m.strid.ninja`) && PathPrefix(`/.well-known/matrix/`)";
+            tls = { certResolver = "cloudflare_prod"; };
+            service = "matrix_well-known";
+          };
+          # minio = {
+          #   rule = "Host(`minio.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "minio";
+          # };
+          # minio-ui = {
+          #   rule = "Host(`minio-ui.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_prod"; };
+          #   service = "minio-ui";
+          # };
+          # resilio = {
+          #   rule = "Host(`resilio.strid.ninja`)";
+          #   tls = { certResolver = "cloudflare_staging"; };
+          #   service = "resilio";
+          # };
           # hedgedoc = {
           #   rule = "Host(`hedgedoc.strid.ninja`)";
           #   tls = { certResolver = "cloudflare_prod"; };
@@ -97,26 +118,42 @@
           #   tls = { certResolver = "cloudflare_prod"; };
           #   service = "tandoor";
           # };
-          n8n = {
-            rule = "Host(`n8n.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "n8n";
-          };
-          hydra = {
-            rule = "Host(`hydra.strid.tech`) || Host(`hydra.strid.ninja`)";
-            tls = { certResolver = "cloudflare_prod"; };
-            service = "hydra";
-          };
-          matrix = {
-            rule = "Host(`m.strid.ninja`) && Path(`/_matrix`)";
-            tls = { certResolver = "cloudflare_proid"; };
-            service = "matrix";
-          };
         };
         services = {
           matrix = {
             loadBalancer = {
               servers = [{ url = "http://192.168.1.111:6167"; }];
+            };
+          };
+          matrix_well-known = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.111:6168"; }];
+            };
+          };
+          unifi = {
+            loadBalancer = {
+              serversTransport = "unsafe_tls";
+              servers = [{ url = "https://192.168.1.1:443"; }];
+            };
+          };
+          home-assistant = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.101:8123"; }];
+            };
+          };
+          nextcloud = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.101:80"; }];
+            };
+          };
+          n8n = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.100:5678"; }];
+            };
+          };
+          hydra = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.101:4000"; }];
             };
           };
           # minio = {
@@ -134,22 +171,6 @@
           #     servers = [{ url = "http://192.168.1.101:9080"; }];
           #   };
           # };
-          unifi = {
-            loadBalancer = {
-              serversTransport = "unsafe_tls";
-              servers = [{ url = "https://192.168.1.1:443"; }];
-            };
-          };
-          home-assistant = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:8123"; }];
-            };
-          };
-          nextcloud = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:80"; }];
-            };
-          };
           # hedgedoc = {
           #   loadBalancer = {
           #     servers = [{ url = "http://192.168.1.100:3030"; }];
@@ -165,25 +186,12 @@
           #     servers = [{ url = "http://192.168.1.101:5080"; }];
           #   };
           # };
-          n8n = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.100:5678"; }];
-            };
-          };
-          hydra = {
-            loadBalancer = {
-              servers = [{ url = "http://192.168.1.101:4000"; }];
-            };
-          };
         };
       };
     };
   };
 
   networking.firewall.allowedTCPPorts = [ 9090 8082 443 80 ];
-
-  systemd.services.traefik.serviceConfig.EnvironmentFile =
-    config.age.secrets.traefik-env.path;
 
   age.secrets = with config; {
     traefik-env = {

@@ -1,6 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:ulrikstrid/nixpkgs/fba1223913fa903bf51e6b2c313bc97b9c1c93b5";
+    # lenovo-legion - PR #
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -113,6 +114,7 @@
             import nixpkgs
               {
                 config.allowUnfree = true;
+                nixpkgs.config.cudaSupport = false;
                 inherit system;
                 overlays = [
                   (self: super: {
@@ -144,12 +146,7 @@
                     };
                   })
                 ];
-              }
-            // {
-              octez-node = tezos.packages.${system}.octez-node;
-              octez-baker = tezos.packages.${system}.octez-baker-PtMumbai;
-              octez-accuser = tezos.packages.${system}.octez-accuser-PtMumbai;
-            };
+              };
           modules = [
             nixos-hardware.nixosModules.lenovo-legion-16ithg6
             nixpkgs.nixosModules.notDetected

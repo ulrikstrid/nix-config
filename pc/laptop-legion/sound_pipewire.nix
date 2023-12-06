@@ -1,15 +1,14 @@
-{
-  config,
-  pkgs,
-  options,
-  ...
+{ config
+, pkgs
+, options
+, ...
 }: {
   sound.enable = true;
 
   # High quality BT calls
   hardware.bluetooth = {
     enable = true;
-    package = pkgs.bluezFull;
+    package = pkgs.bluez;
     hsphfpd.enable = true;
   };
 

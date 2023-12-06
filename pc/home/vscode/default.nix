@@ -17,11 +17,11 @@
       "editor.guides.bracketPairs" = "active";
       "licenser.author" = "Ulrik Strid";
       "licenser.license" = "BSD3";
-      "telemetry.enableTelemetry" = false;
+      "telemetry.telemetryLevel" = "off";
       "terminal.integrated.shell.linux" = "zsh";
       "terminal.integrated.shell.osx" = "zsh";
       "workbench.colorTheme" = "Night Owl";
-      "workbench.iconTheme" = "material-icon-theme";
+      "workbench.iconTheme" = "vscode-icons";
       "nix.enableLanguageServer" = true;
       "[typescript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
@@ -36,7 +36,7 @@
       "[nix]" = { "editor.defaultFormatter" = "jnoortheen.nix-ide"; };
       "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
       "window.titleBarStyle" = "native";
-      "window.zoomLevel" = "0";
+      "window.zoomLevel" = 0;
       "nix.formatterPath" = "alejandra";
     };
   };

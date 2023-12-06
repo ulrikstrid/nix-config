@@ -18,6 +18,8 @@ in
     ../../server/shared/services/node-exporter.nix
     ../../server/shared/services/promtail.nix
     ../../server/shared/services/matrix-conduit.nix
+    # ../../server/shared/services/coturn.nix
+    # ../../server/shared/services/acme.nix
 
     # ../shared/retro_arch.nix
     # ../shared/xbox.nix

@@ -21,18 +21,13 @@ in
     signal-desktop
     slack
     psensor
-    # zoom-us
-    lutris
+    thunderbird
     postman
     ferdium
     element-desktop
-    chromium
     microsoft-edge
     ledger-live-desktop
-
-    # laptop rgb
-    # openrgb
-    # i2c-tools
+    godot_4
 
     # utils
     tree
@@ -42,17 +37,15 @@ in
     scrcpy
     # xboxdrv
     hub
-    # license-generator
     gnumake
-    # git-crypt
 
     # cloud
     kubectl
     kubectx
     kustomize
     fluxcd
-    terraform
-    terraform-ls
+    # terraform
+    # terraform-ls
     google-cloud-sdk-c
 
     # dev
@@ -63,11 +56,6 @@ in
     nix-prefetch-git
     nix-prefetch-github
     rnix-lsp
-    alejandra
-
-    # Lua (neovim)
-    # sumneko-lua-language-server
-    # stylua
 
     # encryption
     sops
@@ -76,7 +64,7 @@ in
     # KDE
     libsForQt5.kcalc
     libsForQt5.kolourpaint
-    libsForQt5.plasma-browser-integration
+    # libsForQt5.plasma-browser-integration
     libsForQt5.ark
     libsForQt5.skanpage
     libsForQt5.powerdevil
@@ -84,7 +72,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    SHELL = "zsh";
+    SHELL = "${pkgs.zsh}/bin/zsh";
     USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
   };
 
