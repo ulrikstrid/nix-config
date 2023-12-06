@@ -20,9 +20,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-
-    tezos.url = "github:marigold-dev/tezos-nix/main";
-    tezos.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -34,7 +31,6 @@
     , flake-utils
     , nixos-generators
     , agenix
-    , tezos
     , ...
     }:
     let
@@ -85,8 +81,6 @@
           system = "x86_64-linux";
           specialArgs = { inherit system; };
           modules = [
-            tezos.nixosModules.x86_64-linux_tezos-node
-            tezos.nixosModules.x86_64-linux_tezos-baking
             ./server/servern2/configuration.nix
             agenix.nixosModule
           ];
