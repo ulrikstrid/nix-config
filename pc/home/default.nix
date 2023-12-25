@@ -1,3 +1,4 @@
+{ kde2nix }:
 { config
 , pkgs
 , lib
@@ -16,7 +17,7 @@ in
     firefox
     gimp
     joplin-desktop
-    libreoffice-fresh
+    # libreoffice-fresh
     pavucontrol
     signal-desktop
     slack
@@ -36,7 +37,7 @@ in
     neofetch
     scrcpy
     # xboxdrv
-    hub
+    # hub
     gnumake
 
     # cloud
@@ -55,23 +56,19 @@ in
     nix-zsh-completions
     nix-prefetch-git
     nix-prefetch-github
-    rnix-lsp
 
     # encryption
     sops
     rage
 
     # KDE
-    libsForQt5.kcalc
-    libsForQt5.kolourpaint
-    # libsForQt5.plasma-browser-integration
-    libsForQt5.ark
-    libsForQt5.skanpage
-    libsForQt5.powerdevil
+    kde2nix.kcalc
+    kde2nix.kolourpaint
+    kde2nix.skanpage
   ];
 
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "vim";
     SHELL = "${pkgs.zsh}/bin/zsh";
     USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
   };
@@ -141,16 +138,6 @@ in
     ];
   };
 
-  programs.taskwarrior = {
-    enable = true;
-    config = {
-      confirmation = false;
-      report.minimal.filter = "status:pending";
-      report.active.columns = [ "id" "start" "entry.age" "priority" "project" "due" "description" ];
-      report.active.labels = [ "ID" "Started" "Age" "Priority" "Project" "Due" "Description" ];
-    };
-  };
-
   programs.bat.enable = true;
 
   programs.command-not-found.enable = true;
@@ -169,30 +156,7 @@ in
     font.package = pkgs.fira-code;
   };
 
-  /*
-    gtk = {
-    enable = true;
-    theme = {
-    package = pkgs.nordic;
-    name = "Nordic-darker";
-    };
-
-    iconTheme = {
-    package = pkgs.papirus-icon-theme;
-    name = "Papirus-Dark";
-    };
-
-    gtk3.extraConfig = {
-    "gtk-application-prefer-dark-theme" = 0;
-    };
-
-    gtk4.extraConfig = {
-    "gtk-application-prefer-dark-theme" = 0;
-    };
-    };
-  */
-
-  imports = [ ./vscode ./nvim ];
+  imports = [ ./vscode ];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";

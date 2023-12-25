@@ -36,7 +36,6 @@ in
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-
     # Modesetting is needed for most wayland compositors
     modesetting.enable = true;
 

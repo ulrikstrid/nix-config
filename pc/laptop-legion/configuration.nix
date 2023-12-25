@@ -150,12 +150,13 @@ in
     displayManager.sddm = {
       enable = true;
       enableHidpi = true;
-      # wayland = true;
+      wayland.enable = true;
     };
 
-    desktopManager.plasma5 = {
+    desktopManager.plasma6 = {
       enable = true;
-      useQtScaling = true;
+      # useQtScaling = true;
+      enableQt5Theme = false;
     };
   };
 
@@ -260,6 +261,7 @@ in
     ntfs3g
     nvidia-offload
   ];
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   security.polkit.enable = true;
   /*
@@ -301,7 +303,7 @@ in
   };
 
   # List services that you want to enable:
-  services.flatpak.enable = true;
+  services.flatpak.enable = false;
   services.onedrive.enable = true;
   services.acpid.enable = true;
   hardware.acpilight.enable = true;

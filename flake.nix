@@ -8,6 +8,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    kde2nix = {
+      url = "github:nix-community/kde2nix";
+      # We can't override this yet
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix.url = "github:ryantm/agenix/0.13.0";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -25,6 +31,7 @@
   outputs =
     { self
     , nixpkgs
+    , kde2nix
     , home-manager
     , nixos-hardware
     , darwin
@@ -147,10 +154,11 @@
             ./pc/laptop-legion/configuration.nix
             home-manager.nixosModules.home-manager
             agenix.nixosModule
+            kde2nix.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.ulrik = import ./pc/home/default.nix;
+              home-manager.users.ulrik = import ./pc/home/default.nix { kde2nix = kde2nix.packages.${system}; };
             }
           ];
         };
