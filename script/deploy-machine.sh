@@ -66,6 +66,15 @@ case $TARGET in
     nixos-rebuild --flake .\#nixos-laptop switch --use-remote-sudo $2
     deploy_success
     ;;
+  "nixos-workstation")
+    target_found
+    echo "Syncing vscode extensions..."
+    # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
+    echo "Syncing done."
+    export NIXPKGS_ALLOW_UNFREE=1
+    nixos-rebuild --flake .\#nixos-workstation switch --use-remote-sudo $2
+    deploy_success
+    ;;
   "odroid-n2-01")
     target_found
     nixos-rebuild switch \

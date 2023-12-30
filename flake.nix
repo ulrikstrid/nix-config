@@ -162,6 +162,23 @@
             }
           ];
         };
+
+        nixos-workstation = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = { inherit system; };
+          modules = [
+            nixpkgs.nixosModules.notDetected
+            ./pc/workstation/configuration.nix
+            home-manager.nixosModules.home-manager
+            agenix.nixosModule
+            kde2nix.nixosModules.default
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.ulrik = import ./pc/home/default.nix { kde2nix = kde2nix.packages.${system}; };
+            }
+          ];
+        };
       };
 
       darwinConfigurations."m1-mini" = darwin.lib.darwinSystem {

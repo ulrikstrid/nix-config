@@ -23,11 +23,11 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./sound.nix
+    ../shared/sound.nix
     # ../shared/xbox.nix
     # ../shared/kvm.nix
     # ../shared/pgadmin.nix
-    ./printer.nix
+    ../shared/printer.nix
     ./nvidia.nix
   ];
 
@@ -78,21 +78,27 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+
+  # Set your time zone.
+  time.timeZone = "Europe/Stockholm";
+
   # Select internationalisation properties.
   i18n.defaultLocale = "sv_SE.UTF-8";
   i18n.supportedLocales = [
     (config.i18n.defaultLocale + "/UTF-8")
     "en_US.UTF-8/UTF-8"
   ];
+
   i18n.extraLocaleSettings = {
-    LANG = "sv_SE.UTF-8";
     LC_ADDRESS = "sv_SE.UTF-8";
+    LC_IDENTIFICATION = "sv_SE.UTF-8";
+    LC_MEASUREMENT = "sv_SE.UTF-8";
+    LC_MONETARY = "sv_SE.UTF-8";
     LC_NAME = "sv_SE.UTF-8";
+    LC_NUMERIC = "sv_SE.UTF-8";
+    LC_PAPER = "sv_SE.UTF-8";
     LC_TELEPHONE = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
-    LC_CTYPE = "sv_SE.UTF-8";
-    LC_MESSAGES = "sv_SE.UTF-8";
-    LC_COLLATE = "sv_SE.UTF-8";
   };
   console = {
     font = "Lat2-Terminus16";

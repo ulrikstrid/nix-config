@@ -23,7 +23,7 @@ in
     slack
     psensor
     thunderbird
-    postman
+    # postman
     ferdium
     element-desktop
     microsoft-edge
