@@ -165,7 +165,7 @@
     name = "shellcheck";
     publisher = "timonwong";
     version = "0.35.0";
-    sha256 = "0bnrad3s66nv0kqlrzq8wfw9jycn7vj80nwq8f4l171l14j5c7jj";
+    sha256 = "sha256-KCWT7JkFsl93NaiVFF4kitXsTpK8JF/3zHb2rp/ABwI=";
   }
   {
     name = "graphviz-interactive-preview";
