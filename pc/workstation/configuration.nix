@@ -71,9 +71,6 @@ in
   # Configure console keymap
   console.keyMap = "sv-latin1";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez;
@@ -117,6 +114,8 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  services.vscode-server.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

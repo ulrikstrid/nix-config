@@ -13,6 +13,10 @@
       # We can't override this yet
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     agenix.url = "github:ryantm/agenix/0.13.0";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -172,6 +176,7 @@
             home-manager.nixosModules.home-manager
             agenix.nixosModule
             kde2nix.nixosModules.default
+            vscode-server.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
