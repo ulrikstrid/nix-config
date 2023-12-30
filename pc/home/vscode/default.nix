@@ -6,7 +6,7 @@
     enable = true;
     package = pkgs.vscode;
     extensions =
-      [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare ]
+      [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare pkgs.vscode-extensions.ms-vscode-remote.remote-ssh ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";

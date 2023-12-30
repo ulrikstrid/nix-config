@@ -49,7 +49,7 @@ in
   hardware.bluetooth = {
     enable = true;
     package = pkgs.bluez;
-    hsphfpd.enable = true;
+    hsphfpd.enable = false;
   };
 
   age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];
@@ -64,9 +64,6 @@ in
   #  userControlled.enable = true;
   #};
 
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
@@ -77,7 +74,6 @@ in
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
