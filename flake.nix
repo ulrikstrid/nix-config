@@ -36,6 +36,7 @@
     { self
     , nixpkgs
     , kde2nix
+    , vscode-server
     , home-manager
     , nixos-hardware
     , darwin
