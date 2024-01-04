@@ -12,13 +12,12 @@ in
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../shared/printer.nix
       ../shared/sound.nix
     ];
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -72,10 +71,20 @@ in
   console.keyMap = "sv-latin1";
 
   # Bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.package = pkgs.bluez;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluez;
+    powerOnBoot = false;
+  };
 
+  # Add debug flag
+  # "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf
+  # systemd.services.bluetooth.serviceConfig.ExecStart = pkgs.lib.mkForce "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf  -d";
+
+  hardware.logitech = {
+    wireless.enable = true;
+    wireless.enableGraphical = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -109,6 +118,17 @@ in
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.zsh.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  };
+
+  programs.kdeconnect = {
+    enable = true;
+  };
 
   # List services that you want to enable:
 
