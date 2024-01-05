@@ -22,6 +22,36 @@ in
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  /*
+    boot.kernelPackages = 
+    pkgs.linuxPackagesFor (pkgs.linux_latest.override {
+    argsOverride = rec {
+    src = pkgs.fetchurl {
+    url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
+    sha256 = "sha256-uf1hb6zWvs/O11i1vnGNDxZiXKs/6B0ROEgCpwkehew=";
+    };
+    version = "6.7-rc8";
+    modDirVersion = "6.7-rc8";
+    };
+    });
+  */
+
+
+  # boot.kernelParams = [ "btusb.enable_autosuspend=N" ];
+  boot.kernelPackages = pkgs.linuxPackages_testing;
+
+  /*
+    boot.kernelPatches = [
+    { name = "Bluetooth: Remove superfluous call to hci_conn_check_pending()"; patch = ./patches/Bluetooth1.patch; }
+    { name = "Bluetooth: hci_event: Use HCI error defines instead of magic values"; patch = ./patches/Bluetooth2.patch; }
+    { name = "Bluetooth: hci_event: Remove limit of 2 reconnection attempts"; patch = ./patches/Bluetooth3.patch; }
+    { name = "Bluetooth: hci_event: Do sanity checks before retrying to connect"; patch = ./patches/Bluetooth4.patch; }
+    { name = "Bluetooth: hci_event: Try reconnecting on more kinds of errors"; patch = ./patches/Bluetooth5.patch; }
+    
+    { name = "Revert \"xhci: Loosen RPM as default policy to cover for AMD xHC 1.1\""; patch = ./patches/revert-bluetooth.patch; }
+    ];
+  */
+  hardware.enableRedistributableFirmware = true;
 
   networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -73,13 +103,9 @@ in
   # Bluetooth
   hardware.bluetooth = {
     enable = true;
-    package = pkgs.bluez;
-    powerOnBoot = false;
   };
 
-  # Add debug flag
-  # "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf
-  # systemd.services.bluetooth.serviceConfig.ExecStart = pkgs.lib.mkForce "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf  -d";
+  services.fwupd.enable = true;
 
   hardware.logitech = {
     wireless.enable = true;
