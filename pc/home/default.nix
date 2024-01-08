@@ -17,14 +17,13 @@ in
     firefox
     gimp
     joplin-desktop
-    # libreoffice-fresh
     pavucontrol
     signal-desktop
     slack
     psensor
     thunderbird
-    # postman
     ferdium
+    discord
     element-desktop
     microsoft-edge
     ledger-live-desktop
@@ -45,12 +44,11 @@ in
     kubectx
     kustomize
     fluxcd
-    # terraform
-    # terraform-ls
     google-cloud-sdk-c
 
     # dev
     shellcheck
+    quickemu
 
     # nix
     nix-zsh-completions

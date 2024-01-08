@@ -22,23 +22,13 @@ in
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  /*
-    boot.kernelPackages = 
-    pkgs.linuxPackagesFor (pkgs.linux_latest.override {
-    argsOverride = rec {
-    src = pkgs.fetchurl {
-    url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
-    sha256 = "sha256-uf1hb6zWvs/O11i1vnGNDxZiXKs/6B0ROEgCpwkehew=";
-    };
-    version = "6.7-rc8";
-    modDirVersion = "6.7-rc8";
-    };
-    });
-  */
 
-
-  # boot.kernelParams = [ "btusb.enable_autosuspend=N" ];
   boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelModules = [
+    "btusb"
+    "mt7925e"
+    "iwlwifi"
+  ];
 
   /*
     boot.kernelPatches = [
@@ -51,7 +41,8 @@ in
     { name = "Revert \"xhci: Loosen RPM as default policy to cover for AMD xHC 1.1\""; patch = ./patches/revert-bluetooth.patch; }
     ];
   */
-  hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
+  hardware.firmware = [ (pkgs.callPackage ./mt7925-firmware.nix { }) ];
 
   networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -122,6 +113,10 @@ in
     description = "Ulrik Strid";
     extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "libvirtd" "scanner" "lp" ];
   };
+
+  # virtualisation
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

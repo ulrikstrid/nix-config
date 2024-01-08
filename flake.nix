@@ -56,6 +56,7 @@
 
           packages = {
             obs-streamfx = pkgs.qt6Packages.callPackage ./derivations/obs-streamfx.nix { };
+            mt795-firmware = pkgs.callPackage ./pc/workstation/mt7925-firmware.nix { };
           };
 
           formatter = pkgs.alejandra;
