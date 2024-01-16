@@ -71,10 +71,10 @@ in
     USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
   };
 
-  programs.git = {
+  programs.git = rec {
     enable = true;
     userName = "Ulrik Strid";
-    userEmail = "ulrik.strid@outlook.com";
+    userEmail = "ulrik@strid.tech";
 
     extraConfig = {
       pull = {

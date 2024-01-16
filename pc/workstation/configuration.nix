@@ -8,6 +8,12 @@ let
   user = "ulrik";
   userHome = "/home/${user}";
   hostName = "nixos-workstation";
+  make_kernelPatch = { name, url, sha256 ? pkgs.lib.fakeSha256, revert ? false }: {
+    inherit name;
+    patch = (pkgs.fetchpatch {
+      inherit name url sha256 revert;
+    });
+  };
 in
 
 {
@@ -23,29 +29,35 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [
-    "btusb"
+    #"btusb"
+    "btmtk"
     "mt7925e"
-    "iwlwifi"
   ];
 
-  /*
-    boot.kernelPatches = [
-    { name = "Bluetooth: Remove superfluous call to hci_conn_check_pending()"; patch = ./patches/Bluetooth1.patch; }
-    { name = "Bluetooth: hci_event: Use HCI error defines instead of magic values"; patch = ./patches/Bluetooth2.patch; }
-    { name = "Bluetooth: hci_event: Remove limit of 2 reconnection attempts"; patch = ./patches/Bluetooth3.patch; }
-    { name = "Bluetooth: hci_event: Do sanity checks before retrying to connect"; patch = ./patches/Bluetooth4.patch; }
-    { name = "Bluetooth: hci_event: Try reconnecting on more kinds of errors"; patch = ./patches/Bluetooth5.patch; }
-    
-    { name = "Revert \"xhci: Loosen RPM as default policy to cover for AMD xHC 1.1\""; patch = ./patches/revert-bluetooth.patch; }
-    ];
-  */
   hardware.enableAllFirmware = true;
   hardware.firmware = [ (pkgs.callPackage ./mt7925-firmware.nix { }) ];
 
+  boot.kernelPatches = [
+    {
+      name = "Bluetooth: btusb: Add new VID/PID 13d3/3602 for MT7925";
+      patch = ./patches/add-mt7925b.patch;
+    }
+    (make_kernelPatch {
+      name = "[v2,1/2] Bluetooth: btusb: mediatek: refactor btusb_mtk_reset function";
+      url = "https://patchwork.kernel.org/project/bluetooth/patch/20240102124747.21644-1-hao.qin@mediatek.com/raw/";
+      sha256 = "sha256-fHXVak83a0j3C0djb51YZsqU5d8V1EMc1B2pMW18Bn8=";
+    })
+    (make_kernelPatch {
+      name = "[v2,2/2] Bluetooth: btusb: mediatek: add a recovery method for MT7922 and MT7925";
+      url = "https://patchwork.kernel.org/project/bluetooth/patch/20240102124747.21644-2-hao.qin@mediatek.com/raw/";
+      sha256 = "sha256-L0xRapA463x9/HYQOI1t0hFZGWuz6E1xlCWmlzwqw7g=";
+    })
+  ];
+
   networking.hostName = hostName; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -94,6 +106,7 @@ in
   # Bluetooth
   hardware.bluetooth = {
     enable = true;
+    powerOnBoot = true;
   };
 
   services.fwupd.enable = true;
