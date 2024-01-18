@@ -10,8 +10,7 @@
 
     kde2nix = {
       url = "github:nix-community/kde2nix";
-      # We can't override this yet
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";

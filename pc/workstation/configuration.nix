@@ -32,7 +32,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [
-    #"btusb"
+    "btusb"
     "btmtk"
     "mt7925e"
   ];
