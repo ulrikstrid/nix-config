@@ -117,11 +117,6 @@ in
     wireless.enableGraphical = true;
   };
 
-  hardware.openrazer = {
-    enable = true;
-    users = [ user ];
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 

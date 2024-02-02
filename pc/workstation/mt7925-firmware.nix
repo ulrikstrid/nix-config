@@ -5,11 +5,12 @@ stdenvNoCC.mkDerivation {
 
   src = fetchgit {
     url = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git";
+    rev = "d454c702cffb9c14f67f322be5dece04a1c07454";
     sparseCheckout = [
       "mediatek/mt7925"
     ];
     deepClone = false;
-    hash = "sha256-soOYwCgmwl9PxiVdnCH8eix4BSyuGh+xkO88HT/2wsI=";
+    hash = "sha256-UTHx3rMfu/hhtAEfCwx3pdgFW7LYIjU/nT/GeUJyuqY=";
   };
 
   installPhase = ''

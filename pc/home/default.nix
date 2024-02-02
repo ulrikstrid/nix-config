@@ -86,6 +86,14 @@ in
       };
       rebase = { autosquash = "true"; };
       init.defaultBranch = "main";
+      sendemail = {
+        from = "ulrik@strid.tech";
+        smtpServer = "smtp.office365.com";
+        smtpServerPort = 587;
+        smtpEncryption = "tls";
+        smtpUser = "ulrik@strid.tech";
+      };
+      credential.helper = "store";
     };
 
     ignores = [ "_build" "_esy" ".env" ];
