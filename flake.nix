@@ -1,17 +1,13 @@
 {
   inputs = {
     # lenovo-legion - PR #
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:K900/nixpkgs/plasma-6";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    kde2nix = {
-      url = "github:nix-community/kde2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,7 +30,6 @@
   outputs =
     { self
     , nixpkgs
-    , kde2nix
     , vscode-server
     , home-manager
     , nixos-hardware
@@ -159,11 +154,10 @@
             ./pc/laptop-legion/configuration.nix
             home-manager.nixosModules.home-manager
             agenix.nixosModule
-            kde2nix.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.ulrik = import ./pc/home/default.nix { kde2nix = kde2nix.packages.${system}; };
+              home-manager.users.ulrik = import ./pc/home/default.nix;
             }
           ];
         };
@@ -174,14 +168,16 @@
           modules = [
             nixpkgs.nixosModules.notDetected
             ./pc/workstation/configuration.nix
-            home-manager.nixosModules.home-manager
             agenix.nixosModule
-            kde2nix.nixosModules.default
             vscode-server.nixosModules.default
+            ({ config, pkgs, ... }: {
+              services.vscode-server.enable = true;
+            })
+            home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.ulrik = import ./pc/home/default.nix { kde2nix = kde2nix.packages.${system}; };
+              home-manager.users.ulrik = import ./pc/home/default.nix;
             }
           ];
         };

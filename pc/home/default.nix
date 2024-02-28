@@ -1,4 +1,3 @@
-{ kde2nix }:
 { config
 , pkgs
 , lib
@@ -60,9 +59,9 @@ in
     rage
 
     # KDE
-    kde2nix.kcalc
-    kde2nix.kolourpaint
-    kde2nix.skanpage
+    kcalc
+    kolourpaint
+    skanpage
   ];
 
   home.sessionVariables = {

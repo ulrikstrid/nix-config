@@ -24,6 +24,8 @@ in
       ../shared/printer.nix
       ../shared/sound.nix
       ../shared/nix-settings.nix
+      ../shared/zsh.nix
+      ../shared/docker.nix
     ];
 
   # Bootloader.
@@ -96,9 +98,9 @@ in
   services.xserver.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "se";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Configure console keymap
@@ -166,8 +168,6 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  services.vscode-server.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
