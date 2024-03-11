@@ -15,19 +15,35 @@
     ensureUsers = [
       {
         name = "nextcloud";
-        ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
+        ensureClauses = {
+          superuser = true;
+          createrole = true;
+          createdb = true;
+        };
       }
       {
         name = "hedgedoc";
-        ensurePermissions."DATABASE hedgedoc" = "ALL PRIVILEGES";
+        ensureClauses = {
+          superuser = true;
+          createrole = true;
+          createdb = true;
+        };
       }
       {
         name = "vikunja";
-        ensurePermissions."DATABASE vikunja" = "ALL PRIVILEGES";
+        ensureClauses = {
+          superuser = true;
+          createrole = true;
+          createdb = true;
+        };
       }
       {
         name = "tandoor";
-        ensurePermissions."DATABASE tandoor" = "ALL PRIVILEGES";
+        ensureClauses = {
+          superuser = true;
+          createrole = true;
+          createdb = true;
+        };
       }
     ];
 

@@ -88,6 +88,11 @@
             tls = { certResolver = "cloudflare_prod"; };
             service = "matrix_well-known";
           };
+          ollama = {
+            rule = "Host(`ollama.strid.ninja)";
+            tls = { certResolver = "cloudflare_prod"; };
+            service = "ollama";
+          };
           # minio = {
           #   rule = "Host(`minio.strid.ninja`)";
           #   tls = { certResolver = "cloudflare_prod"; };
@@ -154,6 +159,11 @@
           hydra = {
             loadBalancer = {
               servers = [{ url = "http://192.168.1.101:4000"; }];
+            };
+          };
+          ollama = {
+            loadBalancer = {
+              servers = [{ url = "http://192.168.1.182:11434"; }];
             };
           };
           # minio = {

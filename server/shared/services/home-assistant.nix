@@ -45,9 +45,9 @@
           py.pyprof2calltree
           py.pysmartapp
           py.pysmartthings
-          py.python_openzwave
+          # py.python_openzwave
           py.python-miio
-          py.python-openzwave-mqtt
+          # py.python-openzwave-mqtt
           py.pyunifiprotect
           py.pyxiaomigateway
           py.scapy

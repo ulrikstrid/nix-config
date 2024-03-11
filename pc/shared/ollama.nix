@@ -2,18 +2,17 @@
   config,
   pkgs,
   lib,
-  acceleration ? "rocm",
   ...
 }:
-  let port = 11434;
+  let port = "11434";
   in
 {
   services.ollama = {
-    inherit acceleration;
     enable = true;
+    acceleration = "rocm";
     listenAddress = "0.0.0.0:${port}";
   };
 
-  networking.firewall.allowedTCPPorts = [ port ];
-  networking.firewall.allowedUDPPorts = [ port ];
+  networking.firewall.allowedTCPPorts = [ 11434 ];
+  networking.firewall.allowedUDPPorts = [ 11434 ];
 }
