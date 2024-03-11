@@ -39,6 +39,7 @@ in
     "btmtk"
     "mt7925e"
   ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   hardware.enableAllFirmware = true;
   hardware.firmware = [ (pkgs.callPackage ./mt7925-firmware.nix { }) ];
