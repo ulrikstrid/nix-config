@@ -23,7 +23,8 @@
         hashedPassword = "$6$hrCi58/8o9qSOeKK$yMjO7P29U5Un2.31O0lGtlitrWl8LHT6tsjMawMWC9A3wNg2nsODeOmkleOrcaA8Vy93p63D0MD.KlAmHlXIM0";
         extraGroups = ["wheel" "nas" "wheel" "rslsync" "docker" "audio"];
         openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk ulrik.strid@outlook.com" # which computer is this?
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk ulrik.strid@outlook.com" # nixos-laptop
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj5X5ga3ZEPxupU8p5wTAHE2t3otcjIrAgAXkA6mUNf ulrik.strid@outlook.com" # workstation
         ];
       };
       sissel = {
@@ -38,6 +39,7 @@
       root.openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk ulrik.strid@outlook.com" # nixos-laptop
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIi5Yi3O/s0GYV/reYyM3JZh+6sUr8TjziGm2e4LoNpK ulrik.strid@outlook.com" # m1 mac mini
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj5X5ga3ZEPxupU8p5wTAHE2t3otcjIrAgAXkA6mUNf ulrik.strid@outlook.com" # workstation
         # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTRf7GkQZyCXjnzMTSnFqgEXzb1slneYQp4hrUFdHrR ulrik.strid@outlook.com" # ???
       ];
     };
