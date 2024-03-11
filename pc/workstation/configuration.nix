@@ -26,6 +26,7 @@ in
       ../shared/nix-settings.nix
       ../shared/zsh.nix
       ../shared/docker.nix
+      ../shared/ollama.nix
     ];
 
   # Bootloader.
@@ -41,6 +42,14 @@ in
 
   hardware.enableAllFirmware = true;
   hardware.firmware = [ (pkgs.callPackage ./mt7925-firmware.nix { }) ];
+  hardware.opengl.extraPackages = with pkgs; [
+    rocmPackages.clr.icd
+    rocmPackages.rocm-runtime
+  ];
+  hardware.opengl.enable = true;
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
 
   boot.kernelPatches = [
     {
@@ -127,6 +136,7 @@ in
     home = userHome;
     isNormalUser = true;
     description = "Ulrik Strid";
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "libvirtd" "scanner" "lp" ];
   };
 
@@ -143,6 +153,7 @@ in
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
+    clinfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
