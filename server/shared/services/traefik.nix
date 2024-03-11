@@ -89,7 +89,7 @@
             service = "matrix_well-known";
           };
           ollama = {
-            rule = "Host(`ollama.strid.ninja)";
+            rule = "Host(`ollama.strid.ninja`)";
             tls = { certResolver = "cloudflare_prod"; };
             service = "ollama";
           };
