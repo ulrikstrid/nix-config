@@ -158,8 +158,6 @@ in
 
     desktopManager.plasma6 = {
       enable = true;
-      # useQtScaling = true;
-      enableQt5Theme = false;
     };
   };
 
