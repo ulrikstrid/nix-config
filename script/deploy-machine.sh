@@ -63,7 +63,7 @@ case $TARGET in
     # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
     echo "Syncing done."
     export NIXPKGS_ALLOW_UNFREE=1
-    nixos-rebuild --flake .\#nixos-laptop switch --target-host ulrik@192.168.1.126 --use-remote-sudo $2
+    nixos-rebuild --flake .\#nixos-laptop switch --target-host ulrik@192.168.1.127 --use-remote-sudo $2
     deploy_success
     ;;
   "nixos-workstation")

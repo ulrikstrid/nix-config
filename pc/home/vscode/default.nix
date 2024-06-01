@@ -6,7 +6,10 @@
     enable = true;
     package = pkgs.vscode;
     extensions =
-      [ pkgs.vscode-extensions.ms-vsliveshare.vsliveshare pkgs.vscode-extensions.ms-vscode-remote.remote-ssh ]
+      [
+        pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
+        pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+      ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
@@ -23,6 +26,17 @@
       "workbench.colorTheme" = "Night Owl";
       "workbench.iconTheme" = "vscode-icons";
       "nix.enableLanguageServer" = true;
+      "nix.serverPath" = "nil";
+       "nix.serverSettings" = {
+        "nil" = {
+          "diagnostics"= {
+          };
+          "formatting" = {
+            "command" = ["nixfmt"];
+          };
+        };
+      };
+      "nix.formatterPath" = "nixfmt";
       "[typescript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
@@ -38,7 +52,6 @@
       "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
       "window.titleBarStyle" = "custom";
       "window.zoomLevel" = 0;
-      "nix.formatterPath" = "alejandra";
     };
   };
 }

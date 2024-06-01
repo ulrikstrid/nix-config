@@ -6,7 +6,6 @@
 
 let
   user = "ulrik";
-  userHome = "/home/${user}";
   hostName = "nixos-workstation";
   make_kernelPatch = { name, url, sha256 ? pkgs.lib.fakeSha256, revert ? false }: {
     inherit name;
@@ -26,7 +25,8 @@ in
       ../shared/nix-settings.nix
       ../shared/zsh.nix
       ../shared/docker.nix
-      ../shared/ollama.nix
+      # ../shared/ollama.nix
+      ../shared/config/users.nix
     ];
 
   # Bootloader.
@@ -50,6 +50,7 @@ in
   hardware.opengl.enable = true;
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+    "L+    /opt/rocm/lib   -    -    -     -    ${pkgs.rocmPackages.clr}/lib"
   ];
 
   boot.kernelPatches = [
@@ -100,18 +101,18 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
-  services.xserver.desktopManager.plasma6.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "se";
     variant = "";
   };
+
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+  services.desktopManager.plasma6.enable = true;
 
   # Configure console keymap
   console.keyMap = "sv-latin1";
@@ -131,15 +132,6 @@ in
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${user} = {
-    home = userHome;
-    isNormalUser = true;
-    description = "Ulrik Strid";
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "libvirtd" "scanner" "lp" ];
-  };
 
   # virtualisation
   virtualisation.libvirtd.enable = true;

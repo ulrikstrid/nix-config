@@ -16,7 +16,7 @@ in
     ../../server/shared/config
 
     ../../server/shared/services/node-exporter.nix
-    ../../server/shared/services/promtail.nix
+    # ../../server/shared/services/promtail.nix
     ../../server/shared/services/matrix-conduit.nix
     # ../../server/shared/services/coturn.nix
     # ../../server/shared/services/acme.nix

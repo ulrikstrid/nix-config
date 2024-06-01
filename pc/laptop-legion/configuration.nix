@@ -9,7 +9,6 @@
 }:
 let
   user = "ulrik";
-  userHome = "/home/${user}";
   hostName = "nixos-laptop";
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1
@@ -30,6 +29,7 @@ in
     ../shared/printer.nix
     ../shared/nix-settings.nix
     ./nvidia.nix
+    ../shared/config/users.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -144,8 +144,8 @@ in
     displayManager = {
       # defaultSession = "plasma";
       autoLogin = {
+        inherit user;
         enable = false;
-        user = "ulrik";
       };
     };
 
@@ -155,10 +155,10 @@ in
       enableHidpi = true;
       wayland.enable = true;
     };
+  };
 
-    desktopManager.plasma6 = {
-      enable = true;
-    };
+  services.desktopManager.plasma6 = {
+    enable = true;
   };
 
   # services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
@@ -204,25 +204,6 @@ in
 
   # Enable scanning documents
   hardware.sane.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${user} = {
-    home = userHome;
-    hashedPassword = "$6$S2p7S1Qlv0Bcx2VD$XNBU0YVajPfGHR1hNncowbIoNOJSMNSkSWaltYbx4wKnWEMra5FaieKVgEw.tbMJllpp6L8hzFvK30I3wOkmL0";
-    isNormalUser = true;
-    description = "Ulrik Strid";
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "vboxusers" "libvirtd" "scanner" "lp" ];
-  };
-
-  users.groups.plugdev = {
-    name = "plugdev";
-    members = [ user ];
-  };
-
-  # users.extraGroups.vboxusers.members = [ "@wheel" user ];
-
-  users.mutableUsers = false;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

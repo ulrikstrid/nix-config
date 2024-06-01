@@ -15,7 +15,7 @@ in
     '';
 
     settings = {
-      allowed-users = [ "@wheel" "@builders" user ];
+      allowed-users = [ "@wheel" "@builders" "hydra_builder" user ];
       trusted-users = [ "root" user ];
       substituters = [
         "https://cache.nixos.org/"

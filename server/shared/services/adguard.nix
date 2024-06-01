@@ -10,10 +10,9 @@
     mutableSettings = false;
     openFirewall = true;
 
+    port = 3000;
+
     settings = {
-      bind_host = "0.0.0.0";
-      bind_port = 3000;
-      beta_bind_port = 0;
       users = [
         {
           name = "ulrik";

@@ -21,7 +21,7 @@ in
 
     # Services
     ../shared/services/node-exporter.nix
-    ../shared/services/promtail.nix
+    # ../shared/services/promtail.nix
     ../shared/services/printserver.nix
   ];
 

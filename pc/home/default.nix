@@ -16,17 +16,18 @@ in
     firefox
     gimp
     joplin-desktop
-    pavucontrol
+    # pavucontrol
     signal-desktop
     slack
-    psensor
+    # psensor
     thunderbird
     ferdium
     discord
     element-desktop
     microsoft-edge
-    ledger-live-desktop
+    # ledger-live-desktop
     godot_4
+    insomnia
 
     # utils
     tree
@@ -48,11 +49,13 @@ in
     # dev
     shellcheck
     quickemu
+    devenv
 
     # nix
     nix-zsh-completions
     nix-prefetch-git
     nix-prefetch-github
+    nixfmt-rfc-style
 
     # encryption
     sops
@@ -62,6 +65,10 @@ in
     kcalc
     kolourpaint
     skanpage
+
+    # Workstation specfic
+    # TODO: How can we add this only for workstation?
+    amdgpu_top
   ];
 
   home.sessionVariables = {
@@ -110,7 +117,7 @@ in
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
     cdpath = [ "~/dev" ];

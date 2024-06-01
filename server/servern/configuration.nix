@@ -22,7 +22,7 @@ in {
     ../shared/services/traefik.nix
     ../shared/services/mosquitto.nix
     ../shared/services/node-exporter.nix
-    ../shared/services/promtail.nix
+    # ../shared/services/promtail.nix
     ../shared/services/postgres.nix
     # ../shared/services/tandoor.nix
     ../shared/services/adguard.nix

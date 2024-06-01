@@ -7,7 +7,7 @@
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_13;
-    port = 5432;
+    settings.port = 5432;
     enableTCPIP = true;
 
     # Ensure the database, user, and permissions always exist
