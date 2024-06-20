@@ -25,6 +25,7 @@ in
       ../shared/nix-settings.nix
       ../shared/zsh.nix
       ../shared/docker.nix
+      # ../shared/flatpak.nix
       # ../shared/ollama.nix
       ../shared/config/users.nix
     ];
@@ -108,11 +109,21 @@ in
   };
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
+  services.displayManager = {
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
+    autoLogin.enable = true;
+    autoLogin.user = user;
   };
   services.desktopManager.plasma6.enable = true;
+
+  programs.hyprland = {
+    enable = false;
+    # package = hyprland.packages.${system}.hyprland;
+  };
+
 
   # Configure console keymap
   console.keyMap = "sv-latin1";
@@ -136,9 +147,6 @@ in
   # virtualisation
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -164,6 +172,25 @@ in
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   };
 
+  # programs.streamdeck-ui.enable = true;
+
+  programs.stream-controller = {
+    enable = true;
+    plugins = with pkgs.stream-controller-plugins; [
+      audioControl
+      battery
+      clocks
+      counter
+      deckPlugin
+      mediaPlugin
+      micMute
+      obsPlugin
+      osPlugin
+      speedTest
+      volumeMixer
+    ];
+  };
+
   programs.kdeconnect = {
     enable = true;
   };
@@ -178,6 +205,11 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # Update /etc/hosts
+  networking.extraHosts = ''
+    127.0.0.1 www.contoso.com # add for testing our certificate
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

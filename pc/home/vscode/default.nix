@@ -9,6 +9,7 @@
       [
         pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+        pkgs.vscode-extensions.ms-azuretools.vscode-bicep
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
@@ -52,6 +53,7 @@
       "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
       "window.titleBarStyle" = "custom";
       "window.zoomLevel" = 0;
+      "dotnetAcquisitionExtension.sharedExistingDotnetPath" = "${pkgs.dotnet-sdk_8}/dotnet";
     };
   };
 }

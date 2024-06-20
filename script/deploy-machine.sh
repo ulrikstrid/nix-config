@@ -63,13 +63,13 @@ case $TARGET in
     # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
     echo "Syncing done."
     export NIXPKGS_ALLOW_UNFREE=1
-    nixos-rebuild --flake .\#nixos-laptop switch --target-host ulrik@192.168.1.127 --use-remote-sudo $2
+    nixos-rebuild --flake .\#nixos-laptop switch --target-host 192.168.1.127 --use-remote-sudo $2
     deploy_success
     ;;
   "nixos-workstation")
     target_found
     echo "Syncing vscode extensions..."
-    # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
+    #"./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
     echo "Syncing done."
     export NIXPKGS_ALLOW_UNFREE=1
     nixos-rebuild --flake .\#nixos-workstation switch --use-remote-sudo $2
@@ -82,7 +82,27 @@ case $TARGET in
       --flake .\#odroid-n2-01 $2
     deploy_success
     ;;
+  "sync-extensions")
+    echo "Syncing vscode extensions..."
+    "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
+    echo "Syncing done."
+    ;;
   *)
     printf "${RED}Target (%s) not found${NC}\n" "$TARGET"
+    printf "Available targets for PCs are: "
+    for target in "nixos-laptop" "nixos-workstation"
+    do
+      printf "%s " $target
+    done
+    printf "\nAvailable targets for servers are: "
+    for target in "servern" "servern2" "nuc-01" "odroid-n2-01"
+    do
+      printf "%s " $target
+    done
+    printf "\n\n Other commands are: "
+    for target in "sync-extensions"
+    do
+      printf "%s " $target
+    done 
     ;;
 esac

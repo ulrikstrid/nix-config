@@ -1,9 +1,18 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-friendly-overlay = {
+      url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,6 +38,7 @@
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-friendly-overlay
     , vscode-server
     , home-manager
     , nixos-hardware
@@ -36,20 +46,22 @@
     , flake-utils
     , nixos-generators
     , agenix
+    , hyprland
     , ...
     }:
     let
       perSystem = flake-utils.lib.eachDefaultSystem (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs { inherit system; overlays = [ nixpkgs-friendly-overlay.overlays.default ]; };
         in
         {
           devShell =
-            pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.rnix-lsp agenix.packages.${system}.agenix ]; };
+            pkgs.mkShell { buildInputs = [ pkgs.nixpkgs-fmt pkgs.niv agenix.packages.${system}.agenix ]; };
 
           packages = {
             obs-streamfx = pkgs.qt6Packages.callPackage ./derivations/obs-streamfx.nix { };
             mt795-firmware = pkgs.callPackage ./pc/workstation/mt7925-firmware.nix { };
+            inherit (pkgs) dotnet-sdk_8;
           };
 
           formatter = pkgs.alejandra;
@@ -73,7 +85,15 @@
           '';
       };
 
-      nixosConfigurations = {
+      nixosConfigurations = let
+        x86_64LinuxPkgs = (import nixpkgs {
+            system = "x86_64-linux";
+            overlays = [ nixpkgs-friendly-overlay.overlays.default ];
+            # Allow unfree packages
+            config.allowUnfree = true;
+            nixpkgs.config.cudaSupport = false;
+          });
+        in {
         servern = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = { inherit system; };
@@ -109,44 +129,8 @@
 
         nixos-laptop = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit system; };
-          pkgs =
-            import nixpkgs
-              {
-                config.allowUnfree = true;
-                nixpkgs.config.cudaSupport = false;
-                inherit system;
-                overlays = [
-                  (self: super: {
-                    python310 = super.python310.override {
-                      packageOverrides = python-self: python-super: {
-                        streamdeck = python-super.streamdeck.overrideAttrs (oldAttrs: {
-                          src = super.fetchFromGitHub {
-                            owner = "ulrikstrid";
-                            repo = "python-elgato-streamdeck";
-                            rev = "ulrikstrid--streamdeck-plus";
-                            sha256 = "sha256-aTxfNPYC7GEd7CrH2NBbAFe5DpswzrE0n0VIlozo2J0=";
-                          };
-
-                          propagatedBuildInputs = with super;
-                            with python-self; [
-                              wheel
-                              pillow
-                            ];
-
-                          patches = [
-                            # substitute libusb path
-                            (super.substituteAll {
-                              src = ./derivations/streamdeck-hardcode-libusb.patch;
-                              hidapi = "${pkgs.hidapi}/lib/libhidapi-libusb${super.stdenv.hostPlatform.extensions.sharedLibrary}";
-                            })
-                          ];
-                        });
-                      };
-                    };
-                  })
-                ];
-              };
+          specialArgs = { inherit system hyprland; };
+          pkgs = x86_64LinuxPkgs;
           modules = [
             nixos-hardware.nixosModules.lenovo-legion-16ithg6
             nixpkgs.nixosModules.notDetected
@@ -162,10 +146,12 @@
         };
 
         nixos-workstation = nixpkgs.lib.nixosSystem rec {
+          pkgs = x86_64LinuxPkgs;
           system = "x86_64-linux";
           specialArgs = { inherit system; };
           modules = [
             nixpkgs.nixosModules.notDetected
+            nixpkgs-friendly-overlay.nixosModules.default
             ./pc/workstation/configuration.nix
             agenix.nixosModule
             vscode-server.nixosModules.default
@@ -174,6 +160,7 @@
             })
             home-manager.nixosModules.home-manager
             {
+              home-manager.backupFileExtension = "backup";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.ulrik = import ./pc/home/default.nix;

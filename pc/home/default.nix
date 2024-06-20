@@ -50,6 +50,7 @@ in
     shellcheck
     quickemu
     devenv
+    dotnet-sdk_8
 
     # nix
     nix-zsh-completions
@@ -74,7 +75,29 @@ in
   home.sessionVariables = {
     EDITOR = "vim";
     SHELL = "${pkgs.zsh}/bin/zsh";
-    USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
+    # USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
+  };
+
+  wayland.windowManager.hyprland = {
+    enable = false;
+
+    plugins =  with pkgs; [ wofi ];
+
+    settings = {
+      "$mod" = "SUPER";
+      bind = [
+        "$mod, F, exec, firefox"
+        "$mod, k, exec, kitty"
+
+      ];
+
+      input = {
+        kb_layout = "se";
+      };
+    };
+
+    # xwayland.enable = true;
+    # systemd.enable = true;
   };
 
   programs.git = rec {

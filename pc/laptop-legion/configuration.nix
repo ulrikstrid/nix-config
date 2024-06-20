@@ -5,6 +5,7 @@
 , pkgs
 , lib
 , system
+, hyprland
 , ...
 }:
 let
@@ -76,6 +77,10 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  networking.extraHosts = ''
+    127.0.0.1 www.contoso.com
+  '';
+
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
 
@@ -130,77 +135,35 @@ in
     wireless.enableGraphical = true;
   };
 
-  # Enable the X11 windowing system.
-  # programs.xwayland.enable = true;
-  services.xserver = {
-    enable = true;
-
-    # Configure keymap in X11
-    layout = "se";
-    xkbOptions = "eurosign:e";
-    # Enable touchpad support (enabled default in most desktopManager).
-    # libinput.enable = true;
-
-    displayManager = {
-      # defaultSession = "plasma";
-      autoLogin = {
-        inherit user;
-        enable = false;
-      };
+  services.displayManager = {
+    autoLogin = {
+      inherit user;
+      enable = false;
     };
-
-    # Enable the KDE Desktop Environment.
-    displayManager.sddm = {
+    sddm = {
       enable = true;
       enableHidpi = true;
       wayland.enable = true;
     };
   };
 
+  services.xserver = {
+    # Configure keymap in X11
+    xkb.layout = "se";
+    xkb.options = "eurosign:e";    
+  };
+
   services.desktopManager.plasma6 = {
     enable = true;
   };
 
-  # services.udev.extraRules = builtins.readFile "${pkgs.openrgb}/etc/udev/rules.d/60-openrgb.rules";
+  programs.hyprland = {
+    enable = true;
+    # package = hyprland.packages.${system}.hyprland;
+  };
 
-  # Taken from https://github.com/Julusian/node-elgato-stream-deck
-  # 0084 is the Stream Deck +
-  services.udev.extraRules = ''
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0fd9", GROUP="users", TAG+="uaccess"
-    SUBSYSTEM=="input", GROUP="input", MODE="0666"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0060", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0063", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006c", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006d", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0080", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0086", MODE:="666", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0060", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0063", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006c", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="006d", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0080", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0084", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0086", MODE:="666", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="0fd9", ATTRS{idProduct}=="0090", MODE:="666", GROUP="plugdev"
-  '';
 
   services.fwupd.enable = true;
-
-  /*
-    services.gnome = {
-    gnome-settings-daemon.enable = true;
-    gnome-online-accounts.enable = true;
-    experimental-features.realtime-scheduling = true;
-
-    games.enable = true;
-    };
-
-    # Might be needed for gnome theming
-    # services.dbus.packages = with pkgs; [ gnome3.dconf ];
-  */
-
 
   # Enable scanning documents
   hardware.sane.enable = true;

@@ -2,14 +2,14 @@
   {
     name = "vscode-openapi";
     publisher = "42crunch";
-    version = "4.25.1";
-    sha256 = "1kk5a5w3wm4ahrkhv4fzpll6maq22w0rkig3hlr4lwvxk98904ps";
+    version = "4.26.2";
+    sha256 = "1k98rj679hfacrs0vb90b63y4pz2r9vmp85jjcmpwiamxm6wzpml";
   }
   {
     name = "vscode-tailwindcss";
     publisher = "bradlc";
-    version = "0.11.62";
-    sha256 = "0ngcxkj8x4rf2x12b6lqxs0rwkzckcnlvmbxhbm0i9cr1dclnzg4";
+    version = "0.11.70";
+    sha256 = "1fssz70f76xl93fik1b9hmbxbg516kv2474xhqbix3l275d0rgxj";
   }
   {
     name = "gitignore";
@@ -18,34 +18,10 @@
     sha256 = "0ww0x28m83fv5zdqkmz108rsxb60fyy5y0ksknb2xchirzwhayi0";
   }
   {
-    name = "composer-php-vscode";
-    publisher = "devsense";
-    version = "1.45.15272";
-    sha256 = "19k645m0prdq97cg19r5plgn3pfsaff5nc2ndvyi69wvk7a83b1d";
-  }
-  {
-    name = "intelli-php-vscode";
-    publisher = "devsense";
-    version = "0.12.15062";
-    sha256 = "sha256-oTHcjtRvAdxjohW+QabuywkA3hHoEFKMLtgZ9s6c2a8=";
-  }
-  {
-    name = "phptools-vscode";
-    publisher = "devsense";
-    version = "1.45.15272";
-    sha256 = "1phrwcy412i2j1sf1w2rgfbdfjp7y0dkhiinnjlcv5r856xsn3kh";
-  }
-  {
-    name = "profiler-php-vscode";
-    publisher = "devsense";
-    version = "1.45.15272";
-    sha256 = "1g4cfa1kyhyq057cc61y1b216988f17s1z0qq19aibrk5g9zqrls";
-  }
-  {
     name = "gitlens";
     publisher = "eamodio";
-    version = "2024.4.1305";
-    sha256 = "03bjakv8zcnpxgmiv8wkbx7spz9in786cr8m9isi836zy28v3wla";
+    version = "2024.6.105";
+    sha256 = "1dlvkvhlsh8jmd3852l2kccanyc2w9mfjkv233lms9c7fcca44wi";
   }
   {
     name = "editorconfig";
@@ -68,8 +44,8 @@
   {
     name = "vscode-github-actions";
     publisher = "github";
-    version = "0.26.2";
-    sha256 = "16kp1yxs798jp8ffqq3ixm3pyz4f3wgdkdyjpjy94ppqp4aklixh";
+    version = "0.26.3";
+    sha256 = "17p4xjanmaphfx63s6cdji6b237n3ndkfzjjndsvk64imrh2jxdl";
   }
   {
     name = "todo-tree";
@@ -90,40 +66,94 @@
     sha256 = "1cpfckh6zg8byi6x1llkdls24w9b0fvxx4qybi9zfcy5gc60r6nk";
   }
   {
+    name = "azure-dev";
+    publisher = "ms-azuretools";
+    version = "0.8.3";
+    sha256 = "0p8r5nxxa646mw12vbrc4qzf5xwv1jvda5c5zzrx35shipg1idmn";
+  }
+  {
+    name = "vscode-azureappservice";
+    publisher = "ms-azuretools";
+    version = "0.25.2";
+    sha256 = "1xnmjn6izf08yy897ysfg08yykf9wa3yiw5pxbzkmrjkxq3pb947";
+  }
+  {
+    name = "vscode-azurecontainerapps";
+    publisher = "ms-azuretools";
+    version = "0.7.0";
+    sha256 = "0jzmb50aryix46qjf84kjx7mfpax5gfdlql1cmsw0kda1g6zsph1";
+  }
+  {
+    name = "vscode-azurefunctions";
+    publisher = "ms-azuretools";
+    version = "1.15.0";
+    sha256 = "1yhqxh7xfngvi02npy1vy8qal5b9bkgh1qqlr459xr5lcdcv5mcv";
+  }
+  {
+    name = "vscode-azureresourcegroups";
+    publisher = "ms-azuretools";
+    version = "0.9.1";
+    sha256 = "1js826kk88w2dkwiyzw769cblyb1zb6halmdnnlanmg702kizs8x";
+  }
+  {
+    name = "vscode-azurestaticwebapps";
+    publisher = "ms-azuretools";
+    version = "0.12.2";
+    sha256 = "11i78k6vdcps2vw0p8qzhv92lh23718d9jlbpydv0hd1yfk1nhjn";
+  }
+  {
+    name = "vscode-azurestorage";
+    publisher = "ms-azuretools";
+    version = "0.15.3";
+    sha256 = "075h99d09yp3zp4v357zfa7a1z6kwf47a6262nbfhp4dd6vciy6b";
+  }
+  {
+    name = "vscode-azurevirtualmachines";
+    publisher = "ms-azuretools";
+    version = "0.6.5";
+    sha256 = "1pna73535g4pda45qi09564y3c0z1041f4bfdnqldhqcicknzzql";
+  }
+  {
+    name = "vscode-cosmosdb";
+    publisher = "ms-azuretools";
+    version = "0.22.0";
+    sha256 = "0m2pb74ihq6a19cmf1jxb6lqix8rlhydh1kcfgnrapc8ar74zh2n";
+  }
+  {
     name = "vscode-docker";
     publisher = "ms-azuretools";
-    version = "1.29.0";
-    sha256 = "0rz32qwdf7a5hn3nnhxviaf8spwsszfrxmhnbbskspi5r9b6qm4r";
+    version = "1.29.1";
+    sha256 = "0zba6g0cw2h42gfvrlx0x2axlj61hkrfjfg5kyd14fqzi4n9jmxs";
   }
   {
     name = "vscode-dotnet-runtime";
     publisher = "ms-dotnettools";
-    version = "2.0.3";
-    sha256 = "049c3wgwr8v8a6hd2k9fijscnapm7gmbfghlddp6zks94cy80amd";
+    version = "2.0.5";
+    sha256 = "1iflvbadpv19l2fqrdvygymadv1gynaxjfcxqf7xqd6k88szghv9";
   }
   {
     name = "debugpy";
     publisher = "ms-python";
-    version = "2024.5.11001012";
-    sha256 = "1q2skvvh5cshfwxx4gg2pmhz0mf36a0sd8x5i09zx1ixd5hh5fxw";
+    version = "2024.7.11371019";
+    sha256 = "143qm27p62jjgl0mamp7jwb234ljflm4ha934v42yrlbw7csk7cd";
   }
   {
     name = "python";
     publisher = "ms-python";
-    version = "2024.5.11021008";
-    sha256 = "11mnnbdl7cqr18s2cvv2132rrq1f5zslnihp5i2jpa2awjak8wjj";
+    version = "2024.7.11511013";
+    sha256 = "1zajibw9g9k5j9s9x7b798vwv06hvj66fgl7mm06p2r4l26i6j2g";
   }
   {
     name = "vscode-pylance";
     publisher = "ms-python";
-    version = "2024.4.101";
-    sha256 = "13yi6v1l7k1g0r7fhw3gasv7drn03slh0lxp6pcmqlrajkp0cn1n";
+    version = "2024.5.103";
+    sha256 = "1skfpk5020prdylzzig8xgwlzg09rhi7676g7cf9sa4zrm4knjyf";
   }
   {
     name = "jupyter";
     publisher = "ms-toolsai";
-    version = "2024.4.2024041602";
-    sha256 = "0si5syjns11jn5hybpp3hhj3q9d8hqambia0s50qmpldc7756v73";
+    version = "2024.5.2024052901";
+    sha256 = "0bwcsw0mw780psf09msab4rrl17a1bpc8yq29bm48hc30bd9402q";
   }
   {
     name = "jupyter-keymap";
@@ -156,10 +186,16 @@
     sha256 = "0cmh2d73y1kmp6a92h3z7gams7lnqvb7rgib52kqslm4hyhdmii6";
   }
   {
+    name = "azure-account";
+    publisher = "ms-vscode";
+    version = "0.12.0";
+    sha256 = "16r35186k9wy5p2yngsl6hhw52b5bim8jz00jzb6372j532xraq0";
+  }
+  {
     name = "cpptools";
     publisher = "ms-vscode";
-    version = "1.20.1";
-    sha256 = "1zlvcsc4w5s42fkal0yn9sn4k6gg5c0asyvnsyfr274v1d0ldsiq";
+    version = "1.20.5";
+    sha256 = "1j1a8ni5gihpw7zi8c6pg0l2n9yqbk369s3mywgz7dj8ykx7q8xl";
   }
   {
     name = "cpptools-extension-pack";
@@ -176,16 +212,21 @@
   {
     name = "remote-explorer";
     publisher = "ms-vscode";
-    version = "0.5.2024031109";
-    sha256 = "1r8wdlz7p0k4kzfcmqiizns043lhghf5v34sf0gays02x8x9xh5p";
+    version = "0.5.2024052909";
+    sha256 = "13zinnciggwap3jkwqd3riw5126sb64jbbd8bg6jbhrfh1cvlzk6";
+  }
+  {
+    name = "vscode-node-azure-pack";
+    publisher = "ms-vscode";
+    version = "1.2.0";
+    sha256 = "02rrn9lk13yfparpvn80zg6bgl3cxqqq0wc1jpq56zlnsyx06bhl";
   }
   {
     name = "vscode-typescript-next";
     publisher = "ms-vscode";
-    version = "5.5.20240415";
-    sha256 = "1rs42f17l5w6zg8vr3zs9by2y9zprfqniknwvlzzhrcg5whd5zhq";
+    version = "5.5.20240505";
+    sha256 = "05nyrr7bpz485gdcs37smhz18l3zl29h70lr0vb8060lpcsrh25h";
   }
-
   {
     name = "ocaml-platform";
     publisher = "ocamllabs";
@@ -195,8 +236,8 @@
   {
     name = "sqlite-viewer";
     publisher = "qwtel";
-    version = "0.3.17";
-    sha256 = "1va5s5gzri8zykdwk733fi5yzhicm4hvhr36fcfspkmwn784vl4s";
+    version = "0.5.6";
+    sha256 = "0dzdv7ldg7qli121f7j4h8yzimfsymsmj1sbfhl0ngbx5aqr1rkv";
   }
   {
     name = "vscode-yaml";
@@ -205,16 +246,10 @@
     sha256 = "0pww9qndd2vsizsibjsvscz9fbfx8srrj67x4vhmwr581q674944";
   }
   {
-    name = "twinny";
-    publisher = "rjmacarthy";
-    version = "3.11.4";
-    sha256 = "1wzcpxz0b2a5ikg41s6qym0zxbcg4rnd23gfn1jyxndwx31arc90";
-  }
-  {
     name = "rust-analyzer";
     publisher = "rust-lang";
-    version = "0.4.1925";
-    sha256 = "sha256-vbT6Y6zxzktPIDIeAlM1oY0BcryTjgl5NbTgGgvINHc=";
+    version = "0.4.1982";
+    sha256 = "1k4g0fq8rci2pdqk6bbvqpn05hppjbij5l8nsdyzn3bzm7zdyw68";
   }
   {
     name = "night-owl";
@@ -249,20 +284,14 @@
   {
     name = "vscode-gradle";
     publisher = "vscjava";
-    version = "3.13.2024011802";
-    sha256 = "073dg4pqp3gwjqy43fw3772q63qyiw0a0i7j2rabs2crc4phc9jc";
+    version = "3.13.2024052702";
+    sha256 = "1byq1rx3j44iiddpcig3lawp0jqfm98faj1gcgk12f597spr4rrv";
   }
   {
     name = "vscode-icons";
     publisher = "vscode-icons-team";
-    version = "12.7.0";
-    sha256 = "1w30gd0chf2c26a9c426ghs7gmss9dk9yzlrab51ydwhfkkd4hxb";
-  }
-  {
-    name = "vscode-capnp";
-    publisher = "xmonader";
-    version = "1.0.0";
-    sha256 = "0z2shl6qvr3y3m5y63v69x94rzyb2cmf5046afx2yswnll6j52fc";
+    version = "12.8.0";
+    sha256 = "04rb6r7hv1d3gn62rfldz29bzxdpiikgdh188179q2zx0b89zrfv";
   }
 ];
 }
