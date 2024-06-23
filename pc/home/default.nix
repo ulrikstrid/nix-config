@@ -75,30 +75,9 @@ in
   home.sessionVariables = {
     EDITOR = "vim";
     SHELL = "${pkgs.zsh}/bin/zsh";
-    # USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
   };
 
-  wayland.windowManager.hyprland = {
-    enable = false;
-
-    plugins =  with pkgs; [ wofi ];
-
-    settings = {
-      "$mod" = "SUPER";
-      bind = [
-        "$mod, F, exec, firefox"
-        "$mod, k, exec, kitty"
-
-      ];
-
-      input = {
-        kb_layout = "se";
-      };
-    };
-
-    # xwayland.enable = true;
-    # systemd.enable = true;
-  };
+  imports = [ ./vscode ./hyprland ];
 
   programs.git = rec {
     enable = true;
@@ -190,8 +169,6 @@ in
     font.name = "Fira Code";
     font.package = pkgs.fira-code;
   };
-
-  imports = [ ./vscode ];
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "22.11";
