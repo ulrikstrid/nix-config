@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-friendly-overlay = {
-      url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
+      url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay/ulrikstrid--stream-controller-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";

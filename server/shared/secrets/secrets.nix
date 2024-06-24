@@ -1,7 +1,8 @@
 let
-  ulrikstrid = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk";
+  ulrikstrid_laptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk";
+  ulrikstrid_workstation = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj5X5ga3ZEPxupU8p5wTAHE2t3otcjIrAgAXkA6mUNf";
   anmonteiro = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKhezaZPIx4/UkbTm27qaTqOwlfmVNovc33p6L1p+dHG";
-  users = [ ulrikstrid ];
+  users = [ ulrikstrid_laptop ulrikstrid_workstation ];
 
   m1-mini-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWgkBKNe921ohqVoXWnfOdeXCFuqg6mIWx/PJLmqsfJ";
   nuc-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMdgqBbUBN1uVJ8+knaKaEZP+EHwreiIbjqGaz3Mrk1G";

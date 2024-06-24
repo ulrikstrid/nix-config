@@ -28,6 +28,7 @@ in
       # ../shared/flatpak.nix
       # ../shared/ollama.nix
       ../shared/config/users.nix
+      ../../server/shared/services/nix-serve.nix
     ];
 
   # Bootloader.
@@ -44,11 +45,11 @@ in
 
   hardware.enableAllFirmware = true;
   hardware.firmware = [ (pkgs.callPackage ./mt7925-firmware.nix { }) ];
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
     rocmPackages.rocm-runtime
   ];
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
     "L+    /opt/rocm/lib   -    -    -     -    ${pkgs.rocmPackages.clr}/lib"
