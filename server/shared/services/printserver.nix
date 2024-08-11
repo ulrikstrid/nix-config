@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.avahi = {
     enable = true;
     publish = {
@@ -14,15 +15,18 @@
 
   services.printing = {
     enable = true;
-    drivers = [pkgs.gutenprint pkgs.gutenprintBin];
+    drivers = [
+      pkgs.gutenprint
+      pkgs.gutenprintBin
+    ];
     browsing = true;
-    listenAddresses = ["*:631"];
-    allowFrom = ["all"];
+    listenAddresses = [ "*:631" ];
+    allowFrom = [ "all" ];
     defaultShared = true;
   };
 
   networking.firewall = {
-    allowedUDPPorts = [631];
-    allowedTCPPorts = [631];
+    allowedUDPPorts = [ 631 ];
+    allowedTCPPorts = [ 631 ];
   };
 }

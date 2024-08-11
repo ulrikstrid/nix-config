@@ -1,8 +1,5 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config, pkgs, ... }:
+let
   retroarch' = pkgs.retroarch.override {
     cores = with pkgs; [
       libretro.genesis-plus-gx
@@ -11,7 +8,8 @@
       libretro.picodrive
     ];
   };
-in {
+in
+{
   services.xserver = {
     enable = true;
     desktopManager.retroarch = {

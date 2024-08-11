@@ -1,13 +1,17 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 let
-  google-cloud-sdk-c = pkgs.google-cloud-sdk.withExtraComponents (with pkgs.google-cloud-sdk.components; [
-    cloud-build-local
-    gke-gcloud-auth-plugin
-  ]);
+  google-cloud-sdk-c = pkgs.google-cloud-sdk.withExtraComponents (
+    with pkgs.google-cloud-sdk.components;
+    [
+      cloud-build-local
+      gke-gcloud-auth-plugin
+    ]
+  );
 in
 {
   home.packages = with pkgs; [
@@ -77,7 +81,10 @@ in
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
 
-  imports = [ ./vscode ./hyprland ];
+  imports = [
+    ./vscode
+    ./hyprland
+  ];
 
   programs.git = rec {
     enable = true;
@@ -92,7 +99,9 @@ in
       push = {
         autoSetupRemote = "true";
       };
-      rebase = { autosquash = "true"; };
+      rebase = {
+        autosquash = "true";
+      };
       init.defaultBranch = "main";
       sendemail = {
         from = "ulrik@strid.tech";
@@ -104,7 +113,11 @@ in
       credential.helper = "store";
     };
 
-    ignores = [ "_build" "_esy" ".env" ];
+    ignores = [
+      "_build"
+      "_esy"
+      ".env"
+    ];
   };
 
   programs.gh = {
@@ -132,7 +145,11 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = [ "direnv" "kubectl" "gcloud" ];
+      plugins = [
+        "direnv"
+        "kubectl"
+        "gcloud"
+      ];
     };
     shellAliases = {
       npf = "nix-prefetch-url --type sha256";

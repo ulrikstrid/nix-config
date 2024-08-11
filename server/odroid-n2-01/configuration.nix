@@ -1,11 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, system
-, nixpkgs
-, ...
+{
+  config,
+  pkgs,
+  system,
+  nixpkgs,
+  ...
 }:
 let
   nodeIP = "192.168.1.111";
@@ -62,7 +63,11 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ vim wget git ];
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    git
+  ];
   services.openssh = {
     enable = true;
     settings = {
@@ -75,7 +80,9 @@ in
   # networking.firewall.allowedTCPPorts = [ 80 443 44365 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall = { enable = true; };
+  networking.firewall = {
+    enable = true;
+  };
 
   # collect nix store garbage and optimise daily
   nix.gc.automatic = true;

@@ -1,17 +1,13 @@
-{ pkgs
-, lib
-, ...
-}: {
+{ pkgs, lib, ... }:
+{
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    extensions =
-      [
-        pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
-        pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
-        pkgs.vscode-extensions.ms-azuretools.vscode-bicep
-      ]
-      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
+    extensions = [
+      pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
+      pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+      pkgs.vscode-extensions.ms-azuretools.vscode-bicep
+    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
       "editor.fontLigatures" = true;
@@ -28,12 +24,11 @@
       "workbench.iconTheme" = "vscode-icons";
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = "nil";
-       "nix.serverSettings" = {
+      "nix.serverSettings" = {
         "nil" = {
-          "diagnostics"= {
-          };
+          "diagnostics" = { };
           "formatting" = {
-            "command" = ["nixfmt"];
+            "command" = [ "nixfmt" ];
           };
         };
       };
@@ -47,10 +42,24 @@
       "[javascript]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
+      "[ocaml]" = {
+        "editor.defaultFormatter" = "ocamllabs.ocaml-platform";
+      };
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
-      "[json]" = { "editor.defaultFormatter" = "esbenp.prettier-vscode"; };
-      "[nix]" = { "editor.defaultFormatter" = "jnoortheen.nix-ide"; };
-      "todo-tree.general.tags" = [ "BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" ];
+      "[json]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
+      "[nix]" = {
+        "editor.defaultFormatter" = "jnoortheen.nix-ide";
+      };
+      "todo-tree.general.tags" = [
+        "BUG"
+        "HACK"
+        "FIXME"
+        "TODO"
+        "XXX"
+        "[ ]"
+      ];
       "window.titleBarStyle" = "custom";
       "window.zoomLevel" = 0;
       "dotnetAcquisitionExtension.sharedExistingDotnetPath" = "${pkgs.dotnet-sdk_8}/dotnet";

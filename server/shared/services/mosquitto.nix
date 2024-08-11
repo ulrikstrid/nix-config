@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.mosquitto = {
     enable = true;
 
@@ -14,20 +15,20 @@
         users = {
           home-assistant = {
             passwordFile = config.age.secrets.mosquitto-home-assistant.path;
-            acl = ["readwrite #"];
+            acl = [ "readwrite #" ];
           };
           zigbee2mqtt = {
             # TODO: Use this
             # passwordFile = config.age.secrets.mosquitto-zigbee2mqtt.path;
             password = "insecure-password";
-            acl = ["readwrite #"];
+            acl = [ "readwrite #" ];
           };
         };
       }
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [1883];
+  networking.firewall.allowedTCPPorts = [ 1883 ];
 
   age.secrets = with config; {
     mosquitto-home-assistant = {

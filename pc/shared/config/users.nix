@@ -1,8 +1,5 @@
+{ config, pkgs, ... }:
 {
-  config,
-  pkgs,
-  ...
-}: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     mutableUsers = false;
@@ -11,7 +8,7 @@
         home = "/home/hydra_builder";
         description = "Hydra builder";
         isNormalUser = true;
-        extraGroups = ["@builders"];
+        extraGroups = [ "@builders" ];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbJgZ4FJhhPLMQm4/lQLu5YhMUBc7HRF6lEtRQ0kqKk ulrik.strid@outlook.com" # nixos-laptop
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj5X5ga3ZEPxupU8p5wTAHE2t3otcjIrAgAXkA6mUNf ulrik.strid@outlook.com" # workstation
@@ -25,9 +22,27 @@
         isNormalUser = true;
         description = "Ulrik Strid";
         shell = pkgs.zsh;
-        extraGroups = [ "wheel" "networkmanager" "docker" "audio" "video" "render" "i2c" "libvirtd" "scanner" "lp" ];
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "docker"
+          "audio"
+          "video"
+          "render"
+          "i2c"
+          "libvirtd"
+          "scanner"
+          "lp"
+        ];
+      };
+
+      nix-serve = {
+        isSystemUser = true;
+        group = "nix-serve";
       };
     };
+
+    groups.nix-serve = { };
 
     groups.plugdev = {
       name = "plugdev";

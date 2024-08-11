@@ -1,9 +1,10 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    virt-manager
-  ];
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [ virt-manager ];
 
   programs.dconf.enable = true;
 
-  virtualisation.libvirtd = {enable = true;};
+  virtualisation.libvirtd = {
+    enable = true;
+  };
 }

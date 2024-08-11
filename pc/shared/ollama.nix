@@ -4,8 +4,9 @@
   lib,
   ...
 }:
-  let port = "11434";
-  in
+let
+  port = "11434";
+in
 {
   services.ollama = {
     enable = true;

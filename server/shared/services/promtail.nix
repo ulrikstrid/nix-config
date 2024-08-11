@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.promtail = {
     enable = true;
     configuration = {
@@ -14,7 +15,7 @@
 
       positions.filename = "/tmp/positions.yaml";
 
-      clients = [{url = "http://192.168.1.100:3100/loki/api/v1/push";}];
+      clients = [ { url = "http://192.168.1.100:3100/loki/api/v1/push"; } ];
 
       scrape_configs = [
         {
@@ -28,7 +29,7 @@
           };
           relabel_configs = [
             {
-              source_labels = ["__journal__systemd_unit"];
+              source_labels = [ "__journal__systemd_unit" ];
               target_label = "unit";
             }
           ];

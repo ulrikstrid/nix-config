@@ -1,8 +1,4 @@
-
-{ pkgs
-, lib
-, ...
-}:
+{ pkgs, lib, ... }:
 
 {
   programs.waybar = {
@@ -19,10 +15,8 @@
     settings = {
       "$mod" = "SUPER";
 
-      exec-once = [
-        "waybar"
-      ];
-    
+      exec-once = [ "waybar" ];
+
       bind = [
         "$mod, F, exec, firefox"
         "$mod, k, exec, kitty"

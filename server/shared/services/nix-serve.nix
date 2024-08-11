@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   services.nix-serve = {
@@ -11,7 +16,7 @@
 
   age.secrets = with config; {
     signing_key = {
-      file = ../secrets/hydra-signing-key.age;
+      file = ../secrets/stridbot_signing_key.age;
       owner = "nix-serve";
       group = "nix-serve";
       mode = "0440";

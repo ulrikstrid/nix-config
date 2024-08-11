@@ -1,8 +1,10 @@
-{ config
-, pkgs
-, lib
-, ...
-}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   services.coturn = rec {
     enable = true;
     no-cli = true;
@@ -46,30 +48,41 @@
   # open the firewall
   networking.firewall =
     let
-      range = with config.services.coturn; [{
-        from = min-port;
-        to = max-port;
-      }];
+      range = with config.services.coturn; [
+        {
+          from = min-port;
+          to = max-port;
+        }
+      ];
     in
     {
       allowedUDPPortRanges = range;
-      allowedUDPPorts = [ 3478 5349 ];
+      allowedUDPPorts = [
+        3478
+        5349
+      ];
       allowedTCPPortRanges = [ ];
-      allowedTCPPorts = [ 3478 5349 ];
+      allowedTCPPorts = [
+        3478
+        5349
+      ];
     };
 
   # get a certificate
   security.acme.certs.${config.services.coturn.realm} = {
     dnsProvider = "cloudflare";
     credentialsFile = config.age.secrets.acme-credentials.path;
-    /* insert here the right configuration to obtain a certificate */
+    # insert here the right configuration to obtain a certificate
     postRun = "systemctl restart coturn.service";
     group = "turnserver";
   };
 
   # configure conduit to point users to coturn
   services.matrix-conduit.settings.global = with config.services.coturn; {
-    turn_uris = [ "turn:${realm}:3478?transport=udp" "turn:${realm}:3478?transport=tcp" ];
+    turn_uris = [
+      "turn:${realm}:3478?transport=udp"
+      "turn:${realm}:3478?transport=tcp"
+    ];
     turn_secret = "static-auth-secret";
   };
 

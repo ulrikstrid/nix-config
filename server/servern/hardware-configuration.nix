@@ -7,13 +7,19 @@
   pkgs,
   modulesPath,
   ...
-}: {
-  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
+}:
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "ahci"
+    "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/d744bb75-0b72-11e9-9508-d43d7e9c8fc1";
@@ -31,10 +37,10 @@
   };
 
   /*
-  fileSystems."/mnt/diskendisken" = {
-    device = "/dev/disk/by-uuid/0206D77806D76AE5";
-    fsType = "ntfs";
-  };
+    fileSystems."/mnt/diskendisken" = {
+      device = "/dev/disk/by-uuid/0206D77806D76AE5";
+      fsType = "ntfs";
+    };
   */
 
   fileSystems."/nas" = {
@@ -42,9 +48,8 @@
     fsType = "ext4";
   };
 
-  swapDevices = [];
+  swapDevices = [ ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

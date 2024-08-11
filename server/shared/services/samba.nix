@@ -1,10 +1,11 @@
-{...}: {
+{ ... }:
+{
   services.samba = {
     enable = true;
     enableNmbd = true;
     openFirewall = true;
     securityType = "user";
-    invalidUsers = ["root"];
+    invalidUsers = [ "root" ];
     extraConfig = ''
       workgroup = WORKGROUP
       server string = servern

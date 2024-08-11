@@ -1,17 +1,24 @@
 # From: https://gist.github.com/jsimonetti/c636b948fb1a4fe43a90805c64a0b99e
-{ config
-, pkgs
-, lib
-, ...
-}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # services.haveged.enable = true;
 
   virtualisation.oci-containers.containers = {
     zwave2mqtt = {
       image = "zwavejs/zwave-js-ui:9.9.1";
       user = "root";
-      environment = { TZ = "Europe/Stockholm"; };
-      ports = [ "8091:8091" "3300:3000" ];
+      environment = {
+        TZ = "Europe/Stockholm";
+      };
+      ports = [
+        "8091:8091"
+        "3300:3000"
+      ];
       volumes = [ "/data/persist/zwavejs:/usr/src/app/store" ];
       extraOptions = [
         "--privileged"

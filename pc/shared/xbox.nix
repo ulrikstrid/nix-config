@@ -1,13 +1,10 @@
+{ config, pkgs, ... }:
 {
-  config,
-  pkgs,
-  ...
-}: {
-  boot.blacklistedKernelModules = ["xpad"];
+  boot.blacklistedKernelModules = [ "xpad" ];
 
   systemd.services.xboxdrv = {
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
     serviceConfig = {
       Type = "simple";
       User = "root";
@@ -16,7 +13,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    pkgs.xboxdrv
-  ];
+  environment.systemPackages = with pkgs; [ pkgs.xboxdrv ];
 }

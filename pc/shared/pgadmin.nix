@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.pgadmin = {
     enable = true;
     initialEmail = "ulrik.strid@outlook.com";

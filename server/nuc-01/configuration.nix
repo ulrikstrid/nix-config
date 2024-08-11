@@ -6,10 +6,12 @@
   pkgs,
   system,
   ...
-}: let
+}:
+let
   nodeIP = "192.168.1.100";
   nodeHostname = "nuc-01";
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -50,7 +52,13 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [git wget vim bind nfs-utils];
+  environment.systemPackages = with pkgs; [
+    git
+    wget
+    vim
+    bind
+    nfs-utils
+  ];
 
   # List services that you want to enable:
 
@@ -62,7 +70,9 @@ in {
   # networking.firewall.allowedTCPPorts = [ 80 443 44365 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall = {enable = true;};
+  networking.firewall = {
+    enable = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

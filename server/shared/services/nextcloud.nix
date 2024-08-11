@@ -3,32 +3,34 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   nextcloud_host = "nextcloud.strid.ninja";
-in {
+in
+{
   /*
-  services.nginx = {
-  enable = true;
+    services.nginx = {
+    enable = true;
 
-  # Use recommended settings
-  recommendedGzipSettings = true;
-  recommendedOptimisation = true;
-  recommendedProxySettings = true;
-  recommendedTlsSettings = true;
+    # Use recommended settings
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
 
-  # Only allow PFS-enabled ciphers with AES256
-  sslCiphers = "AES256+EECDH:AES256+EDH:!aNULL";
+    # Only allow PFS-enabled ciphers with AES256
+    sslCiphers = "AES256+EECDH:AES256+EDH:!aNULL";
 
-  # Setup Nextcloud virtual host to listen on ports
-  virtualHosts = {
-  ${nextcloud_host} = {
-  ## Force HTTP redirect to HTTPS
-  forceSSL = true;
-  ## LetsEncrypt
-  enableACME = true;
-  };
-  };
-  };
+    # Setup Nextcloud virtual host to listen on ports
+    virtualHosts = {
+    ${nextcloud_host} = {
+    ## Force HTTP redirect to HTTPS
+    forceSSL = true;
+    ## LetsEncrypt
+    enableACME = true;
+    };
+    };
+    };
   */
 
   services.nextcloud = {
@@ -69,11 +71,14 @@ in {
 
       defaultPhoneRegion = "SE";
 
-      trustedProxies = ["nextcloud.strid.ninja"];
+      trustedProxies = [ "nextcloud.strid.ninja" ];
     };
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   security.acme = {
     acceptTerms = true;

@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.adguardhome = {
     enable = true;
 
@@ -27,7 +28,7 @@
       debug_pprof = false;
       web_session_ttl = 720;
       dns = {
-        bind_hosts = ["0.0.0.0"];
+        bind_hosts = [ "0.0.0.0" ];
         port = 53;
         statistics_interval = 30;
         querylog_enabled = true;
@@ -43,7 +44,7 @@
         parental_block_host = "family-block.dns.adguard.com";
         safebrowsing_block_host = "standard-block.dns.adguard.com";
         ratelimit = 20;
-        ratelimit_whitelist = [];
+        ratelimit_whitelist = [ ];
         refuse_any = true;
         upstream_dns = [
           "1.1.1.2"
@@ -61,20 +62,27 @@
         all_servers = false;
         fastest_addr = false;
         fastest_timeout = "1s";
-        allowed_clients = [];
-        disallowed_clients = [];
-        blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
-        trusted_proxies = ["127.0.0.0/8" "::1/128"];
+        allowed_clients = [ ];
+        disallowed_clients = [ ];
+        blocked_hosts = [
+          "version.bind"
+          "id.server"
+          "hostname.bind"
+        ];
+        trusted_proxies = [
+          "127.0.0.0/8"
+          "::1/128"
+        ];
         cache_size = 4194304;
         cache_ttl_min = 0;
         cache_ttl_max = 0;
         cache_optimistic = false;
-        bogus_nxdomain = [];
+        bogus_nxdomain = [ ];
         aaaa_disabled = false;
         enable_dnssec = false;
         edns_client_subnet = false;
         max_goroutines = 300;
-        ipset = [];
+        ipset = [ ];
         filtering_enabled = false;
         filters_update_interval = 12;
         parental_enabled = false;
@@ -84,13 +92,13 @@
         safesearch_cache_size = 1048576;
         parental_cache_size = 1048576;
         cache_time = 30;
-        rewrites = [];
-        blocked_services = [];
+        rewrites = [ ];
+        blocked_services = [ ];
         upstream_timeout = "10s";
         local_domain_name = "lan";
         resolve_clients = true;
         use_private_ptr_resolvers = true;
-        local_ptr_upstreams = [];
+        local_ptr_upstreams = [ ];
       };
       tls = {
         enabled = false;
@@ -128,8 +136,12 @@
           id = 4;
         }
       ];
-      whitelist_filters = [];
-      user_rules = ["@@||prod.msocdn.com^" "@@||api.smartthings.com^" "@@||l2.io^"];
+      whitelist_filters = [ ];
+      user_rules = [
+        "@@||prod.msocdn.com^"
+        "@@||api.smartthings.com^"
+        "@@||l2.io^"
+      ];
       dhcp = {
         enabled = false;
         interface_name = "";
@@ -140,7 +152,7 @@
           range_end = "";
           lease_duration = 86400;
           icmp_timeout_msec = 1000;
-          options = [];
+          options = [ ];
         };
         dhcpv6 = {
           range_start = "";
@@ -152,10 +164,13 @@
       clients = [
         {
           name = "Laptop Legion";
-          tags = ["device_laptop" "os_windows"];
-          ids = ["192.168.1.225"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [
+            "device_laptop"
+            "os_windows"
+          ];
+          ids = [ "192.168.1.225" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = true;
           parental_enabled = false;
@@ -165,10 +180,10 @@
         }
         {
           name = "SG";
-          tags = ["device_other"];
-          ids = ["192.168.1.1"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [ "device_other" ];
+          ids = [ "192.168.1.1" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = false;
           parental_enabled = false;
@@ -178,10 +193,13 @@
         }
         {
           name = "Sissels Galaxy S20";
-          tags = ["device_phone" "os_android"];
-          ids = ["192.168.1.7"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [
+            "device_phone"
+            "os_android"
+          ];
+          ids = [ "192.168.1.7" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = false;
           parental_enabled = false;
@@ -191,10 +209,13 @@
         }
         {
           name = "Sissels surface pro";
-          tags = ["device_laptop" "os_windows"];
-          ids = ["192.168.1.235"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [
+            "device_laptop"
+            "os_windows"
+          ];
+          ids = [ "192.168.1.235" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = false;
           parental_enabled = false;
@@ -204,10 +225,10 @@
         }
         {
           name = "Skrivaren";
-          tags = ["device_printer"];
-          ids = ["192.168.1.172"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [ "device_printer" ];
+          ids = [ "192.168.1.172" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = false;
           parental_enabled = false;
@@ -217,10 +238,13 @@
         }
         {
           name = "Ulriks S20 ultra";
-          tags = ["device_phone" "os_android"];
-          ids = ["192.168.1.185"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [
+            "device_phone"
+            "os_android"
+          ];
+          ids = [ "192.168.1.185" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = false;
           filtering_enabled = false;
           parental_enabled = true;
@@ -230,10 +254,10 @@
         }
         {
           name = "servern";
-          tags = ["os_linux"];
-          ids = ["192.168.1.101"];
-          blocked_services = [];
-          upstreams = [];
+          tags = [ "os_linux" ];
+          ids = [ "192.168.1.101" ];
+          blocked_services = [ ];
+          upstreams = [ ];
           use_global_settings = true;
           filtering_enabled = false;
           parental_enabled = false;

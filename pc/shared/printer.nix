@@ -1,13 +1,18 @@
 # https://nixos.wiki/wiki/Printing
-{ config
-, pkgs
-, lib
-, ...
-}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint pkgs.gutenprintBin ];
+    drivers = [
+      pkgs.gutenprint
+      pkgs.gutenprintBin
+    ];
   };
 
   # IPP everywhere capable printer

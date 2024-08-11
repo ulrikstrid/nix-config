@@ -1,12 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, lib
-, system
-, hyprland
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  system,
+  hyprland,
+  ...
 }:
 let
   user = "ulrik";
@@ -41,8 +42,14 @@ in
   '';
   boot.loader.grub.useOSProber = true;
 
-  boot.kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=native" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-i801" ];
+  boot.kernelParams = [
+    "amdgpu.backlight=0"
+    "acpi_backlight=native"
+  ];
+  boot.kernelModules = [
+    "i2c-dev"
+    "i2c-i801"
+  ];
   boot.extraModulePackages = [ config.boot.kernelPackages.lenovo-legion-module ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -107,7 +114,12 @@ in
     useXkbConfig = true;
   };
 
-  fonts.packages = with pkgs; [ fira-mono fira-code roboto roboto-mono ];
+  fonts.packages = with pkgs; [
+    fira-mono
+    fira-code
+    roboto
+    roboto-mono
+  ];
 
   services.thermald.enable = true;
 
@@ -150,7 +162,7 @@ in
   services.xserver = {
     # Configure keymap in X11
     xkb.layout = "se";
-    xkb.options = "eurosign:e";    
+    xkb.options = "eurosign:e";
   };
 
   services.desktopManager.plasma6 = {
@@ -161,7 +173,6 @@ in
     enable = true;
     # package = hyprland.packages.${system}.hyprland;
   };
-
 
   services.fwupd.enable = true;
 

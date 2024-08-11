@@ -1,14 +1,12 @@
 # This is a slimmed down version of the config that is generated with
 # nixos-generate-config. I removed everything that I understood well
 # enough to be sure it is not necessary for working on nixos via ssh.
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config, pkgs, ... }:
+let
   nodeIP = "192.168.1.110";
   nodeHostname = "pi4-01";
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
 
@@ -27,14 +25,19 @@ in {
       raspberryPi.enable = true;
       raspberryPi.version = 4;
     };
-    kernelParams = ["cgroup_memory=1" "cgroup_enable=memory"];
+    kernelParams = [
+      "cgroup_memory=1"
+      "cgroup_enable=memory"
+    ];
     kernelPackages = pkgs.linuxPackages_rpi4; # Mainline doesn't work yet
   };
 
   networking = {
     hostName = nodeHostname;
     extraHosts = "${nodeIP} ${nodeHostname}";
-    networkmanager = {enable = true;};
+    networkmanager = {
+      enable = true;
+    };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -68,7 +71,7 @@ in {
 
       positions.filename = "/tmp/positions.yaml";
 
-      clients = [{url = "http://192.168.1.100:3100/loki/api/v1/push";}];
+      clients = [ { url = "http://192.168.1.100:3100/loki/api/v1/push"; } ];
 
       scrape_configs = [
         {
@@ -82,7 +85,7 @@ in {
           };
           relabel_configs = [
             {
-              source_labels = ["__journal__systemd_unit"];
+              source_labels = [ "__journal__systemd_unit" ];
               target_label = "unit";
             }
           ];
@@ -95,7 +98,7 @@ in {
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = ["systemd"];
+        enabledCollectors = [ "systemd" ];
         port = 9002;
       };
 
@@ -111,7 +114,9 @@ in {
     enable = true;
     bind = "0.0.0.0";
     openFirewall = true;
-    settings = {maxmemory = "512mb";};
+    settings = {
+      maxmemory = "512mb";
+    };
   };
 
   # packages to install

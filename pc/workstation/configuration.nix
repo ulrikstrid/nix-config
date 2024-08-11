@@ -7,29 +7,43 @@
 let
   user = "ulrik";
   hostName = "nixos-workstation";
-  make_kernelPatch = { name, url, sha256 ? pkgs.lib.fakeSha256, revert ? false }: {
-    inherit name;
-    patch = (pkgs.fetchpatch {
-      inherit name url sha256 revert;
-    });
-  };
+  make_kernelPatch =
+    {
+      name,
+      url,
+      sha256 ? pkgs.lib.fakeSha256,
+      revert ? false,
+    }:
+    {
+      inherit name;
+      patch = (
+        pkgs.fetchpatch {
+          inherit
+            name
+            url
+            sha256
+            revert
+            ;
+        }
+      );
+    };
 in
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../shared/printer.nix
-      ../shared/sound.nix
-      ../shared/nix-settings.nix
-      ../shared/zsh.nix
-      ../shared/docker.nix
-      # ../shared/flatpak.nix
-      # ../shared/ollama.nix
-      ../shared/config/users.nix
-      ../../server/shared/services/nix-serve.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../shared/printer.nix
+    ../shared/sound.nix
+    ../shared/nix-settings.nix
+    ../shared/zsh.nix
+    ../shared/docker.nix
+    ../shared/stridbot.nix
+    # ../shared/flatpak.nix
+    # ../shared/ollama.nix
+    ../shared/config/users.nix
+    ../../server/shared/services/nix-serve.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -56,10 +70,11 @@ in
   ];
 
   boot.kernelPatches = [
-    {
+    (make_kernelPatch {
       name = "Bluetooth: btusb: Add new VID/PID 13d3/3602 for MT7925";
-      patch = ./patches/add-mt7925b.patch;
-    }
+      url = "https://patchwork.kernel.org/project/bluetooth/patch/800469f157c862bcdef7213793004d2de977791f.1705129502.git.deren.wu@mediatek.com/raw/";
+      sha256 = "sha256-MFqny26TUgHK+8X7gTdQgAkuHE++wsSARpH5pUgy6mM=";
+    })
     (make_kernelPatch {
       name = "[v2,1/2] Bluetooth: btusb: mediatek: refactor btusb_mtk_reset function";
       url = "https://patchwork.kernel.org/project/bluetooth/patch/20240102124747.21644-1-hao.qin@mediatek.com/raw/";
@@ -115,7 +130,7 @@ in
       enable = true;
       wayland.enable = true;
     };
-    autoLogin.enable = true;
+    autoLogin.enable = false;
     autoLogin.user = user;
   };
   services.desktopManager.plasma6.enable = true;
@@ -125,7 +140,6 @@ in
     # package = hyprland.packages.${system}.hyprland;
   };
 
-
   # Configure console keymap
   console.keyMap = "sv-latin1";
 
@@ -134,6 +148,8 @@ in
     enable = true;
     powerOnBoot = true;
   };
+
+  age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];
 
   services.fwupd.enable = true;
 
@@ -179,6 +195,7 @@ in
     enable = true;
     plugins = with pkgs.stream-controller-plugins; [
       audioControl
+      audioSwitcher
       battery
       clocks
       counter
@@ -202,7 +219,7 @@ in
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 3000 ]; # Temporary
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

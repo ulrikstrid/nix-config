@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.adb.enable = true;
-  users.users.ulrik.extraGroups = ["adbusers"];
+  users.users.ulrik.extraGroups = [ "adbusers" ];
 }
