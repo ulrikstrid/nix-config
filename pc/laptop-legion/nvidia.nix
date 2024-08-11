@@ -18,10 +18,9 @@ in
   # From https://nixos.wiki/wiki/Nvidia on 2023-06-26
 
   # Make sure opengl is enabled
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Enable the nvidia card
