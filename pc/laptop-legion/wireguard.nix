@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   networking.wg-quick.interfaces = let
     server_ip = "home.strid.ninja";
   in {
