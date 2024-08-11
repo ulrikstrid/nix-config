@@ -83,7 +83,7 @@ in
 
   imports = [
     ./vscode
-    ./hyprland
+    # ./hyprland
   ];
 
   programs.git = rec {

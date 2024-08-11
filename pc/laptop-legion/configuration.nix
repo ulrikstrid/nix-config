@@ -171,7 +171,7 @@ in
   };
 
   programs.hyprland = {
-    enable = true;
+    enable = false;
     # package = hyprland.packages.${system}.hyprland;
   };
 
