@@ -57,5 +57,5 @@ in
   # coturn static auth secret
   "coturn-secret.age".publicKeys = users ++ [ odroid-n2-01 ];
   # WireGuard
-  "WireGuardServer2-nixos-laptop.age".publicKeys = users;
+  "wireguard-vpn-laptop.age".publicKeys = users;
 }

@@ -31,6 +31,7 @@ in
     ../shared/printer.nix
     ../shared/nix-settings.nix
     ./nvidia.nix
+    ./wireguard.nix
     ../shared/config/users.nix
   ];
 
