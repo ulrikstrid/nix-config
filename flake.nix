@@ -16,10 +16,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #hyprland = {
+    #  url = "github:hyprwm/Hyprland?submodules=1";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
@@ -52,7 +52,7 @@
       flake-utils,
       nixos-generators,
       agenix,
-      hyprland,
+      #hyprland,
       stridbot,
       ...
     }:
@@ -165,7 +165,7 @@
           nixos-laptop = nixpkgs.lib.nixosSystem rec {
             system = "x86_64-linux";
             specialArgs = {
-              inherit system hyprland;
+              inherit system;
             };
             pkgs = x86_64LinuxPkgs;
             modules = [

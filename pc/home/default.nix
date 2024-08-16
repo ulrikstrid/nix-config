@@ -30,7 +30,7 @@ in
     element-desktop
     microsoft-edge
     # ledger-live-desktop
-    godot_4
+    # godot_4
     insomnia
 
     # utils
@@ -48,11 +48,9 @@ in
     kubectx
     kustomize
     fluxcd
-    google-cloud-sdk-c
 
     # dev
     shellcheck
-    quickemu
     devenv
     dotnet-sdk_8
 

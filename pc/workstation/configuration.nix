@@ -69,6 +69,8 @@ in
     "L+    /opt/rocm/lib   -    -    -     -    ${pkgs.rocmPackages.clr}/lib"
   ];
 
+/*
+  These *should* not be needed anymore
   boot.kernelPatches = [
     (make_kernelPatch {
       name = "Bluetooth: btusb: Add new VID/PID 13d3/3602 for MT7925";
@@ -86,6 +88,7 @@ in
       sha256 = "sha256-L0xRapA463x9/HYQOI1t0hFZGWuz6E1xlCWmlzwqw7g=";
     })
   ];
+*/
 
   networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
@@ -188,8 +191,6 @@ in
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   };
-
-  # programs.streamdeck-ui.enable = true;
 
   programs.stream-controller = {
     enable = true;
