@@ -3,10 +3,38 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    extensions = [
-      pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
-      pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
-      # pkgs.vscode-extensions.ms-azuretools.vscode-bicep
+    extensions = with pkgs.vscode-extensions; [
+      bradlc.vscode-tailwindcss
+      codezombiech.gitignore
+      eamodio.gitlens
+      editorconfig.editorconfig
+      esbenp.prettier-vscode
+      fill-labs.dependi
+      github.vscode-github-actions
+      gruntfuggly.todo-tree
+      jnoortheen.nix-ide
+      ms-azuretools.vscode-bicep
+      ms-azuretools.vscode-docker
+      ms-dotnettools.vscode-dotnet-runtime
+      ms-python.debugpy
+      ms-python.python
+      ms-python.vscode-pylance
+      ms-toolsai.jupyter
+      ms-toolsai.jupyter-keymap
+      ms-toolsai.jupyter-renderers
+      ms-toolsai.vscode-jupyter-cell-tags
+      ms-toolsai.vscode-jupyter-slideshow
+      ms-vscode-remote.remote-ssh
+      ms-vscode-remote.remote-ssh-edit
+      ms-vscode.cpptools
+      ms-vscode.cpptools-extension-pack
+      ms-vscode.powershell
+      ms-vsliveshare.vsliveshare
+      redhat.vscode-yaml
+      rust-lang.rust-analyzer
+      tamasfe.even-better-toml
+      timonwong.shellcheck
+      vscode-icons-team.vscode-icons
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";
