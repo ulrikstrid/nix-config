@@ -22,7 +22,7 @@ in
     # Services
     ../shared/services/grafana.nix
     # ../shared/services/loki.nix
-    ../shared/services/n8n.nix
+    # ../shared/services/n8n.nix
     ../shared/services/node-exporter.nix
     ../shared/services/prometheus.nix
     # ../shared/services/promtail.nix

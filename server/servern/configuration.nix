@@ -23,7 +23,7 @@ in
     # ../shared/services/promtail.nix
     ../shared/services/postgres.nix
     # ../shared/services/tandoor.nix
-    ../shared/services/adguard.nix
+    # ../shared/services/adguard.nix
     ../shared/services/hydra.nix
     ../shared/services/samba.nix
   ];
