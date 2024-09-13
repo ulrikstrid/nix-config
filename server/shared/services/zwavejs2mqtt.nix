@@ -10,7 +10,7 @@
 
   virtualisation.oci-containers.containers = {
     zwave2mqtt = {
-      image = "zwavejs/zwave-js-ui:9.9.1";
+      image = "zwavejs/zwave-js-ui:9.18.1";
       user = "root";
       environment = {
         TZ = "Europe/Stockholm";

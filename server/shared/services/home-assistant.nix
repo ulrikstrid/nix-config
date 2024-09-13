@@ -53,14 +53,21 @@
           # py.python_openzwave
           py.python-miio
           # py.python-openzwave-mqtt
-          py.pyunifiprotect
           py.pyxiaomigateway
           py.scapy
           py.securetar
           py.smhi-pkg
           py.spotipy
           py.sqlalchemy
+
+          # unifi
           py.unifi-discovery
+          py.uiprotect
+
+          # Yale integration
+          py.yalexs
+          py.yalexs-ble
+
           py.zeroconf
           py.zha-quirks
           # py.zigpy
