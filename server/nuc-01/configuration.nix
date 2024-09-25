@@ -29,6 +29,7 @@ in
     # ../shared/services/unifi-poller.nix
     ../shared/services/zigbee2mqtt.nix
     ../shared/services/zwavejs2mqtt.nix
+    ../shared/services/whisper.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

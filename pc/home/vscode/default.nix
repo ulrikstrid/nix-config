@@ -13,8 +13,6 @@
       github.vscode-github-actions
       gruntfuggly.todo-tree
       jnoortheen.nix-ide
-      ms-azuretools.vscode-bicep
-      ms-azuretools.vscode-docker
       ms-dotnettools.vscode-dotnet-runtime
       ms-python.debugpy
       ms-python.python
@@ -35,6 +33,10 @@
       tamasfe.even-better-toml
       timonwong.shellcheck
       vscode-icons-team.vscode-icons
+
+
+      # ms-azuretools.vscode-bicep - Broken
+      # ms-azuretools.vscode-docker - Missing?
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace (import ./extensions.nix).extensions;
     userSettings = {
       "editor.fontFamily" = "'Fira Code', Consolas, 'Courier New', monospace";

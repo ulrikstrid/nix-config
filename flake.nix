@@ -186,7 +186,7 @@
             pkgs = x86_64LinuxPkgs;
             system = "x86_64-linux";
             specialArgs = {
-              inherit system;
+              inherit system nixos-hardware;
             };
             modules = [
               nixpkgs.nixosModules.notDetected

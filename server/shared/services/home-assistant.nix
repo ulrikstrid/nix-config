@@ -13,9 +13,14 @@
           "esphome"
         ];
 
+        customComponents = with pkgs.home-assistant-custom-components; [
+          xiaomi_miot
+
+        ];
+
         extraPackages = py: [
           pkgs.openzwave
-          py.adguardhome
+          # py.adguardhome
           py.aioesphomeapi
           py.aiohttp-cors
           py.aiohttp-cors
@@ -77,6 +82,9 @@
           # py.zigpy-zigate
           # py.zigpy-znp
           py.zwave-js-server-python
+
+          # speech-to-text
+          py.wyoming
         ];
       }).overrideAttrs
         (_: {
@@ -109,8 +117,9 @@
       # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
       # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
       # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
-      #vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
+      # vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
 
+      /*
       google_assistant = {
         project_id = "home-assistant-d8169";
         service_account = "!include ${config.age.secrets.home-assistant-google_assistant.path}";
@@ -133,6 +142,7 @@
           };
         };
       };
+      */
 
       frontend = {
         themes = "!include_dir_merge_named themes";

@@ -2,10 +2,11 @@
 {
   services.samba = {
     enable = true;
-    enableNmbd = true;
+    nmbd.enable = true;
     openFirewall = true;
-    securityType = "user";
-    invalidUsers = [ "root" ];
+    settings.global.security = "user";
+    settings.global."invalid users" = [ "root" ];
+    /*
     extraConfig = ''
       workgroup = WORKGROUP
       server string = servern
@@ -18,7 +19,8 @@
       # guest account = nobody
       # map to guest = nobody
     '';
-    shares = {
+    */
+    settings = {
       nas = {
         path = "/nas";
         browseable = "yes";

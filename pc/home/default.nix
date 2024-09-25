@@ -133,8 +133,10 @@ in
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
-    cdpath = [ "~/dev" ];
-    initExtra = ''export XDG_DATA_HOME="$HOME/.local/share"'';
+    cdpath = [ "~/dev" "~/dev/stridtech" ];
+    initExtra = ''
+      export XDG_DATA_HOME="$HOME/.local/share"
+    '';
     dirHashes = {
       dev = "$HOME/dev";
       docs = "$HOME/Documents";

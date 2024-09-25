@@ -2,35 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  nixos-hardware,
+  ...
+}:
 
 let
   user = "ulrik";
   hostName = "nixos-workstation";
-  make_kernelPatch =
-    {
-      name,
-      url,
-      sha256 ? pkgs.lib.fakeSha256,
-      revert ? false,
-    }:
-    {
-      inherit name;
-      patch = (
-        pkgs.fetchpatch {
-          inherit
-            name
-            url
-            sha256
-            revert
-            ;
-        }
-      );
-    };
 in
 
 {
   imports = [
+    nixos-hardware.nixosModules.common-gpu-amd
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-cpu-amd-pstate
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../shared/printer.nix
@@ -68,27 +56,6 @@ in
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
     "L+    /opt/rocm/lib   -    -    -     -    ${pkgs.rocmPackages.clr}/lib"
   ];
-
-/*
-  These *should* not be needed anymore
-  boot.kernelPatches = [
-    (make_kernelPatch {
-      name = "Bluetooth: btusb: Add new VID/PID 13d3/3602 for MT7925";
-      url = "https://patchwork.kernel.org/project/bluetooth/patch/800469f157c862bcdef7213793004d2de977791f.1705129502.git.deren.wu@mediatek.com/raw/";
-      sha256 = "sha256-MFqny26TUgHK+8X7gTdQgAkuHE++wsSARpH5pUgy6mM=";
-    })
-    (make_kernelPatch {
-      name = "[v2,1/2] Bluetooth: btusb: mediatek: refactor btusb_mtk_reset function";
-      url = "https://patchwork.kernel.org/project/bluetooth/patch/20240102124747.21644-1-hao.qin@mediatek.com/raw/";
-      sha256 = "sha256-fHXVak83a0j3C0djb51YZsqU5d8V1EMc1B2pMW18Bn8=";
-    })
-    (make_kernelPatch {
-      name = "[v2,2/2] Bluetooth: btusb: mediatek: add a recovery method for MT7922 and MT7925";
-      url = "https://patchwork.kernel.org/project/bluetooth/patch/20240102124747.21644-2-hao.qin@mediatek.com/raw/";
-      sha256 = "sha256-L0xRapA463x9/HYQOI1t0hFZGWuz6E1xlCWmlzwqw7g=";
-    })
-  ];
-*/
 
   networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
