@@ -26,8 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix.url = "github:ryantm/agenix/0.13.0";
+    agenix.url = "github:ryantm/agenix/0.15.0";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.inputs.darwin.follows = "darwin";
+    agenix.inputs.home-manager.follows = "home-manager";
 
     darwin = {
       url = "github:lnl7/nix-darwin/master";
@@ -69,7 +71,7 @@
           devShell = pkgs.mkShell {
             buildInputs = [
               pkgs.nixpkgs-fmt
-              pkgs.niv
+              pkgs.nil
               agenix.packages.${system}.agenix
             ];
           };
@@ -125,7 +127,7 @@
             };
             modules = [
               ./server/servern/configuration.nix
-              agenix.nixosModule
+              agenix.nixosModules.default
             ];
           };
 
@@ -136,7 +138,7 @@
             };
             modules = [
               ./server/servern2/configuration.nix
-              agenix.nixosModule
+              agenix.nixosModules.default
             ];
           };
 
@@ -147,7 +149,7 @@
             };
             modules = [
               ./server/nuc-01/configuration.nix
-              agenix.nixosModule
+              agenix.nixosModules.default
             ];
           };
 
@@ -158,7 +160,7 @@
             };
             modules = [
               ./server/odroid-n2-01/configuration.nix
-              agenix.nixosModule
+              agenix.nixosModules.default
             ];
           };
 
@@ -173,7 +175,7 @@
               nixpkgs.nixosModules.notDetected
               ./pc/laptop-legion/configuration.nix
               home-manager.nixosModules.home-manager
-              agenix.nixosModule
+              agenix.nixosModules.default
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
@@ -193,7 +195,7 @@
               nixpkgs-friendly-overlay.nixosModules.default
               stridbot.nixosModules.default
               ./pc/workstation/configuration.nix
-              agenix.nixosModule
+              agenix.nixosModules.default
               vscode-server.nixosModules.default
               (
                 { config, pkgs, ... }:
