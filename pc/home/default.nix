@@ -133,7 +133,10 @@ in
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
-    cdpath = [ "~/dev" "~/dev/stridtech" ];
+    cdpath = [
+      "~/dev"
+      "~/dev/stridtech"
+    ];
     initExtra = ''
       export XDG_DATA_HOME="$HOME/.local/share"
     '';
@@ -182,9 +185,10 @@ in
 
   programs.kitty = {
     enable = true;
-    theme = "Night Owl";
+    themeFile = "night_owl";
     font.name = "Fira Code";
     font.package = pkgs.fira-code;
+    shellIntegration.enableZshIntegration = true;
   };
 
   # https://rycee.gitlab.io/home-manager/options.html#opt-home.stateVersion
