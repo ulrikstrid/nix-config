@@ -6,6 +6,77 @@
 }:
 {
   services.home-assistant = {
+    enable = true;
+
+    customComponents = with pkgs.home-assistant-custom-components; [
+      xiaomi_miot
+    ];
+
+    config = {
+      tts = [ { platform = "google_translate"; } ];
+
+      homeassistant = {
+        name = "Home";
+        latitude = "57.988434";
+        longitude = "12.692189";
+        country = "SE";
+        unit_system = "metric";
+        temperature_unit = "C";
+        time_zone = "Europe/Stockholm";
+        internal_url = "http://192.168.1.101:8123";
+        external_url = "https://homeass.strid.ninja";
+      };
+
+      group = "!include groups.yaml";
+      automation = "!include automations.yaml";
+      script = "!include scripts.yaml";
+      scene = "!include scenes.yaml";
+
+      # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
+      # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
+      # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
+      # vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
+
+      /*
+        google_assistant = {
+          project_id = "home-assistant-d8169";
+          service_account = "!include ${config.age.secrets.home-assistant-google_assistant.path}";
+          report_state = true;
+          exposed_domains = [
+            "light"
+            "climate"
+            "vacuum"
+          ];
+          entity_config = {
+            "switch.lampor_baksida" = { };
+            "switch.lampor_framsida" = {
+              name = "Lampor framsida hus";
+            };
+            "switch.lampor_framsida_2" = {
+              name = "Lampa framsida stolpe";
+            };
+            "switch.window_lamp" = {
+              name = "Fönsterlampa";
+            };
+          };
+        };
+      */
+
+      frontend = {
+        themes = "!include_dir_merge_named themes";
+      };
+
+      http = {
+        server_port = 8123;
+        use_x_forwarded_for = true;
+        trusted_proxies = "192.168.1.101";
+      };
+
+      default_config = { };
+    };
+
+    configDir = "/mnt/homeassistant";
+
     package =
       (pkgs.home-assistant.override {
         extraComponents = [
@@ -13,18 +84,15 @@
           "esphome"
         ];
 
-        customComponents = with pkgs.home-assistant-custom-components; [
-          xiaomi_miot
-
-        ];
-
         extraPackages = py: [
           pkgs.openzwave
           # py.adguardhome
+          py.aioautomower
           py.aioesphomeapi
           py.aiohttp-cors
           py.aiohttp-cors
           py.aiohue
+          py.aiomealie
           py.aiounifi
           py.async-upnp-client
           py.bellows
@@ -91,73 +159,6 @@
           tests = [ ];
           doInstallCheck = false;
         });
-
-    enable = true;
-
-    config = {
-      tts = [ { platform = "google_translate"; } ];
-
-      homeassistant = {
-        name = "Home";
-        latitude = "57.988434";
-        longitude = "12.692189";
-        country = "SE";
-        unit_system = "metric";
-        temperature_unit = "C";
-        time_zone = "Europe/Stockholm";
-        internal_url = "http://192.168.1.101:8123";
-        external_url = "https://homeass.strid.ninja";
-      };
-
-      group = "!include groups.yaml";
-      automation = "!include automations.yaml";
-      script = "!include scripts.yaml";
-      scene = "!include scenes.yaml";
-
-      # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
-      # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
-      # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
-      # vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
-
-      /*
-      google_assistant = {
-        project_id = "home-assistant-d8169";
-        service_account = "!include ${config.age.secrets.home-assistant-google_assistant.path}";
-        report_state = true;
-        exposed_domains = [
-          "light"
-          "climate"
-          "vacuum"
-        ];
-        entity_config = {
-          "switch.lampor_baksida" = { };
-          "switch.lampor_framsida" = {
-            name = "Lampor framsida hus";
-          };
-          "switch.lampor_framsida_2" = {
-            name = "Lampa framsida stolpe";
-          };
-          "switch.window_lamp" = {
-            name = "Fönsterlampa";
-          };
-        };
-      };
-      */
-
-      frontend = {
-        themes = "!include_dir_merge_named themes";
-      };
-
-      http = {
-        server_port = 8123;
-        use_x_forwarded_for = true;
-        trusted_proxies = "192.168.1.101";
-      };
-
-      default_config = { };
-    };
-
-    configDir = "/mnt/homeassistant";
   };
 
   environment.systemPackages = with pkgs; [ home-assistant-cli ];

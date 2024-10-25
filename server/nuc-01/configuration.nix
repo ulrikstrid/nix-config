@@ -30,6 +30,7 @@ in
     ../shared/services/zigbee2mqtt.nix
     ../shared/services/zwavejs2mqtt.nix
     ../shared/services/whisper.nix
+    ../shared/services/mealie.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
