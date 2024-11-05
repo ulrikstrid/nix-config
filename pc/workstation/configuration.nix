@@ -31,6 +31,8 @@ in
     # ../shared/ollama.nix
     ../shared/config/users.nix
     ../../server/shared/services/nix-serve.nix
+
+    ./bluetooth-fix.nix
   ];
 
   # Bootloader.
