@@ -1,10 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-friendly-overlay = {
-      url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixpkgs-friendly-overlay = {
+    #   url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -46,7 +46,7 @@
     {
       self,
       nixpkgs,
-      nixpkgs-friendly-overlay,
+      # nixpkgs-friendly-overlay,
       vscode-server,
       home-manager,
       nixos-hardware,
@@ -64,7 +64,7 @@
         let
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ nixpkgs-friendly-overlay.overlays.default ];
+            # overlays = [ nixpkgs-friendly-overlay.overlays.default ];
           };
         in
         {
@@ -110,7 +110,7 @@
             import nixpkgs {
               system = "x86_64-linux";
               overlays = [
-                nixpkgs-friendly-overlay.overlays.default
+                # nixpkgs-friendly-overlay.overlays.default
                 (final: prev: { stridbot = stridbot.packages.x86_64-linux.default; })
               ];
               # Allow unfree packages
@@ -192,7 +192,7 @@
             };
             modules = [
               nixpkgs.nixosModules.notDetected
-              nixpkgs-friendly-overlay.nixosModules.default
+              # nixpkgs-friendly-overlay.nixosModules.default
               stridbot.nixosModules.default
               ./pc/workstation/configuration.nix
               agenix.nixosModules.default

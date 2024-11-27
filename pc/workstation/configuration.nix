@@ -161,27 +161,11 @@ in
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   };
 
-  programs.stream-controller = {
-    enable = true;
-    plugins = with pkgs.stream-controller-plugins; [
-      audioControl
-      audioSwitcher
-      battery
-      clocks
-      counter
-      deckPlugin
-      mediaPlugin
-      micMute
-      obsPlugin
-      osPlugin
-      speedTest
-      volumeMixer
-    ];
-  };
-
   programs.kdeconnect = {
     enable = true;
   };
+  
+  programs.streamcontroller.enable = true;
 
   # List services that you want to enable:
 

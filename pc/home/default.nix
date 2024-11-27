@@ -19,6 +19,7 @@ in
     bitwarden
     firefox
     gimp
+    inkscape
     joplin-desktop
     # pavucontrol
     signal-desktop
@@ -72,6 +73,9 @@ in
     # Workstation specfic
     # TODO: How can we add this only for workstation?
     amdgpu_top
+
+    # Games
+    lutris
   ];
 
   home.sessionVariables = {
