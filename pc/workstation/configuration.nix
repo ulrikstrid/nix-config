@@ -21,9 +21,12 @@ in
     nixos-hardware.nixosModules.common-cpu-amd-pstate
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    
     ../shared/printer.nix
     ../shared/sound.nix
+    ../shared/i18n.nix
     ../shared/nix-settings.nix
+
     ../shared/zsh.nix
     ../shared/docker.nix
     ../shared/stridbot.nix
@@ -72,21 +75,6 @@ in
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "sv_SE.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "sv_SE.UTF-8";
-    LC_IDENTIFICATION = "sv_SE.UTF-8";
-    LC_MEASUREMENT = "sv_SE.UTF-8";
-    LC_MONETARY = "sv_SE.UTF-8";
-    LC_NAME = "sv_SE.UTF-8";
-    LC_NUMERIC = "sv_SE.UTF-8";
-    LC_PAPER = "sv_SE.UTF-8";
-    LC_TELEPHONE = "sv_SE.UTF-8";
-    LC_TIME = "sv_SE.UTF-8";
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -106,11 +94,6 @@ in
     autoLogin.user = user;
   };
   services.desktopManager.plasma6.enable = true;
-
-  programs.hyprland = {
-    enable = false;
-    # package = hyprland.packages.${system}.hyprland;
-  };
 
   # Configure console keymap
   console.keyMap = "sv-latin1";
@@ -168,6 +151,16 @@ in
   programs.streamcontroller.enable = true;
 
   # List services that you want to enable:
+
+  services.esphome = {
+    enable = true;
+    openFirewall = true;
+    allowedDevices = [
+      "char-ttyS"
+      "char-ttyUSB"
+      "/dev/ttyUSB0"
+    ];
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
