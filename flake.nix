@@ -11,14 +11,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ocaml-overlay = {
+      url = "github:nix-ocaml/nix-overlays";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     stridbot = {
       url = "github:ulrikstrid/stridbot-matrix-ocaml";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.ocaml-overlay.follows = "ocaml-overlay";
     };
 
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
 
     agenix.url = "github:ryantm/agenix/0.15.0";
@@ -121,7 +128,14 @@
             };
             modules = [
               ./server/servern/configuration.nix
-              agenix.nixosModules.default
+              agenix.nixosModules.default              
+              vscode-server.nixosModules.default
+              (
+                { config, pkgs, ... }:
+                {
+                  services.vscode-server.enable = true;
+                }
+              )
             ];
           };
 
