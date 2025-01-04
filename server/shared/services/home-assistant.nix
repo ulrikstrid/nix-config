@@ -27,15 +27,14 @@
         external_url = "https://homeass.strid.ninja";
       };
 
+      rest = import ./home-assistant/rest.nix;
+
       group = "!include groups.yaml";
       automation = "!include automations.yaml";
       script = "!include scripts.yaml";
       scene = "!include scenes.yaml";
 
       # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
-      # spotify = "!include ${config.age.secrets.home-assistant-spotify.path}";
-      # nest = "!include ${config.age.secrets.home-assistant-nest.path}";
-      # vacuum = "!include ${config.age.secrets.home-assistant-vacuum.path}";
 
       /*
         google_assistant = {
@@ -175,21 +174,6 @@
     };
     home-assistant-home_connect = {
       file = ../secrets/home_assistant_home_connect.yml.age;
-      owner = systemd.services.home-assistant.serviceConfig.User;
-      mode = "0440";
-    };
-    home-assistant-nest = {
-      file = ../secrets/home_assistant_nest.yml.age;
-      owner = systemd.services.home-assistant.serviceConfig.User;
-      mode = "0440";
-    };
-    home-assistant-spotify = {
-      file = ../secrets/home_assistant_spotify.yml.age;
-      owner = systemd.services.home-assistant.serviceConfig.User;
-      mode = "0440";
-    };
-    home-assistant-vacuum = {
-      file = ../secrets/home_assistant_vacuum.yml.age;
       owner = systemd.services.home-assistant.serviceConfig.User;
       mode = "0440";
     };
