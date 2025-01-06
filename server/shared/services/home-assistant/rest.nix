@@ -6,7 +6,7 @@
     sensor = [
       {
         name = "Pellet Burner data";
-        value_template = "{{ value_json.glow }}";
+        value_template = "{{ value_json.mode }}";
         json_attributes = [
           "mode"
           "glow"

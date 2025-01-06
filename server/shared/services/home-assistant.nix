@@ -131,6 +131,7 @@
           py.smhi-pkg
           py.spotipy
           py.sqlalchemy
+          py.cronsim
 
           # unifi
           py.unifi-discovery
