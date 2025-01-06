@@ -8,8 +8,33 @@
   services.home-assistant = {
     enable = true;
 
+    extraComponents = [
+      "default_config"
+      "esphome"
+      "met"
+
+      # Extras
+      "cloudflare"
+      "husqvarna_automower"
+      "local_calendar"
+      "mobile_app"
+      "mqtt"
+      "rest"
+      "smartthings"
+      "sun"
+      "unifi"
+      "yale"
+      "zwave_js"
+      "utility_meter"
+      "cast"
+    ];
+
     customComponents = with pkgs.home-assistant-custom-components; [
       xiaomi_miot
+    ];
+
+    customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [
+      bubble-card
     ];
 
     config = {
@@ -34,33 +59,6 @@
       script = "!include scripts.yaml";
       scene = "!include scenes.yaml";
 
-      # home_connect = "!include ${config.age.secrets.home-assistant-home_connect.path}";
-
-      /*
-        google_assistant = {
-          project_id = "home-assistant-d8169";
-          service_account = "!include ${config.age.secrets.home-assistant-google_assistant.path}";
-          report_state = true;
-          exposed_domains = [
-            "light"
-            "climate"
-            "vacuum"
-          ];
-          entity_config = {
-            "switch.lampor_baksida" = { };
-            "switch.lampor_framsida" = {
-              name = "Lampor framsida hus";
-            };
-            "switch.lampor_framsida_2" = {
-              name = "Lampa framsida stolpe";
-            };
-            "switch.window_lamp" = {
-              name = "Fönsterlampa";
-            };
-          };
-        };
-      */
-
       frontend = {
         themes = "!include_dir_merge_named themes";
       };
@@ -75,90 +73,6 @@
     };
 
     configDir = "/mnt/homeassistant";
-
-    package =
-      (pkgs.home-assistant.override {
-        extraComponents = [
-          "default_config"
-          "esphome"
-        ];
-
-        extraPackages = py: [
-          pkgs.openzwave
-          # py.adguardhome
-          py.aioautomower
-          py.aioesphomeapi
-          py.aiohttp-cors
-          py.aiohttp-cors
-          py.aiohue
-          py.aiomealie
-          py.aiounifi
-          py.async-upnp-client
-          py.bellows
-          py.distro
-          py.emoji
-          py.gtts
-          py.guppy3
-          py.ha-ffmpeg
-          py.hass-nabucasa
-          py.hole
-          py.homeconnect
-          py.ical
-          py.krakenex
-          py.micloud
-          py.mutagen
-          py.netdisco
-          py.objgraph
-          py.paho-mqtt
-          py.plexapi
-          py.plexwebsocket
-          py.pycfdns
-          py.PyChromecast
-          py.pycrypto
-          py.pyipp
-          py.pykrakenapi
-          py.pynacl
-          py.pyowm
-          py.pyprof2calltree
-          py.pysmartapp
-          py.pysmartthings
-          # py.python_openzwave
-          py.python-miio
-          # py.python-openzwave-mqtt
-          py.pyxiaomigateway
-          py.scapy
-          py.securetar
-          py.smhi-pkg
-          py.spotipy
-          py.sqlalchemy
-          py.cronsim
-
-          # unifi
-          py.unifi-discovery
-          py.uiprotect
-
-          # Yale integration
-          py.yalexs
-          py.yalexs-ble
-
-          py.zeroconf
-          py.zha-quirks
-          # py.zigpy
-          # py.zigpy-cc
-          # py.zigpy-deconz
-          # py.zigpy-xbee
-          # py.zigpy-zigate
-          # py.zigpy-znp
-          py.zwave-js-server-python
-
-          # speech-to-text
-          py.wyoming
-        ];
-      }).overrideAttrs
-        (_: {
-          tests = [ ];
-          doInstallCheck = false;
-        });
   };
 
   environment.systemPackages = with pkgs; [ home-assistant-cli ];
