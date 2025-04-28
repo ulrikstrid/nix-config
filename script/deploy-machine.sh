@@ -6,6 +6,16 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+step()
+{
+  local step_name="$1"
+  echo "Next step is $step_name"
+  printf "Continue? [Yn] "
+  read action
+  if [ "$action" = "n" ]; then exit 2; fi
+  if [ "$action" = "N" ]; then exit 2; fi
+}
+
 function target_found { printf "Target found, starting\n"; }
 
 function sync_success { printf "Sync ${GREEN}success${NC} starting build\n"; }
@@ -15,6 +25,16 @@ function deploy_success {
     printf "Deploy ${GREEN}success${NC}\n";
   else
     printf "Deploy ${RED}failed${NC}\n";
+  fi
+}
+
+function sync_extensions {
+  printf "Should we sync extensions? [Yn]"
+  read action
+  if [ "$action" = "y" ]; then
+    echo "Syncing vscode extensions..."
+    "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
+    echo "Syncing done."
   fi
 }
 
@@ -59,19 +79,15 @@ case $TARGET in
     ;;
   "nixos-laptop")
     target_found
-    echo "Syncing vscode extensions..."
-    # "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
-    echo "Syncing done."
-    export NIXPKGS_ALLOW_UNFREE=1
+    sync_extensions
+    step "rebuild switch"
     nixos-rebuild --flake .\#nixos-laptop switch --target-host 192.168.1.126 --use-remote-sudo $2
     deploy_success
     ;;
   "nixos-workstation")
     target_found
-    echo "Syncing vscode extensions..."
-    #"./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
-    echo "Syncing done."
-    export NIXPKGS_ALLOW_UNFREE=1
+    sync_extensions
+    step "rebuild switch"
     nixos-rebuild --flake .\#nixos-workstation switch --use-remote-sudo $2
     deploy_success
     ;;
@@ -83,9 +99,7 @@ case $TARGET in
     deploy_success
     ;;
   "sync-extensions")
-    echo "Syncing vscode extensions..."
-    "./script/sync-extensions.sh" > "./pc/home/vscode/extensions.nix"
-    echo "Syncing done."
+    sync_extensions
     ;;
   *)
     printf "${RED}Target (%s) not found${NC}\n" "$TARGET"

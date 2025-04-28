@@ -31,7 +31,7 @@ in
     ../shared/docker.nix
     ../shared/stridbot.nix
     # ../shared/flatpak.nix
-    # ../shared/ollama.nix
+    ../shared/ollama.nix
     ../shared/config/users.nix
     ../../server/shared/services/nix-serve.nix
 
@@ -42,7 +42,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelModules = [
     "btusb"
     "btmtk"
@@ -101,7 +101,7 @@ in
   # Bluetooth
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;
+    powerOnBoot = false;
   };
 
   age.identityPaths = [ "/home/${user}/.ssh/id_ed25519" ];

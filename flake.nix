@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     # nixpkgs-friendly-overlay = {
     #   url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
     #   inputs.nixpkgs.follows = "nixpkgs";
