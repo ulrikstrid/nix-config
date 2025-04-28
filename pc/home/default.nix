@@ -66,9 +66,9 @@ in
     rage
 
     # KDE
-    kcalc
-    kolourpaint
-    skanpage
+    kdePackages.kcalc
+    kdePackages.kolourpaint
+    kdePackages.skanpage
 
     # Workstation specfic
     # TODO: How can we add this only for workstation?
@@ -140,7 +140,7 @@ in
       "~/dev"
       "~/dev/stridtech"
     ];
-    initExtra = ''
+    initContent = ''
       export XDG_DATA_HOME="$HOME/.local/share"
     '';
     dirHashes = {
@@ -154,7 +154,6 @@ in
       plugins = [
         "direnv"
         "kubectl"
-        "gcloud"
       ];
     };
     shellAliases = {
@@ -167,11 +166,11 @@ in
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
-      # wlrobs
-      # obs-pipewire-audio-capture
-      # obs-backgroundremoval
-      # obs-multi-rtmp
-      droidcam-obs
+      wlrobs
+      obs-pipewire-audio-capture
+      obs-backgroundremoval
+      obs-multi-rtmp
+      # droidcam-obs
     ];
   };
 
