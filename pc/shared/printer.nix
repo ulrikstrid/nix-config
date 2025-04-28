@@ -15,6 +15,8 @@
     ];
   };
 
+  services.printing.browsed.enable = false;
+
   # IPP everywhere capable printer
   services.avahi = {
     enable = true;
