@@ -53,13 +53,14 @@ in
     # dev
     shellcheck
     devenv
-    dotnet-sdk_8
+    pkgs.dotnet-sdk_9
 
     # nix
     nix-zsh-completions
     nix-prefetch-git
     nix-prefetch-github
     nixfmt-rfc-style
+    nil
 
     # encryption
     sops

@@ -12,6 +12,9 @@
 let
   user = "ulrik";
   hostName = "nixos-workstation";
+
+  dotnet-sdk = pkgs.dotnet-sdk_9;
+  dotnetRoot = "${dotnet-sdk}/share/dotnet";
 in
 
 {
@@ -127,7 +130,12 @@ in
     wget
     git
     clinfo
+    dotnet-sdk
   ];
+
+  environment.etc = {
+    "dotnet/install_location".text = dotnetRoot;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
