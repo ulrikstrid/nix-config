@@ -29,7 +29,7 @@ function deploy_success {
 }
 
 function sync_extensions {
-  printf "Should we sync extensions? [Yn]"
+  printf "Should we sync extensions? [Yn] "
   read action
   if [ "$action" = "y" ]; then
     echo "Syncing vscode extensions..."
