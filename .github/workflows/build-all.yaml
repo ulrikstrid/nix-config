@@ -1,0 +1,29 @@
+name: "Build All Nix Hosts"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix:
+        host:
+          - nuc-01
+          - servern
+          - odroid-n2-01
+          - nixos-workstation
+    name: Build NixOS Configuration for ${{ matrix.host }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wimpysworld/nothing-but-nix@main
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Run Nix
+        run: |
+          nix --version
+          nix build .\#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel --keep-going
