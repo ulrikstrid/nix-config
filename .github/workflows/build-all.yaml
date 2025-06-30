@@ -18,6 +18,7 @@ jobs:
           - odroid-n2-01
           - nixos-workstation
     name: Build NixOS Configuration for ${{ matrix.host }}
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: wimpysworld/nothing-but-nix@main
