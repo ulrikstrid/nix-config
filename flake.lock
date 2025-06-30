@@ -86,21 +86,6 @@
         "type": "github"
       }
     },
-    "nix-filter": {
-      "locked": {
-        "lastModified": 1710156097,
-        "narHash": "sha256-1Wvk8UP7PXdf8bCCaEoMnOT1qe5/Duqgj+rL8sRQsSM=",
-        "owner": "numtide",
-        "repo": "nix-filter",
-        "rev": "3342559a24e85fc164b295c3444e8a139924675b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "nix-filter",
-        "type": "github"
-      }
-    },
     "nixlib": {
       "locked": {
         "lastModified": 1736643958,
@@ -198,32 +183,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "ocaml-overlay": "ocaml-overlay",
-        "stridbot": "stridbot",
         "vscode-server": "vscode-server"
-      }
-    },
-    "stridbot": {
-      "inputs": {
-        "nix-filter": "nix-filter",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "ocaml-overlay": [
-          "ocaml-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1729839954,
-        "narHash": "sha256-c57PAHXkD2Ze7Di+X446Ksox4BU+97PhvfU7veFlMNA=",
-        "owner": "ulrikstrid",
-        "repo": "stridbot-matrix-ocaml",
-        "rev": "8dfbe9daac6dec820b782c739f943adde09a8a67",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ulrikstrid",
-        "repo": "stridbot-matrix-ocaml",
-        "type": "github"
       }
     },
     "systems": {

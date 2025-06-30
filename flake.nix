@@ -16,11 +16,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stridbot = {
-      url = "github:ulrikstrid/stridbot-matrix-ocaml";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.ocaml-overlay.follows = "ocaml-overlay";
-    };
+    # stridbot = {
+    #   url = "github:ulrikstrid/stridbot-matrix-ocaml";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.ocaml-overlay.follows = "ocaml-overlay";
+    # };
 
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
@@ -56,7 +56,7 @@
       flake-utils,
       nixos-generators,
       agenix,
-      stridbot,
+      # stridbot,
       ...
     }:
     let
@@ -112,7 +112,9 @@
               system = "x86_64-linux";
               overlays = [
                 # nixpkgs-friendly-overlay.overlays.default
-                (final: prev: { stridbot = stridbot.packages.x86_64-linux.default; })
+                (final: prev: {
+                  # stridbot = stridbot.packages.x86_64-linux.default;
+                })
               ];
               # Allow unfree packages
               config.allowUnfree = true;
@@ -201,7 +203,7 @@
             modules = [
               nixpkgs.nixosModules.notDetected
               # nixpkgs-friendly-overlay.nixosModules.default
-              stridbot.nixosModules.default
+              # stridbot.nixosModules.default
               ./pc/workstation/configuration.nix
               agenix.nixosModules.default
               vscode-server.nixosModules.default

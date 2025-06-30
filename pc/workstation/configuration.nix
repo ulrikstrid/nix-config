@@ -24,7 +24,7 @@ in
     nixos-hardware.nixosModules.common-cpu-amd-pstate
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    
+
     ../shared/printer.nix
     ../shared/sound.nix
     ../shared/i18n.nix
@@ -32,7 +32,7 @@ in
 
     ../shared/zsh.nix
     ../shared/docker.nix
-    ../shared/stridbot.nix
+    # ../shared/stridbot.nix
     # ../shared/flatpak.nix
     ../shared/ollama.nix
     ../shared/config/users.nix
@@ -155,7 +155,7 @@ in
   programs.kdeconnect = {
     enable = true;
   };
-  
+
   programs.streamcontroller.enable = true;
 
   # List services that you want to enable:

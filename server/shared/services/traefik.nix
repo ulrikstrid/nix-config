@@ -132,13 +132,15 @@
             };
             service = "stridbot-cache";
           };
-          stridbot = {
-            rule = "Host(`stridbot.strid.tech`) || Host(`stridbot.strid.ninja`)";
-            tls = {
-              certResolver = "cloudflare_prod";
+          /*
+            stridbot = {
+              rule = "Host(`stridbot.strid.tech`) || Host(`stridbot.strid.ninja`)";
+              tls = {
+                certResolver = "cloudflare_prod";
+              };
+              service = "stridbot";
             };
-            service = "stridbot";
-          };
+          */
         };
         services = {
           matrix = {
@@ -187,11 +189,13 @@
               servers = [ { url = "http://192.168.1.182:4545"; } ];
             };
           };
-          stridbot = {
-            loadBalancer = {
-              servers = [ { url = "http://192.168.1.182:9000"; } ];
+          /*
+            stridbot = {
+              loadBalancer = {
+                servers = [ { url = "http://192.168.1.182:9000"; } ];
+              };
             };
-          };
+          */
         };
       };
     };
