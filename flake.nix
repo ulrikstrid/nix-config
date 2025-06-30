@@ -128,7 +128,7 @@
             };
             modules = [
               ./server/servern/configuration.nix
-              agenix.nixosModules.default              
+              agenix.nixosModules.default
               vscode-server.nixosModules.default
               (
                 { config, pkgs, ... }:
