@@ -13,6 +13,13 @@
       "esphome"
       "met"
 
+      # Dependencies of xiaomi_miot
+      "ffmpeg"
+      "homekit"
+
+      # Improve performance https://github.com/NixOS/nixpkgs/issues/330377
+      "isal"
+
       # Extras
       "cloudflare"
       "husqvarna_automower"
@@ -30,11 +37,24 @@
     ];
 
     customComponents = with pkgs.home-assistant-custom-components; [
-      xiaomi_miot
+      (xiaomi_miot.overrideAttrs (_old: {
+        version = "1.0.20-dev";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "al-one";
+          repo = "hass-xiaomi-miot";
+          # Fixes authentication issues with Xiaomi by adding captcha support
+          # https://github.com/al-one/hass-xiaomi-miot/commit/aa99f3885405ede068dd117b5b2657184586ddcb
+          rev = "aa99f3885405ede068dd117b5b2657184586ddcb";
+          hash = "sha256-kifImeiytb7t+eyRCmHKPR+IkXkpsRKg0yikIQLX+40=";
+        };
+      }))
+      alarmo
     ];
 
     customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [
       bubble-card
+      vacuum-card
     ];
 
     config = {
@@ -50,6 +70,13 @@
         time_zone = "Europe/Stockholm";
         internal_url = "http://192.168.1.101:8123";
         external_url = "https://homeass.strid.ninja";
+      };
+
+      logger = {
+        default = "warning";
+        logs = {
+          "custom_components.xiaomi_miot" = "debug";
+        };
       };
 
       rest = import ./home-assistant/rest.nix;

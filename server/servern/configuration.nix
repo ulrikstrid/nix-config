@@ -24,7 +24,7 @@ in
     ../shared/services/postgres.nix
     # ../shared/services/tandoor.nix
     # ../shared/services/adguard.nix
-    ../shared/services/hydra.nix
+    # ../shared/services/hydra.nix
     ../shared/services/samba.nix
   ];
 
@@ -64,7 +64,7 @@ in
   };
 
   # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/Stockholm";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config

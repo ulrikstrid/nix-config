@@ -7,8 +7,8 @@
 
 {
   services.ollama = {
-    enable = false;
-    # acceleration = "rocm";
+    enable = true;
+    acceleration = "rocm";
     host = "0.0.0.0";
     port = 11434;
   };

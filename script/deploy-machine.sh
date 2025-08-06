@@ -81,14 +81,14 @@ case $TARGET in
     target_found
     sync_extensions
     step "rebuild switch"
-    nixos-rebuild --flake .\#nixos-laptop switch --target-host 192.168.1.126 --use-remote-sudo $2
+    nixos-rebuild --flake .\#nixos-laptop switch --target-host 192.168.1.126 --sudo $2
     deploy_success
     ;;
   "nixos-workstation")
     target_found
     sync_extensions
     step "rebuild switch"
-    nixos-rebuild --flake .\#nixos-workstation switch --use-remote-sudo $2
+    nixos-rebuild --flake .\#nixos-workstation switch --sudo $2
     deploy_success
     ;;
   "odroid-n2-01")
