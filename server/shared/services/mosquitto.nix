@@ -23,6 +23,12 @@
             password = "insecure-password";
             acl = [ "readwrite #" ];
           };
+          zwave2mqtt = {
+            # TODO: Use this
+            # passwordFile = config.age.secrets.mosquitto-zwave2mqtt.path;
+            password = "insecure-password";
+            acl = [ "readwrite #" ];
+          };
         };
       }
     ];

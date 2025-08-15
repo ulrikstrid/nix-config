@@ -22,13 +22,13 @@ in
     # Services
     ../shared/services/grafana.nix
     # ../shared/services/loki.nix
-    ../shared/services/n8n.nix
+    # ../shared/services/n8n.nix
     ../shared/services/node-exporter.nix
     ../shared/services/prometheus.nix
     # ../shared/services/promtail.nix
     # ../shared/services/unifi-poller.nix
     ../shared/services/zigbee2mqtt.nix
-    ../shared/services/zwavejs2mqtt.nix
+    ../shared/services/zwave-js-ui.nix
     # ../shared/services/whisper.nix
     # ../shared/services/mealie.nix
   ];

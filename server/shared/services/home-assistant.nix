@@ -30,6 +30,7 @@
       "smartthings"
       "sun"
       "unifi"
+      "unifiprotect"
       "yale"
       "zwave_js"
       "utility_meter"
