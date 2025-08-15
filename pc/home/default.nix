@@ -88,7 +88,7 @@ in
     ./vscode
   ];
 
-  programs.git = rec {
+  programs.git = {
     enable = true;
     userName = "Ulrik Strid";
     userEmail = "ulrik@strid.tech";

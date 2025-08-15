@@ -130,7 +130,8 @@ in
     wget
     git
     clinfo
-    dotnet-sdk
+    udftools
+    ntfs3g
   ];
 
   environment.etc = {
@@ -155,6 +156,8 @@ in
   programs.kdeconnect = {
     enable = true;
   };
+
+  programs.partition-manager.enable = true;
 
   programs.streamcontroller.enable = true;
 

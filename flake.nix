@@ -121,6 +121,20 @@
               nixpkgs.config.cudaSupport = false;
             }
           );
+          x86_64LinuxPkgs_rocm = (
+            import nixpkgs {
+              system = "x86_64-linux";
+              overlays = [
+                # nixpkgs-friendly-overlay.overlays.default
+                (final: prev: {
+                  # stridbot = stridbot.packages.x86_64-linux.default;
+                })
+              ];
+              # Allow unfree packages
+              config.allowUnfree = true;
+              nixpkgs.config.rocmSupport = true;
+            }
+          );
         in
         {
           servern = nixpkgs.lib.nixosSystem rec {
@@ -195,7 +209,7 @@
           };
 
           nixos-workstation = nixpkgs.lib.nixosSystem rec {
-            pkgs = x86_64LinuxPkgs;
+            pkgs = x86_64LinuxPkgs_rocm;
             system = "x86_64-linux";
             specialArgs = {
               inherit system nixos-hardware;
