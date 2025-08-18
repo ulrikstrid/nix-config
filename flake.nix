@@ -5,6 +5,7 @@
     #   url = "github:nixpkgs-friendly/nixpkgs-friendly-overlay";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+    nixpkgs-conduit-fix.url = "github:r-ryantm/nixpkgs/auto-update/matrix-conduit";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -48,6 +49,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-conduit-fix,
       # nixpkgs-friendly-overlay,
       vscode-server,
       home-manager,
@@ -177,7 +179,7 @@
             ];
           };
 
-          odroid-n2-01 = nixpkgs.lib.nixosSystem rec {
+          odroid-n2-01 = nixpkgs-conduit-fix.lib.nixosSystem rec {
             system = "aarch64-linux";
             specialArgs = {
               inherit system;

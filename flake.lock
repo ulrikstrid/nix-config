@@ -153,6 +153,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-conduit-fix": {
+      "locked": {
+        "lastModified": 1755147468,
+        "narHash": "sha256-cjJgsiaVbWwObuBB/dU2Z49XZ9/gplMpdNjRnEIgE2s=",
+        "owner": "r-ryantm",
+        "repo": "nixpkgs",
+        "rev": "8adb724b0a4bec3018b5129259d451cd498e4155",
+        "type": "github"
+      },
+      "original": {
+        "owner": "r-ryantm",
+        "ref": "auto-update/matrix-conduit",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "ocaml-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -182,6 +198,7 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-conduit-fix": "nixpkgs-conduit-fix",
         "ocaml-overlay": "ocaml-overlay",
         "vscode-server": "vscode-server"
       }
